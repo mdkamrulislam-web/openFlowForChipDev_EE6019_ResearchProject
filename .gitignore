@@ -1,0 +1,5 @@
+build/
+designs/*/runs/
+*.vcd
+*.fst
+__pycache__/
