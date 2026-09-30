@@ -1,0 +1,56 @@
+name: flow
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Fast check: lint and simulate with distro packages (not the pinned
+  # versions, which live in the container used by the harden job).
+  sim:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Icarus Verilog and Verilator
+        run: sudo apt-get update && sudo apt-get install -y iverilog verilator
+      - name: Lint
+        run: make lint IN=
+      - name: Simulate (Icarus)
+        run: make sim IN=
+      - name: Simulate (Verilator)
+        run: make sim-verilator IN=
+
+  # Full RTL-to-GDS run in the pinned container, on each PDK.
+  harden:
+    needs: sim
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        pdk: [sky130A, ihp-sg13g2]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free disk space for the 17 GB tool image
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
+          df -h /
+      - name: Pull tool image
+        run: |
+          source env/tools.env
+          docker pull "${IMAGE_NAME}:${IMAGE_TAG}@${IMAGE_DIGEST}"
+      - name: RTL to GDS (${{ matrix.pdk }})
+        run: make harden PDK=${{ matrix.pdk }}
+      - name: Sign-off summary
+        run: make summary PDK=${{ matrix.pdk }}
+      - name: Upload final views
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: counter-${{ matrix.pdk }}
+          path: |
+            designs/counter/runs/${{ matrix.pdk }}/final
+            designs/counter/runs/${{ matrix.pdk }}/*.log
+          if-no-files-found: warn
