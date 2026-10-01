@@ -2,7 +2,7 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 1 October 2026 (end of week 40).*
+*Last updated: 1 October 2026 (project week 1).*
 
 ---
 
@@ -43,7 +43,7 @@ The thesis work (reliability-aware synthesis) is **out of scope** unless the sup
 
 - `main` holds the working flow. [PR #1](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/1) (the flow) and [PR #2](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/2) (this file) were merged on 1 Oct 2026, and CI is green on `main` for both PDKs. `README.md`, `docs/setup.md` and `docs/flow.md` are the user-facing documentation.
 - Kamrul is new to physical design. `docs/learning-path.md` is his hands-on route through the flow (install, read the reports, break it on purpose, a small design of his own), and is also the start of the student guide.
-- Friday logs live in `logbook/`; `logbook/2026-W40.md` is the first.
+- Friday logs live in `logbook/`; `logbook/week-01.md` is the first.
 
 ### What the flow contains
 
@@ -59,8 +59,8 @@ docs/setup.md, docs/flow.md        install guide (Linux, macOS, WSL2, Podman), s
 docs/counter-*.png                 layout renders
 docs/learning-path.md              hands-on exercises for someone new to physical design
 docs/tiny-tapeout.md               Tiny Tapeout notes: how it works, changes since the videos, what it means for the flow
-logbook/<year>-W<nn>.md            Friday logs
-logbook/2026-W40-meeting-prep.md   checklist, summary and likely questions for the 2 Oct meeting; meeting notes go at its end
+logbook/week-<nn>.md               Friday logs (project week number)
+logbook/week-01-meeting-prep.md    checklist, summary and likely questions for the 2 Oct meeting; meeting notes go at its end
 .github/workflows/flow.yml         CI: lint + Icarus + Verilator sim, then harden on sky130A and ihp-sg13g2
 ```
 
@@ -168,7 +168,7 @@ Study path doc (owner-only link): <https://claude.ai/code/artifact/919efaa6-7ecf
 
 **Videos, in watching order:** [From idea to chip design in minutes](https://www.youtube.com/watch?v=qVWq_XZko-M); [Making ASICs](https://www.youtube.com/watch?v=dckPKyO2nSo); [Manufacturing ASICs](https://www.youtube.com/watch?v=aBDJQ9NYTEU); [Getting started with Wokwi](https://www.youtube.com/watch?v=F1SwXF2ny4g); [Working with an HDL](https://www.youtube.com/watch?v=KbWb6xd9jFE); [Get your submission ready](https://www.youtube.com/watch?v=fCGPKdmM3Dc); optional [Build Your First Chip with Tiny Tapeout](https://www.youtube.com/watch?v=UVZK-kmN7wc). Reading: [Making ASICs](https://tinytapeout.com/making_asics/), [FAQ](https://tinytapeout.com/faq/), [SiliWiz](https://tinytapeout.com/siliwiz/), [Digital design lessons 1–3](https://tinytapeout.com/digital_design/), [HDL rules](https://tinytapeout.com/hdl/important/), [Testing](https://tinytapeout.com/hdl/testing/), [Local hardening](https://tinytapeout.com/guides/local-hardening/), [Specs](https://tinytapeout.com/specs/), [basic](https://tinytapeout.com/guides/workshop/) and [advanced](https://tinytapeout.com/guides/advanced-workshop/) workshops.
 
-**Planned exercise (week 42):** put the counter through the IHP template without submitting. Use the template, copy the RTL into `src/`, rename the top to `tt_um_mdkamrulislam_counter` with the fixed ports, fill in `info.yaml` and `docs/info.md`, adapt `test/test.py` (cocotb; `cd test && pip install -r requirements.txt && make -B`), push and get `test`, `gds`, `docs` green. Then harden locally:
+**Planned exercise (week 3):** put the counter through the IHP template without submitting. Use the template, copy the RTL into `src/`, rename the top to `tt_um_mdkamrulislam_counter` with the fixed ports, fill in `info.yaml` and `docs/info.md`, adapt `test/test.py` (cocotb; `cd test && pip install -r requirements.txt && make -B`), push and get `test`, `gds`, `docs` green. Then harden locally:
 
 ```bash
 export PDK_ROOT=~/ttsetup/pdk PDK=ihp-sg13g2 LIBRELANE_TAG=3.0.3
@@ -195,39 +195,39 @@ Month-level milestones:
 | Mar 2027 | Clean DRC, LVS and timing; Tiny Tapeout submission (if approved) |
 | Apr 2027 | A classmate follows the guide on a clean machine; report submitted |
 
-Week by week (one row per Friday log; exam and break weeks are guesses at the UCC calendar):
+Week by week (one row per Friday log; weeks are counted from the project start, week 1 = 28 Sep to 2 Oct 2026; exam and break weeks are guesses at the UCC calendar):
 
-| Friday | Week | Focus | What the log reports |
+| Friday | Project week | Focus | What the log reports |
 |---|---|---|---|
-| 2 Oct | W40 | Plan, scope questions, first counter run (PR #1) | Send plan and scope questions; ask for the website link; first log |
-| 9 Oct | W41 | Merge PR #1; Tiny Tapeout study path parts 1–2 | Notes from videos, FAQ, SiliWiz, Wokwi; risk assessment drafted |
-| 16 Oct | W42 | Counter on the TT IHP Verilog template | Actions green (test, gds, docs); GDS screenshot |
-| 23 Oct | W43 | Local hardening with `tt_tool`; start tool survey | LibreLane 3.0.3 vs 3.1: same result or not |
-| 30 Oct | W44 | Survey write-up; PDK and shuttle decision | Report ch. 2 draft; decision recorded |
-| 6 Nov | W45 | Second flow: ORFS runs the counter | ORFS clean on IHP (and SKY130) in the same container |
-| 13 Nov | W46 | Compare LibreLane with ORFS | Table: area, slack, run time, set-up effort |
-| 20 Nov | W47 | Flow accepts a TT project as it stands | `src/`, `test/`, `info.yaml`; cocotb + gate-level tests in CI |
-| 27 Nov | W48 | Choose the demonstrator | Three candidates, one agreed; spec with pin map, 1,000-gate budget |
-| 4 Dec | W49 | Student guide v0: install and first run | Classmate follows it on a clean machine; interim note |
-| 11, 18 Dec | W50–51 | Exams: light weeks | Short logs; tidy docs |
-| 25 Dec, 1 Jan | W52–53 | Christmas break | No log expected (confirm) |
-| 8 Jan | W01 | Re-run the flow; begin demonstrator RTL | Flow still clean; RTL skeleton |
-| 15 Jan | W02 | Demonstrator RTL core | Core blocks with cocotb unit tests |
-| 22 Jan | W03 | Full testbench; first harden on IHP | Every spec feature tested; first area/timing |
-| 29 Jan | W04 | Fit the tile and meet timing | Fits planned tiles at target clock |
-| 5 Feb | W05 | Gate-level sim clean; guide ch. 2–3 | GL tests pass; guide covers reports, DRC and timing fixes |
-| 12 Feb | W06 | Design freeze candidate | `docs/info.md`; freeze tag |
-| 19 Feb | W07 | Sign-off round 1 on IHP | DRC, LVS, antenna, timing across corners |
-| 26 Feb | W08 | Fix sign-off issues | All closed; TT actions green on the submission repo |
-| 5 Mar | W09 | Final checks; confirm TTIHP27a date and budget | Go / no-go from supervisor |
-| 12 Mar | W10 | Submit to TTIHP27a, if approved | Submission confirmed, or tagged release of the verified GDS |
-| 19 Mar | W11 | Buffer for a shuttle slip; start report | Methods chapter |
-| 26 Mar | W12 | Report: results | Flow comparison and demonstrator results |
-| 2 Apr | W13 | Student guide complete; dry runs | Classmates run the guide on clean machines |
-| 9 Apr | W14 | Fix the guide; full report draft | Draft sent to supervisor |
-| 16 Apr | W15 | Revise report; compile logbook | Feedback addressed |
-| 23 Apr | W16 | Presentation and demo | Slides and demo rehearsed |
-| 30 Apr | W17 | Submit | Report, logbook, v1.0 release of the repo |
+| 2 Oct | 1 | Plan, scope questions, first counter run (PR #1) | Send plan and scope questions; ask for the website link; first log |
+| 9 Oct | 2 | Merge PR #1; Tiny Tapeout study path parts 1–2 | Notes from videos, FAQ, SiliWiz, Wokwi; risk assessment drafted |
+| 16 Oct | 3 | Counter on the TT IHP Verilog template | Actions green (test, gds, docs); GDS screenshot |
+| 23 Oct | 4 | Local hardening with `tt_tool`; start tool survey | LibreLane 3.0.3 vs 3.1: same result or not |
+| 30 Oct | 5 | Survey write-up; PDK and shuttle decision | Report ch. 2 draft; decision recorded |
+| 6 Nov | 6 | Second flow: ORFS runs the counter | ORFS clean on IHP (and SKY130) in the same container |
+| 13 Nov | 7 | Compare LibreLane with ORFS | Table: area, slack, run time, set-up effort |
+| 20 Nov | 8 | Flow accepts a TT project as it stands | `src/`, `test/`, `info.yaml`; cocotb + gate-level tests in CI |
+| 27 Nov | 9 | Choose the demonstrator | Three candidates, one agreed; spec with pin map, 1,000-gate budget |
+| 4 Dec | 10 | Student guide v0: install and first run | Classmate follows it on a clean machine; interim note |
+| 11, 18 Dec | 11–12 | Exams: light weeks | Short logs; tidy docs |
+| 25 Dec, 1 Jan | 13–14 | Christmas break | No log expected (confirm) |
+| 8 Jan | 15 | Re-run the flow; begin demonstrator RTL | Flow still clean; RTL skeleton |
+| 15 Jan | 16 | Demonstrator RTL core | Core blocks with cocotb unit tests |
+| 22 Jan | 17 | Full testbench; first harden on IHP | Every spec feature tested; first area/timing |
+| 29 Jan | 18 | Fit the tile and meet timing | Fits planned tiles at target clock |
+| 5 Feb | 19 | Gate-level sim clean; guide ch. 2–3 | GL tests pass; guide covers reports, DRC and timing fixes |
+| 12 Feb | 20 | Design freeze candidate | `docs/info.md`; freeze tag |
+| 19 Feb | 21 | Sign-off round 1 on IHP | DRC, LVS, antenna, timing across corners |
+| 26 Feb | 22 | Fix sign-off issues | All closed; TT actions green on the submission repo |
+| 5 Mar | 23 | Final checks; confirm TTIHP27a date and budget | Go / no-go from supervisor |
+| 12 Mar | 24 | Submit to TTIHP27a, if approved | Submission confirmed, or tagged release of the verified GDS |
+| 19 Mar | 25 | Buffer for a shuttle slip; start report | Methods chapter |
+| 26 Mar | 26 | Report: results | Flow comparison and demonstrator results |
+| 2 Apr | 27 | Student guide complete; dry runs | Classmates run the guide on clean machines |
+| 9 Apr | 28 | Fix the guide; full report draft | Draft sent to supervisor |
+| 16 Apr | 29 | Revise report; compile logbook | Feedback addressed |
+| 23 Apr | 30 | Presentation and demo | Slides and demo rehearsed |
+| 30 Apr | 31 | Submit | Report, logbook, v1.0 release of the repo |
 
 The full plan doc (owner-only link) has a Status column per week: <https://claude.ai/code/artifact/a8f92d4e-ab03-4128-aa07-d5932dd6f512>. If you cannot open it, track status in this file instead (section 10).
 
@@ -236,13 +236,13 @@ The full plan doc (owner-only link) has a Status column per week: <https://claud
 ## 8. Weekly routine: Friday log and meeting
 
 - Kamrul meets Prof. Popovici **every Friday, 11:00–12:00**. The week's log must be written and the work pushed **before** the meeting.
-- Save each log as `logbook/<year>-W<nn>.md` (ISO week, e.g. `logbook/2026-W41.md`) and email the same text to the supervisor before the meeting. Failed runs count: he asked for mistakes and fixes to be recorded.
+- Save each log as `logbook/week-<nn>.md`, numbered by project week from the start on 28 Sep 2026 (e.g. `logbook/week-02.md` for 5 to 9 Oct), with the dates in the heading, and email the same text to the supervisor before the meeting. Failed runs count: he asked for mistakes and fixes to be recorded.
 - Bring one screenshot or report (layout, timing summary, DRC count) to each meeting.
 
 Template:
 
 ```markdown
-# Week 41 (5 to 9 Oct 2026)
+# Week 2 (5 to 9 Oct 2026)
 
 ## Done
 -
@@ -279,14 +279,14 @@ Also open: the website link he promised; whether the thesis's reliability work s
 ## 10. Next steps (as of 1 Oct 2026, evening)
 
 - [ ] Send the plan and scope questions to Prof. Popovici; ask for the website link.
-- [ ] 2 Oct meeting: prepare with `logbook/2026-W40-meeting-prep.md`; afterwards record his answers there and update sections 5, 9 and 10.
-- [x] Draft the first Friday log (`logbook/2026-W40.md`) for the 2 Oct meeting; Kamrul to check it and email it.
+- [ ] 2 Oct meeting: prepare with `logbook/week-01-meeting-prep.md`; afterwards record his answers there and update sections 5, 9 and 10.
+- [x] Draft the first Friday log (`logbook/week-01.md`) for the 2 Oct meeting; Kamrul to check it and email it.
 - [x] Review and merge PR #1 (merged 1 Oct).
-- [ ] Work through `docs/learning-path.md` exercises 1 to 4 on his own laptop (week 41).
+- [ ] Work through `docs/learning-path.md` exercises 1 to 4 on his own laptop (week 2).
 - [ ] Work through the Tiny Tapeout study path, then start the open-tool survey table. *(1 Oct: five videos done from transcripts, notes in `docs/tiny-tapeout.md`; still to do: Making ASICs, Manufacturing ASICs, FAQ, SiliWiz, Wokwi.)*
 - [ ] Add a gate-level simulation target (`make gl-sim`) on the routed netlist; Tiny Tapeout already runs one in CI.
 - [ ] Draft the one-page risk assessment (desk and computer work: display-screen use, laptop batteries and chargers, fire exits).
-- [ ] After that: gate-level simulation and cocotb testbenches in the flow; counter on the TT IHP template (week 42).
+- [ ] After that: gate-level simulation and cocotb testbenches in the flow; counter on the TT IHP template (week 3).
 
 ## 11. Risks
 

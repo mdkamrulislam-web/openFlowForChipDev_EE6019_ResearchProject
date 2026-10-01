@@ -1,4 +1,4 @@
-# Week 40 (28 Sep to 2 Oct 2026)
+# Week 1 (28 Sep to 2 Oct 2026)
 
 ## Done
 - Agreed the project direction at the 25 Sep group meeting: survey the free alternatives to Cadence and Synopsys, set up an open flow, and build an ASIC with it as the first design through the flow.
@@ -38,7 +38,7 @@
 ## Next week
 - Run the flow on my own laptop (learning path, exercises 1 to 3) and note how the install goes.
 - Tiny Tapeout: the two remaining videos (*Making ASICs*, *Manufacturing ASICs*), the FAQ, SiliWiz, and a small Wokwi design.
-- Plan the counter on the IHP template (week 42): the changes are listed in `docs/tiny-tapeout.md`.
+- Plan the counter on the IHP template (week 3): the changes are listed in `docs/tiny-tapeout.md`.
 - Draft the risk assessment.
 
 ## Questions for Prof. Popovici

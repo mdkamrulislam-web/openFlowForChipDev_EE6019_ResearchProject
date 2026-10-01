@@ -115,7 +115,7 @@ The template's actions are pinned to a shuttle tag (`ttihp26b` in the current te
 1. **Same core tool.** The Tiny Tapeout `gds` action runs LibreLane, like `make harden` here. The differences are Tiny Tapeout's fixed die (the tile), fixed pin positions and power grid, and some checks it turns off to save time (KLayout DRC and XOR). It then adds its own precheck. Running one design both ways and comparing the results is a natural "two flows" comparison.
 2. **Gate-level simulation is missing from our flow.** Tiny Tapeout runs it in CI; we should add a `make gl-sim` target that re-runs the testbench on `final/nl/` (and later with SDF timing).
 3. **cocotb.** Tiny Tapeout tests are cocotb (`cocotb==2.0.1` in the template). Our flow should accept a design's `test/` folder as it stands.
-4. **Putting the counter on the template** (planned for week 42) needs these changes:
+4. **Putting the counter on the template** (planned for week 3) needs these changes:
    - a wrapper `tt_um_mdkamrulislam_counter` with the fixed ports;
    - reset from `rst_n`, inverted (our counter's `rst` is active high);
    - `en` from `ui_in[0]`, `count` on `uo_out`, `wrap` on `uio_out[0]` with `uio_oe = 8'b0000_0001`, all other outputs tied to 0;
