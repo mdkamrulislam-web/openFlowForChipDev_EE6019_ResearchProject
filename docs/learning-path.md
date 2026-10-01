@@ -83,7 +83,7 @@ Follow [Adding your own design](flow.md#adding-your-own-design) with something s
 
 ## After that
 
-The project plan in [AGENTS.md](../AGENTS.md) takes over: the Tiny Tapeout IHP template (week 42), local hardening with `tt_tool`, the second flow (OpenROAD-flow-scripts), and the comparison between them.
+The project plan in [AGENTS.md](../AGENTS.md) takes over: the Tiny Tapeout IHP template (week 3), local hardening with `tt_tool`, the second flow (OpenROAD-flow-scripts), and the comparison between them.
 
 ## Further reading
 

@@ -110,12 +110,24 @@ As a verification engineer you know most of these. The new part is why they matt
 
 The template's actions are pinned to a shuttle tag (`ttihp26b` in the current template). Check that the tag matches the shuttle you aim for before relying on it.
 
+### Who makes the chips now
+
+Since Efabless closed, each Tiny Tapeout shuttle goes to one of three fabs through a different multi-project wafer (MPW) service. The run codes come from [tinytapeout.com/chips](https://tinytapeout.com/chips/) (read 1 Oct 2026); the nodes come from the PDKs.
+
+| Shuttle prefix | Fab | Process node (open PDK) | MPW service | Run code on the chips page |
+|---|---|---|---|---|
+| TTIHP | IHP, Frankfurt (Oder), Germany | 130 nm SiGe BiCMOS (`ihp-sg13g2`) | IHP's own open-source MPW | `IHP-2609`, `IHP-2603`, … |
+| TTSKY | SkyWater Technology, USA | 130 nm CMOS (`sky130A`) | ChipFoundry chipIgnite | `CI-2612`, `CI-2609`, … |
+| TTGF | GlobalFoundries | 180 nm CMOS (`gf180mcuD`) | wafer.space | `w.s Run #3` |
+
+All three are mature nodes: cheap, with open PDKs, and far from the advanced nodes that commercial Cadence and Synopsys flows usually target. IHP SG13G2 also has fast SiGe bipolar transistors (HBTs) for RF and high-speed analogue; a digital Tiny Tapeout design uses only its CMOS standard cells.
+
 ## What this means for our flow
 
 1. **Same core tool.** The Tiny Tapeout `gds` action runs LibreLane, like `make harden` here. The differences are Tiny Tapeout's fixed die (the tile), fixed pin positions and power grid, and some checks it turns off to save time (KLayout DRC and XOR). It then adds its own precheck. Running one design both ways and comparing the results is a natural "two flows" comparison.
 2. **Gate-level simulation is missing from our flow.** Tiny Tapeout runs it in CI; we should add a `make gl-sim` target that re-runs the testbench on `final/nl/` (and later with SDF timing).
 3. **cocotb.** Tiny Tapeout tests are cocotb (`cocotb==2.0.1` in the template). Our flow should accept a design's `test/` folder as it stands.
-4. **Putting the counter on the template** (planned for week 42) needs these changes:
+4. **Putting the counter on the template** (planned for week 3) needs these changes:
    - a wrapper `tt_um_mdkamrulislam_counter` with the fixed ports;
    - reset from `rst_n`, inverted (our counter's `rst` is active high);
    - `en` from `ui_in[0]`, `count` on `uo_out`, `wrap` on `uio_out[0]` with `uio_oe = 8'b0000_0001`, all other outputs tied to 0;

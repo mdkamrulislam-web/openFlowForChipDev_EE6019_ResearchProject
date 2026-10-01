@@ -1,13 +1,13 @@
-# Week 40 meeting preparation (Friday 2 Oct 2026, 11:00)
+# Week 1 meeting preparation (Friday 2 Oct 2026, 11:00)
 
-Task for this week: go through the Tiny Tapeout videos. Notes on them are in [docs/tiny-tapeout.md](../docs/tiny-tapeout.md); the log to email before the meeting is [2026-W40.md](2026-W40.md).
+Task for this week: go through the Tiny Tapeout videos. Notes on them are in [docs/tiny-tapeout.md](../docs/tiny-tapeout.md); the log to email before the meeting is [week-01.md](week-01.md).
 
 ## Before the meeting
 
 - [ ] Watch the four short videos in full and the webinar's 26:00–52:00 (see the viewing table in `docs/tiny-tapeout.md`).
 - [ ] Build the four-flip-flop shift register from the webinar (about 15:00–20:00) in the Wokwi template, save it, and take a screenshot to show.
 - [ ] Open the [IHP Verilog template](https://github.com/TinyTapeout/ttihp-verilog-template) and read `info.yaml`, `src/project.v` and `test/test.py`.
-- [ ] Check and correct `2026-W40.md`, then email it.
+- [ ] Check and correct `week-01.md`, then email it.
 - [ ] Bring: the Wokwi screenshot, the counter layout (`docs/counter-sky130A.png`) and the sign-off table.
 
 ## One-minute summary to open with
@@ -24,11 +24,11 @@ Task for this week: go through the Tiny Tapeout videos. Notes on them are in [do
 | What are the limits? | About 1,000 gates per tile (up to 16 tiles), 8 inputs, 8 outputs, 8 bidirectional pins, about 50 MHz. Designs must be open source. Chips take 6 to 12 months to come back. |
 | How does it relate to the flow you built? | Same core tool, LibreLane. My repository runs it locally with any die size and PDK; Tiny Tapeout runs it in GitHub with fixed tile settings, a precheck and a gate-level test. Comparing the two could be the "two open flows". Is that what you meant? |
 | What was new to you? | Fill cells take up most of the tile; Tiny Tapeout runs a precheck and a gate-level test on every push; why every register needs a reset on silicon; the fixed top-module interface. |
-| What next? | The two remaining videos (*Making ASICs*, *Manufacturing ASICs*), the FAQ and SiliWiz; run the flow on my laptop; then the counter on the IHP template in week 42, without submitting. |
+| What next? | The two remaining videos (*Making ASICs*, *Manufacturing ASICs*), the FAQ and SiliWiz; run the flow on my laptop; then the counter on the IHP template in week 3, without submitting. |
 
 ## Questions to ask him
 
-The five scope questions are at the end of [2026-W40.md](2026-W40.md), plus the website link he mentioned.
+The five scope questions are at the end of [week-01.md](week-01.md), plus the website link he mentioned.
 
 ## Notes from the meeting
 
