@@ -41,10 +41,11 @@ The thesis work (reliability-aware synthesis) is **out of scope** unless the sup
 
 ## 3. Current state of the repository (1 Oct 2026)
 
-- `main` holds only `.gitignore` and this file.
-- The working flow is in **draft PR #1**, branch `claude/project-thread-pgnp51`: <https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/1>. CI was green on it; it is waiting for Kamrul to review and merge. **If PR #1 is not merged yet, check out that branch to see the flow.** Its `README.md`, `docs/setup.md` and `docs/flow.md` are the user-facing documentation.
+- `main` holds the working flow. [PR #1](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/1) (the flow) and [PR #2](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/2) (this file) were merged on 1 Oct 2026, and CI is green on `main` for both PDKs. `README.md`, `docs/setup.md` and `docs/flow.md` are the user-facing documentation.
+- Kamrul is new to physical design. `docs/learning-path.md` is his hands-on route through the flow (install, read the reports, break it on purpose, a small design of his own), and is also the start of the student guide.
+- Friday logs live in `logbook/`; `logbook/2026-W40.md` is the first.
 
-### What PR #1 contains
+### What the flow contains
 
 ```
 Makefile                     entry points (below)
@@ -56,6 +57,8 @@ designs/counter/tb/counter_tb.v    self-checking testbench, prints "PASS" on suc
 designs/counter/config.json        LibreLane config (50 MHz, 150 x 150 um die)
 docs/setup.md, docs/flow.md        install guide (Linux, macOS, WSL2, Podman), stage-by-stage walkthrough
 docs/counter-*.png                 layout renders
+docs/learning-path.md              hands-on exercises for someone new to physical design
+logbook/<year>-W<nn>.md            Friday logs
 .github/workflows/flow.yml         CI: lint + Icarus + Verilator sim, then harden on sky130A and ihp-sg13g2
 ```
 
@@ -271,11 +274,12 @@ Also open: the website link he promised; whether the thesis's reliability work s
 
 ---
 
-## 10. Next steps (as of 1 Oct 2026)
+## 10. Next steps (as of 1 Oct 2026, evening)
 
 - [ ] Send the plan and scope questions to Prof. Popovici; ask for the website link.
-- [ ] Write the first Friday log (`logbook/2026-W40.md`) for the 2 Oct meeting.
-- [ ] Review and merge PR #1.
+- [x] Draft the first Friday log (`logbook/2026-W40.md`) for the 2 Oct meeting; Kamrul to check it and email it.
+- [x] Review and merge PR #1 (merged 1 Oct).
+- [ ] Work through `docs/learning-path.md` exercises 1 to 4 on his own laptop (week 41).
 - [ ] Work through the Tiny Tapeout study path, then start the open-tool survey table.
 - [ ] Draft the one-page risk assessment (desk and computer work: display-screen use, laptop batteries and chargers, fire exits).
 - [ ] After that: gate-level simulation and cocotb testbenches in the flow; counter on the TT IHP template (week 42).

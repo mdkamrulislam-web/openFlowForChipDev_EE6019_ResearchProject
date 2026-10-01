@@ -32,7 +32,7 @@ The first command downloads the tool image once (about 3.9 GB). A full `make har
                                                                                                  Netgen, OpenSTA
 ```
 
-Every stage from synthesis to sign-off is driven by **[LibreLane](https://github.com/librelane/librelane)**, the continuation of OpenLane 2 now maintained under the FOSSi Foundation after Efabless closed. Configuration files are the same format as OpenLane 2. Sign-off covers design-rule checks (Magic and KLayout), layout-versus-schematic (Netgen), antenna checks and static timing across process corners. Each stage is explained in [docs/flow.md](docs/flow.md).
+Every stage from synthesis to sign-off is driven by **[LibreLane](https://github.com/librelane/librelane)**, the continuation of OpenLane 2 now maintained under the FOSSi Foundation after Efabless closed. Configuration files are the same format as OpenLane 2. Sign-off covers design-rule checks (Magic and KLayout), layout-versus-schematic (Netgen), antenna checks and static timing across process corners. Each stage is explained in [docs/flow.md](docs/flow.md). New to physical design? Start with [docs/learning-path.md](docs/learning-path.md).
 
 ## Pinned tool environment
 
@@ -78,7 +78,8 @@ designs/<name>/config.json   LibreLane configuration
 designs/<name>/runs/<pdk>/   flow outputs (not committed); final views in final/
 env/tools.env            pinned container image
 scripts/                 container wrapper and sign-off summary
-docs/                    setup guide, flow walkthrough, layout renders
+docs/                    setup guide, flow walkthrough, learning path, layout renders
+logbook/                 weekly Friday logs
 .github/workflows/       CI: lint and simulate, then harden on both PDKs
 ```
 
@@ -88,7 +89,7 @@ To add a design, copy `designs/counter`, rename the module and files, and run `m
 
 The main deliverable is a flow that students can use to design and tape out chips, so documentation and reproducibility are weighted as heavily as the designs themselves.
 
-1. **Tool environment and first chip run.** Pinned container, example design RTL to GDS, CI. *(this PR)*
+1. **Tool environment and first chip run.** Pinned container, example design RTL to GDS, CI. *(done, Sep 2026)*
 2. **Agree scope with Prof. Popovici.** Primary PDK (IHP SG13G2 has a live free MPW route; SKY130 has the most teaching material), digital only or mixed-signal, tapeout target and dates.
 3. **Verification depth.** cocotb testbenches, gate-level simulation of the routed netlist with SDF timing, formal equivalence (Yosys/EQY), coverage.
 4. **A realistic example design.** Something larger than a counter (for example a small RISC-V core or a peripheral with a bus interface), with timing closure at a meaningful clock.
