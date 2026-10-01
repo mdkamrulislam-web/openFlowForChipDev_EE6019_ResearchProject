@@ -143,11 +143,12 @@ Shuttle dates from <https://tinytapeout.com/chips/>, read 30 Sep 2026. Re-check 
 | Shuttle | PDK | Closes | Fit |
 |---|---|---|---|
 | TTSKY26d | SKY130 | 30 Nov 2026 | Too early for the demonstrator |
-| TTGF26c / TTGF26d | GF180 | 7 Dec 2026 | Too early |
+| TTGF26c | GF180 | 7 Dec 2026 | Too early (TTGF26d, same date, is reserved for the ArtScience Museum Singapore) |
 | **TTIHP27a** | IHP SG13G2 | **March 2027** (day not published; delivery Q1 2028) | Target |
 | TTGF27a | GF180 | April 2027 | Fallback |
 | TTSKY27a | SKY130 | May 2027 | After the project ends |
 
+- Fabs and MPW services behind each shuttle (IHP direct; SkyWater via ChipFoundry; GlobalFoundries via wafer.space) are in `docs/tiny-tapeout.md`, "Who makes the chips now".
 - IHP also runs its own low-cost open-source MPW (about 2,800 EUR/mm², roughly 8-month turnaround), possibly useful for next year's student chips.
 - Chips take 6 to 9 months, up to a year, so no silicon will come back before 30 Apr 2027. The deliverable is a verified, submitted (or submission-ready) GDS.
 - Do **not** submit anything at app.tinytapeout.com without the supervisor's go-ahead: a submission reserves a paid tile.
