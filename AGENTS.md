@@ -58,6 +58,7 @@ designs/counter/config.json        LibreLane config (50 MHz, 150 x 150 um die)
 docs/setup.md, docs/flow.md        install guide (Linux, macOS, WSL2, Podman), stage-by-stage walkthrough
 docs/counter-*.png                 layout renders
 docs/learning-path.md              hands-on exercises for someone new to physical design
+docs/tiny-tapeout.md               Tiny Tapeout notes: how it works, changes since the videos, what it means for the flow
 logbook/<year>-W<nn>.md            Friday logs
 .github/workflows/flow.yml         CI: lint + Icarus + Verilator sim, then harden on sky130A and ihp-sg13g2
 ```
@@ -157,8 +158,8 @@ Shuttle dates from <https://tinytapeout.com/chips/>, read 30 Sep 2026. Re-check 
 Study path doc (owner-only link): <https://claude.ai/code/artifact/919efaa6-7ecf-43b1-a6d9-5c519e6cfcb3>
 
 - **Four flows**, all ending in a GitHub repo whose Actions build the GDS, submitted at app.tinytapeout.com: **Wokwi** (gates in a browser; beginners), **Verilog/HDL** (`src/`, cocotb tests in `test/`, `info.yaml`; Actions `test`, `gds` via LibreLane, `docs`, `fpga`; this is the one we use), **local hardening** (`tt/tt_tool.py` with LibreLane 3.0.3 via pip), and **analogue** (out of scope).
-- **IHP template:** <https://github.com/TinyTapeout/ttihp-verilog-template>.
-- **Tile limits:** about 160 × 100 µm, roughly 1,000 gates, 8 inputs, 8 outputs, 8 bidirectional pins, `clk` and `rst_n`, at least 50 MHz. The top module must be named `tt_um_<user>_<name>` with the fixed port list `ui_in, uo_out, uio_in, uio_out, uio_oe, ena, clk, rst_n`. The demonstrator must fit this or use extra tiles.
+- **IHP template:** <https://github.com/TinyTapeout/ttihp-verilog-template>. As of 30 Sep 2026 it has `src/config.json` (LibreLane settings, 50 MHz default), four workflows (`test`; `gds` with precheck, gate-level test and viewer; `docs`; `fpga`, manual), actions pinned to tag `ttihp26b`, and `cocotb==2.0.1`. Notes from the videos, what has changed since they were made, and the counter-to-template checklist are in `docs/tiny-tapeout.md`.
+- **Tile limits:** about 167 × 108 µm on IHP (160 × 100 µm in older material), roughly 1,000 gates, 8 inputs, 8 outputs, 8 bidirectional pins, `clk` and `rst_n`, at least 50 MHz. The top module must be named `tt_um_<user>_<name>` with the fixed port list `ui_in, uo_out, uio_in, uio_out, uio_oe, ena, clk, rst_n`. The demonstrator must fit this or use extra tiles.
 - **Version gap:** Tiny Tapeout pins LibreLane 3.0.3; our image ships 3.1. Check that a design clean in one is clean in the other.
 - **IHP terms:** chips stay IHP's property, lent for 2 years, no resale, shipping only within the EU and Switzerland (Ireland is fine).
 - **Class bundles** (likely route for next year's students): 5 projects + 1 board EUR 565; 25 + 3 EUR 2,195; 75 + 5 EUR 5,325 (<https://tinytapeout.com/teaching/>).
@@ -280,7 +281,8 @@ Also open: the website link he promised; whether the thesis's reliability work s
 - [x] Draft the first Friday log (`logbook/2026-W40.md`) for the 2 Oct meeting; Kamrul to check it and email it.
 - [x] Review and merge PR #1 (merged 1 Oct).
 - [ ] Work through `docs/learning-path.md` exercises 1 to 4 on his own laptop (week 41).
-- [ ] Work through the Tiny Tapeout study path, then start the open-tool survey table.
+- [ ] Work through the Tiny Tapeout study path, then start the open-tool survey table. *(1 Oct: five videos done from transcripts, notes in `docs/tiny-tapeout.md`; still to do: Making ASICs, Manufacturing ASICs, FAQ, SiliWiz, Wokwi.)*
+- [ ] Add a gate-level simulation target (`make gl-sim`) on the routed netlist; Tiny Tapeout already runs one in CI.
 - [ ] Draft the one-page risk assessment (desk and computer work: display-screen use, laptop batteries and chargers, fire exits).
 - [ ] After that: gate-level simulation and cocotb testbenches in the flow; counter on the TT IHP template (week 42).
 

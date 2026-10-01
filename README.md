@@ -78,7 +78,7 @@ designs/<name>/config.json   LibreLane configuration
 designs/<name>/runs/<pdk>/   flow outputs (not committed); final views in final/
 env/tools.env            pinned container image
 scripts/                 container wrapper and sign-off summary
-docs/                    setup guide, flow walkthrough, learning path, layout renders
+docs/                    setup guide, flow walkthrough, learning path, Tiny Tapeout notes, layout renders
 logbook/                 weekly Friday logs
 .github/workflows/       CI: lint and simulate, then harden on both PDKs
 ```
