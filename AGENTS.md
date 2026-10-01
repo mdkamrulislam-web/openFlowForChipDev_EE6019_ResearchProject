@@ -60,6 +60,7 @@ docs/counter-*.png                 layout renders
 docs/learning-path.md              hands-on exercises for someone new to physical design
 docs/tiny-tapeout.md               Tiny Tapeout notes: how it works, changes since the videos, what it means for the flow
 logbook/<year>-W<nn>.md            Friday logs
+logbook/2026-W40-meeting-prep.md   checklist, summary and likely questions for the 2 Oct meeting; meeting notes go at its end
 .github/workflows/flow.yml         CI: lint + Icarus + Verilator sim, then harden on sky130A and ihp-sg13g2
 ```
 
@@ -278,6 +279,7 @@ Also open: the website link he promised; whether the thesis's reliability work s
 ## 10. Next steps (as of 1 Oct 2026, evening)
 
 - [ ] Send the plan and scope questions to Prof. Popovici; ask for the website link.
+- [ ] 2 Oct meeting: prepare with `logbook/2026-W40-meeting-prep.md`; afterwards record his answers there and update sections 5, 9 and 10.
 - [x] Draft the first Friday log (`logbook/2026-W40.md`) for the 2 Oct meeting; Kamrul to check it and email it.
 - [x] Review and merge PR #1 (merged 1 Oct).
 - [ ] Work through `docs/learning-path.md` exercises 1 to 4 on his own laptop (week 41).

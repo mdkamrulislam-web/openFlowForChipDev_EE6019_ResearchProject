@@ -39,6 +39,10 @@ LibreLane already chains the physical-design tools. The project's work is to cho
 - **Corners**: timing checked at slow, typical and fast process, voltage and temperature.
 - **DRC** (design-rule check): the layout obeys the foundry's geometry rules. **LVS** (layout versus schematic): the layout is the same circuit as the netlist. **Antenna**: long wires that could damage transistor gates during manufacture.
 
+## Exercise 0: a warm-up in Wokwi (no install)
+
+Open the Wokwi template from [tinytapeout.com](https://tinytapeout.com/) in a browser. Build a four-flip-flop shift register: chain the flip-flops Q to D, connect every clock to the clock input, take the first D from a switch, and drive four display segments from the Q outputs. Simulate it with the single-step clock, then with the clock generator at 2 Hz. Press restart a few times and notice that the flip-flops start in a random state: on silicon nothing is initialised unless you reset it. [tiny-tapeout.md](tiny-tapeout.md) summarises the videos that go with this.
+
 ## Exercise 1: install and run the counter
 
 Follow [setup.md](setup.md), then:

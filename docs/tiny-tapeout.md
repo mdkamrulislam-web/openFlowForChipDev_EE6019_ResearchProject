@@ -2,17 +2,50 @@
 
 Notes from the Tiny Tapeout videos, checked against the current IHP Verilog template ([TinyTapeout/ttihp-verilog-template](https://github.com/TinyTapeout/ttihp-verilog-template), as of 30 Sep 2026). The videos date from Tiny Tapeout 4 to 6 (2023–24), and several details have changed since; those are listed in [What has changed since the videos](#what-has-changed-since-the-videos).
 
-Videos covered:
+## The videos, and how to watch them
 
-| Video | Main point |
-|---|---|
-| From idea to chip design in minutes | What Tiny Tapeout is and why it is cheap |
-| Getting started with Wokwi | Drawing and simulating gates in the browser |
-| Working with an HDL | Verilog projects: `info.yaml`, the fixed top module, cocotb tests |
-| Getting your design ready to submit | The GitHub template, its actions, and submitting |
-| Webinar: Build your first chip with Tiny Tapeout | All of the above in one hour, plus design tips |
+| Video | Length | Main point | How to watch |
+|---|---|---|---|
+| [From idea to chip design in minutes](https://www.youtube.com/watch?v=qVWq_XZko-M) | 3 min | What Tiny Tapeout is and why it is cheap | In full |
+| [Getting started with Wokwi](https://www.youtube.com/watch?v=F1SwXF2ny4g) | 3 min | Drawing and simulating gates in the browser | In full |
+| [Working with an HDL](https://www.youtube.com/watch?v=KbWb6xd9jFE) | 3 min | Verilog projects: `info.yaml`, the fixed top module, cocotb tests | In full |
+| [Getting your design ready to submit](https://www.youtube.com/watch?v=fCGPKdmM3Dc) | 6 min | The GitHub template, its actions, and submitting | In full |
+| [Webinar: Build your first chip with Tiny Tapeout](https://www.youtube.com/watch?v=UVZK-kmN7wc) | 57 min | All of the above, plus design tips | 26:00–52:00 closely (GitHub, submission, Verilog, design tips); skim 6:00–25:00 (logic-gate basics in Wokwi) |
 
 Still to watch from the study path: *Making ASICs* and *Manufacturing ASICs*. These are the most relevant to physical design.
+
+If you read the auto-generated transcripts, some names are misheard: "tiny PayPal" is Tiny Tapeout, "walkway" or "WWE" is Wokwi, "e-fabulous" or "EAB" is Efabless, "Coco DB" is cocotb, "ttk wave" is GTKWave, "icus" is Icarus.
+
+### What each video says
+
+**From idea to chip design in minutes.** A custom chip normally costs tens of thousands for fabrication, plus about $100k for tool licences, under an NDA that stops you sharing the design. Tiny Tapeout combines many small designs into one chip, with an on-chip multiplexer to select which one drives the pins, so each project costs little. You receive everyone's designs as well as your own.
+
+**Getting started with Wokwi.** Wokwi is a browser editor and simulator for gates and flip-flops.
+- The electrical rule check (ERC) flags two outputs driving one wire and inputs left unconnected; these must be fixed before the design can be made.
+- A `truth_table.md` file turns a truth table into an automatic test.
+- Only logic between the input and output blocks is manufactured, so debug LEDs outside them are ignored.
+- Saving a copy gives the project a new ID, which is what you put in `info.yaml`.
+
+**Working with an HDL.**
+- In `info.yaml`, set the Wokwi ID to 0, list every source file, and name a top module `tt_um_<github user>_<name>`.
+- The top module's ports are fixed and cannot change.
+- Tests use cocotb: a small `tb.v` instantiates the design, and `test.py` starts the clock, applies reset and checks the outputs. The `test` action runs it on every push.
+- A gate-level test (the same test on the synthesised netlist) is strongly recommended, because nothing can be changed after manufacture.
+
+**Getting your design ready to submit.**
+1. Create a repository from the template.
+2. Set GitHub Pages to GitHub Actions.
+3. Fill in `info.yaml` (Wokwi ID or source files, tiles, title, pins) and `docs/info.md`.
+4. Commit. The actions build the datasheet, run the tests and build the GDS, and `gds` must be green to submit.
+5. If `gds` fails, read the synthesis log first. A design that is too large fails in placement or routing, so reduce it or add tiles.
+6. Submit in the app: sign in with GitHub, paste the repository URL, pay, then **submit a revision**.
+
+**Webinar: Build your first chip with Tiny Tapeout.** It repeats the process above in full, then adds:
+- **Demo board:** switches on the inputs, a seven-segment display on the outputs, PMOD connectors, and an RP2040 running MicroPython.
+- **Limits:** about 1,000 gates per tile, up to 16 tiles, 8 inputs, 8 outputs, 8 bidirectional pins, and roughly 50–66 MHz I/O.
+- **The `gds` result page:** shows utilisation (the example used about 2% of a tile), the cells used and a 3D viewer. Most of the tile is filler cells.
+- **Design tips:** reset every register, synchronise or debounce external inputs, avoid ripple counters, mind setup and hold timing and clock-domain crossings, and test with Icarus, Verilator, cocotb and a gate-level simulation.
+- **Q&A:** compares Tiny Tapeout (a shared die, open source, one demo board) with a full-chip shuttle (the whole die, any tools, many copies of your chip).
 
 ## How Tiny Tapeout works
 
