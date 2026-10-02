@@ -306,7 +306,7 @@ Also open: the website link he promised; whether the thesis's reliability work s
 ## 12. Working conventions for whoever continues
 
 - **British English** in all writing (optimisation, analogue, behaviour, modelling).
-- **Commit and push straight to `main`**; Kamrul does not want pull requests. CI runs the reference design on every push to `main`, so check it after a flow change and fix a red run at once.
+- Every flow change goes through a **pull request**; CI runs the reference design so a broken flow is caught at once.
 - Tool and PDK versions are **pinned** in `env/tools.env` and listed in the README. Upgrade only on purpose and record it.
 - Each time a step works, write the **student-guide paragraph** for it that same week.
 - When showing Kamrul code changes, show only the relevant changes and say where they go.
