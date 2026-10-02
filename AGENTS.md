@@ -2,13 +2,13 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 1 October 2026 (project week 1).*
+*Last updated: 2 October 2026 (project week 1, after the 2 Oct meeting).*
 
 ---
 
 ## 1. The project in one paragraph
 
-EE6019 is the MEngSc (Electrical and Electronic Engineering) research project at University College Cork, 2026–27, supervised by **Prof. Emanuel Popovici**. The student is Kamrul (GitHub `mdkamrulislam-web`). The goal is an **open-source chip-development flow**: a documented, reproducible, fully open digital flow from Verilog RTL to a sign-off-clean GDSII layout, which next year's UCC students can install and follow to make their own chips (most likely through Tiny Tapeout). Kamrul's own design is the first one through the flow and proves that it works. **The project must be finished by 30 April 2027**; that date is fixed and cannot slip.
+EE6019 is the MEngSc (Electrical and Electronic Engineering) research project at University College Cork, 2026–27, supervised by **Prof. Emanuel Popovici**. The student is Kamrul (GitHub `mdkamrulislam-web`). Since the 2 Oct 2026 meeting the project has two parts. **Teaching:** document the existing **Tiny Tapeout** Verilog flow step by step (as slides) so that UCC undergraduates can use it next year to make their own chips; Kamrul does *not* build a new flow. **Research:** design a **neural-network accelerator** on a larger open template with a **RISC-V** core and take it through the full open flow to a layout ready for submission. **The project must be finished by 30 April 2027**; that date is fixed and cannot slip.
 
 ### How the scope got here
 
@@ -16,6 +16,7 @@ EE6019 is the MEngSc (Electrical and Electronic Engineering) research project at
 - **24 Sep (options note):** Kamrul proposed four options from the thesis. Option C combined an open flow (Yosys, ABC, LibreLane, Tiny Tapeout on SKY130 or IHP SG13G2) with reliability-driven synthesis.
 - **25 Sep (group meeting):** the project became the open flow: survey the free alternatives to Cadence and Synopsys, install an open flow, and build an ASIC with it. The group hopes to make chips for students next year with this flow, so this project is the first through it. He may let Kamrul build a chip "using both those open flows" (which two is unclear). He said he would send a website link (not yet received). Weekly Friday log entries feed the logbook in the final report; record mistakes and how they were fixed. Every project needs a short risk assessment.
 - **30 Sep:** Prof. Popovici asked Kamrul to start exploring the flows and videos on **tinytapeout.com** (study path in section 6).
+- **2 Oct (weekly meeting, plus his answers to the follow-up email):** no new flow: use the Tiny Tapeout flow and document it step by step for undergraduates, as PowerPoint slides (any format and length), up to the submission step. For the research, a larger template with a RISC-V core (heard as "carousel"; probably Caravel, possibly Croc; asked by email) to explore neural-network accelerators, taken through the full flow. Technology: whichever is available at that point (SkyWater 130 nm or IHP 130 nm). The website he meant on 25 Sep is Tiny Tapeout. Report dates to follow. He plans a batch of student chips next year; students who learn the flow now may become demonstrators. Notes: `logbook/week-01-meeting-prep.md`.
 
 The thesis work (reliability-aware synthesis) is **out of scope** unless the supervisor asks for it; it is kept as an optional research extension. Analogue/mixed-signal, FPGA and PCB work are also out of scope. The supervisor's other students' projects (FPGA place and route, PCB, option pricing, smart glasses) are unrelated; ignore them.
 
@@ -23,19 +24,18 @@ The thesis work (reliability-aware synthesis) is **out of scope** unless the sup
 
 ## 2. Deliverables and definition of done
 
+Revised after the 2 Oct 2026 meeting.
+
 | Deliverable | What it is | Where | Needed by |
 |---|---|---|---|
-| Open-tool survey | Each flow stage mapped to its commercial tool and its open replacement, with maturity notes | Report chapter 2 | End Oct 2026 |
-| Reproducible environment | One pinned container plus install notes for laptops and lab PCs | This repo | Mid Oct 2026 |
-| Reference flow | Make targets for simulate, synthesise, place and route, timing, DRC, LVS, gate-level sim; PDK chosen by one setting | This repo | Nov 2026 |
-| Worked example | A small design through every stage with reports kept | This repo | Nov 2026 (counter), Mar 2027 (real design) |
-| Demonstrator design | A useful block, verified and tapeout-ready; submitted to Tiny Tapeout if approved | Repo, then shuttle | Mar 2027 |
-| Student guide | Lab-style handouts: install, first run, reading reports, fixing DRC and timing errors | `docs/`, later a website | Apr 2027 |
-| Report, logbook, presentation | EE6019 submission, with weekly Friday logs and the risk assessment | UCC submission | Dates to confirm |
+| Tiny Tapeout flow slides | Step-by-step PowerPoint for undergraduates: template, Verilog, cocotb tests, GitHub Actions, GDS, up to the submission step | `docs/` | First version 9 Oct 2026 |
+| Open-tool survey | Each flow stage mapped to its commercial tool and its open replacement | Report chapter 2 | To agree |
+| Research design | Neural-network accelerator on the RISC-V template, verified and taken through the full flow to a submission-ready layout | Repo | Mar 2027 |
+| Report, logbook, presentation | EE6019 submission, with weekly Friday logs and the risk assessment | UCC submission | Dates to follow |
 
-**Done means:** a student who has never used the tools can follow the guide from a clean machine to a GDS in one lab session; Kamrul's design passes simulation, synthesis, place and route, timing, DRC and LVS with no errors; and Prof. Popovici has signed off the report and logbook.
+**Background, not a deliverable:** the repo's own LibreLane flow (`make harden`, the counter) and the planned comparison with OpenROAD-flow-scripts were set up before 2 Oct. He did not ask for a separate flow; keep it only where it helps (understanding the stages, or hardening the research design locally).
 
-**Research angle for the report:** a survey of open tools against Cadence and Synopsys, plus one measured comparison (for example LibreLane vs OpenROAD-flow-scripts, or SKY130 vs IHP SG13G2: area, slack, run time, set-up effort).
+**Done means:** an undergraduate can follow the slides from the template to a GDS; the accelerator passes simulation, synthesis, place and route, timing, DRC and LVS with no errors; and Prof. Popovici has signed off the report and logbook.
 
 ---
 
@@ -130,13 +130,13 @@ This table is the core of the survey chapter.
 | Layout viewing | KLayout | Cadence Virtuoso |
 | Packaging for tapeout | Tiny Tapeout template and GitHub Actions | Foundry sign-off kit |
 
-Plan: build on LibreLane in the pinned container, keep the PDK a single setting, and run the same design through **OpenROAD-flow-scripts (ORFS)** as the second flow for comparison.
+Before 2 Oct the plan was to compare LibreLane with **OpenROAD-flow-scripts (ORFS)**; that is now optional (section 2).
 
 ---
 
-## 5. PDK and shuttle decision (open)
+## 5. PDK and shuttle
 
-**Recommendation (not yet approved): IHP SG13G2 as the target, SKY130 for bring-up.** GF180 is the fallback.
+**Decided 2 Oct 2026:** the technology is whichever is available at that point, SkyWater 130 nm (SKY130) or IHP 130 nm (SG13G2); no preference. The research template may fix it (Caravel runs on SKY130; Croc targets IHP). Whether the accelerator is actually submitted to a shuttle is not decided; the deliverable is a submission-ready layout.
 
 Shuttle dates from <https://tinytapeout.com/chips/>, read 30 Sep 2026. Re-check before committing to dates.
 
@@ -165,7 +165,7 @@ Study path doc (owner-only link): <https://claude.ai/code/artifact/919efaa6-7ecf
 - **Version gap:** Tiny Tapeout pins LibreLane 3.0.3; our image ships 3.1. Check that a design clean in one is clean in the other.
 - **IHP terms:** chips stay IHP's property, lent for 2 years, no resale, shipping only within the EU and Switzerland (Ireland is fine).
 - **Class bundles** (likely route for next year's students): 5 projects + 1 board EUR 565; 25 + 3 EUR 2,195; 75 + 5 EUR 5,325 (<https://tinytapeout.com/teaching/>).
-- **"Both open flows"** might mean LibreLane + ORFS, or Tiny Tapeout's GitHub Actions flow + local LibreLane. Ask the supervisor.
+- **"Both open flows"** (25 Sep): after the 2 Oct meeting, most likely Tiny Tapeout (small designs; teaching) and the larger RISC-V template (research). Not yet confirmed in those words.
 
 **Videos, in watching order:** [From idea to chip design in minutes](https://www.youtube.com/watch?v=qVWq_XZko-M); [Making ASICs](https://www.youtube.com/watch?v=dckPKyO2nSo); [Manufacturing ASICs](https://www.youtube.com/watch?v=aBDJQ9NYTEU); [Getting started with Wokwi](https://www.youtube.com/watch?v=F1SwXF2ny4g); [Working with an HDL](https://www.youtube.com/watch?v=KbWb6xd9jFE); [Get your submission ready](https://www.youtube.com/watch?v=fCGPKdmM3Dc); optional [Build Your First Chip with Tiny Tapeout](https://www.youtube.com/watch?v=UVZK-kmN7wc). Reading: [Making ASICs](https://tinytapeout.com/making_asics/), [FAQ](https://tinytapeout.com/faq/), [SiliWiz](https://tinytapeout.com/siliwiz/), [Digital design lessons 1–3](https://tinytapeout.com/digital_design/), [HDL rules](https://tinytapeout.com/hdl/important/), [Testing](https://tinytapeout.com/hdl/testing/), [Local hardening](https://tinytapeout.com/guides/local-hardening/), [Specs](https://tinytapeout.com/specs/), [basic](https://tinytapeout.com/guides/workshop/) and [advanced](https://tinytapeout.com/guides/advanced-workshop/) workshops.
 
@@ -185,7 +185,9 @@ Compare area, cell count, slack and run time with `make harden PDK=ihp-sg13g2` h
 
 ## 7. Timeline
 
-Month-level milestones:
+**Needs re-planning.** The tables below were written before the 2 Oct meeting changed the scope (section 1). Weeks 2 and 3 are updated; from week 4 on, re-plan around the research template once Prof. Popovici confirms which one he meant.
+
+Month-level milestones (pre-2 Oct):
 
 | Month | Milestone that shows it is done |
 |---|---|
@@ -201,8 +203,8 @@ Week by week (one row per Friday log; weeks are counted from the project start, 
 | Friday | Project week | Focus | What the log reports |
 |---|---|---|---|
 | 2 Oct | 1 | Plan, scope questions, first counter run (PR #1) | Send plan and scope questions; ask for the website link; first log |
-| 9 Oct | 2 | Merge PR #1; Tiny Tapeout study path parts 1–2 | Notes from videos, FAQ, SiliWiz, Wokwi; risk assessment drafted |
-| 16 Oct | 3 | Counter on the TT IHP Verilog template | Actions green (test, gds, docs); GDS screenshot |
+| 9 Oct | 2 | Tiny Tapeout flow slides; remaining videos; risk assessment | First version of the slides; screenshots from Kamrul's template fork; risk assessment drafted |
+| 16 Oct | 3 | Finish the slides from his feedback; read up on the research template once confirmed | Slides v2; template's example running |
 | 23 Oct | 4 | Local hardening with `tt_tool`; start tool survey | LibreLane 3.0.3 vs 3.1: same result or not |
 | 30 Oct | 5 | Survey write-up; PDK and shuttle decision | Report ch. 2 draft; decision recorded |
 | 6 Nov | 6 | Second flow: ORFS runs the counter | ORFS clean on IHP (and SKY130) in the same container |
@@ -263,31 +265,28 @@ Template:
 
 ---
 
-## 9. Open questions for the supervisor
+## 9. Questions for the supervisor
 
-Five answers would lock the plan:
+**Answered on 2 Oct 2026:** build a new flow? No, use and document Tiny Tapeout's. Main deliverables? Section 2. Accelerator scope? Full flow to a submission-ready layout. Technology? Whichever is available (SKY130 or IHP). Slides? Any format and length. Website link? Tiny Tapeout. Report dates? To be given later.
 
-1. Is the documented, reusable flow the main deliverable, with Kamrul's chip as the first worked example? *(default: yes)*
-2. Which two "open flows" did he mean? *(guess: LibreLane and ORFS; or TT Actions flow + local LibreLane)*
-3. Is a real Tiny Tapeout submission expected, and is there budget for a tile on TTIHP27a?
-4. Which PDK does he prefer, and does the group have links with IHP? *(default: IHP target, SKY130 bring-up)*
-5. What are the fixed dates for the interim report, final report and presentation?
+**Still open (email sent 2 Oct):**
 
-Also open: the website link he promised; whether the thesis's reliability work should carry over (default: optional extension only); how students should install the flow (container, lab image, or GitHub template with CI); which example design; which machine to use (laptop, lab PC or server account); licence for this repository.
+1. Which RISC-V template did he mean ("carousel" as heard): Caravel (ChipFoundry, SKY130), Croc (ETH Zurich, IHP), or another?
+2. Is there a type of neural network, or a paper, to start from?
+
+Also open: whether the open-tool survey (section 4) is still wanted as a report chapter; whether the accelerator is actually submitted to a shuttle; licence for this repository.
 
 ---
 
-## 10. Next steps (as of 1 Oct 2026, evening)
+## 10. Next steps (as of 2 Oct 2026)
 
-- [ ] Send the plan and scope questions to Prof. Popovici; ask for the website link.
-- [ ] 2 Oct meeting: prepare with `logbook/week-01-meeting-prep.md`; afterwards record his answers there and update sections 5, 9 and 10.
-- [x] Draft the first Friday log (`logbook/week-01.md`) for the 2 Oct meeting; Kamrul to check it and email it.
-- [x] Review and merge PR #1 (merged 1 Oct).
-- [ ] Work through `docs/learning-path.md` exercises 1 to 4 on his own laptop (week 2).
-- [ ] Work through the Tiny Tapeout study path, then start the open-tool survey table. *(1 Oct: five videos done from transcripts, notes in `docs/tiny-tapeout.md`; still to do: Making ASICs, Manufacturing ASICs, FAQ, SiliWiz, Wokwi.)*
-- [ ] Add a gate-level simulation target (`make gl-sim`) on the routed netlist; Tiny Tapeout already runs one in CI.
+- [x] Send the week 1 log and scope questions; 2 Oct meeting held; notes in `logbook/week-01-meeting-prep.md`.
+- [x] Follow-up email on the research template sent (2 Oct).
+- [ ] **Week 2 main task:** PowerPoint slides on the Tiny Tapeout Verilog flow for undergraduates, step by step up to the submission step, with screenshots from Kamrul's own fork of the template.
+- [ ] Watch *Making ASICs* and *Manufacturing ASICs* (for the slides' introduction).
 - [ ] Draft the one-page risk assessment (desk and computer work: display-screen use, laptop batteries and chargers, fire exits).
-- [ ] After that: gate-level simulation and cocotb testbenches in the flow; counter on the TT IHP template (week 3).
+- [ ] When he names the template: read its documentation, run its example, and re-plan section 7 from week 4.
+- [ ] Write `logbook/week-02.md` before the 9 Oct meeting.
 
 ## 11. Risks
 
@@ -316,7 +315,8 @@ Also open: the website link he promised; whether the thesis's reliability work s
 
 ## 13. Sources
 
-- Supervisor email (19–21 Sep 2026), options note (24 Sep), group meeting auto-transcript (25 Sep), Bo Yang's thesis: Kamrul's Google Drive folder "EE6019 - Research Project".
+- Supervisor email (19–21 Sep 2026), options note (24 Sep), meeting transcripts (25 Sep; 2 Oct, with audio), Bo Yang's thesis: Kamrul's Google Drive folder "EE6019 - Research Project" (owner-only link): <https://drive.google.com/drive/folders/1W5qhFknb5gOf17Vi74A2wL_OdaEEyaIn>. Subfolders: Documentations, Emails, Papers, Weekly Project Meetings.
+- Research template candidates: Caravel <https://github.com/chipfoundry/caravel_user_project>; Croc / HyperCroc (ETH Zurich PULP group, IHP 130 nm) <https://arxiv.org/abs/2603.12308>.
 - Tiny Tapeout: <https://tinytapeout.com/chips/>, <https://tinytapeout.com/faq/>, <https://tinytapeout.com/teaching/>, Hackster article on the IHP shuttle terms.
 - IHP low-cost open-source MPW: <https://www.ihp-microelectronics.com/services/research-and-prototyping-service/mpw-prototyping-service/low-cost-open-source-mpw-access-1>
 - LibreLane: <https://github.com/librelane/librelane>; IIC-OSIC-TOOLS: <https://github.com/iic-jku/IIC-OSIC-TOOLS>
