@@ -28,7 +28,7 @@ Task for this week: go through the Tiny Tapeout videos. Notes on them are in [do
 
 ## Questions to ask him
 
-The five scope questions are at the end of [week-01.md](week-01.md), plus the website link he mentioned.
+The scope questions and the website link are at the end of [week-01.md](week-01.md). Start with question 1: whether I should build a flow like Tiny Tapeout's or use it as it is. Tiny Tapeout is mainly a service (shared die, GitHub template, route to the fab) that runs LibreLane, the same tool as `make harden`; my reading is that the project adds the survey, a local flow students can see and debug, the guide, and the demonstrator, with Tiny Tapeout as the last step. His answer may also settle question 2 (which two open flows).
 
 ## Notes from the meeting
 

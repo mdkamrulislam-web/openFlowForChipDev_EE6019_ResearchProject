@@ -42,7 +42,7 @@
 - Draft the risk assessment.
 
 ## Questions for Prof. Popovici
-1. Is the documented, reusable flow the main deliverable, with my chip as the first worked example?
+1. Tiny Tapeout already provides a complete flow: a GitHub template whose Actions run LibreLane and build the GDS. Am I meant to build a similar flow, or to use Tiny Tapeout as it is? My understanding is that my work is the survey of open tools against Cadence and Synopsys, a local flow that students can run and debug stage by stage, a student guide, and a demonstrator chip submitted through Tiny Tapeout. Is that right, and is the documented, reusable flow the main deliverable, with my chip as the first worked example?
 2. Which two "open flows" did you mean: LibreLane and OpenROAD-flow-scripts, or the Tiny Tapeout GitHub flow and local LibreLane?
 3. Is a real Tiny Tapeout submission expected, and is there budget for a tile on the IHP shuttle (TTIHP27a, March 2027)?
 4. Which PDK do you prefer? I propose IHP SG13G2 as the target and SKY130 for bring-up.
