@@ -2,43 +2,22 @@
 
 ## Done
 - Agreed the project direction at the 25 Sep group meeting: survey the free alternatives to Cadence and Synopsys, set up an open flow, and build an ASIC with it as the first design through the flow.
-- Set up the repository with a first working flow, built with help from an AI coding assistant (Claude Code), and reviewed and merged it (PR #1):
-  - One pinned container image (IIC-OSIC-TOOLS 2026.09) supplies every tool and PDK: LibreLane, Yosys, OpenROAD, Magic, KLayout, Icarus Verilog, Verilator, SKY130, IHP SG13G2, GF180.
-  - `make sim`, `make lint`, `make harden`, `make summary`; the PDK is one setting (`PDK=sky130A` or `PDK=ihp-sg13g2`).
-  - Example design: 8-bit counter with a self-checking testbench.
-  - CI lints and simulates the design, then runs the whole flow on both PDKs on every change.
-- The counter went from RTL to GDS with clean sign-off on both SKY130 and IHP SG13G2.
 - Went through five of the Tiny Tapeout videos (from transcripts): *From idea to chip design in minutes*, *Getting started with Wokwi*, *Working with an HDL*, *Getting your design ready to submit*, and the *Build your first chip* webinar. Checked them against the current IHP Verilog template and wrote notes: `docs/tiny-tapeout.md`.
 - Main things learned:
   - Tiny Tapeout shares one die between hundreds of projects; one tile (about 167 × 108 µm on IHP) holds roughly 1,000 cells, with 8 inputs, 8 outputs, 8 bidirectional pins, clock and active-low reset.
-  - Its GitHub `gds` action runs LibreLane, the same tool as our `make harden`, but with a fixed tile, pins and power grid, plus a precheck and a gate-level test.
+  - Its GitHub `gds` action runs LibreLane, an open-source RTL-to-GDS flow, with a fixed tile, pins and power grid, plus a precheck and a gate-level test.
   - The videos are from 2023–24: Efabless has since closed, shuttles now run on IHP, GF180 and SKY130, and flow settings moved from `config.tcl` to `src/config.json`.
-  - Our flow lacks gate-level simulation, which Tiny Tapeout runs on every push; adding it is now on the plan.
-- Added a project handover file (`AGENTS.md`, PR #2) and a learning path for physical design (`docs/learning-path.md`).
 
 ## Problems and how I fixed them
-- The official OpenLane 2 image would not download (blocked downloads from ghcr.io). Switched to the IIC-OSIC-TOOLS image from Docker Hub, which includes LibreLane and all three PDKs.
-- The image defaults to the IHP PDK, so a run meant for SKY130 would use IHP. The Makefile now passes the PDK and standard-cell library to LibreLane explicitly.
-- Files written by the container belonged to root. The wrapper script now runs the container as the host user.
+- None this week.
 
 ## Evidence
-- PR #1 (flow) and PR #2 (handover), both merged; CI green on `main` for both PDKs.
-- Counter sign-off results:
-
-| Check | SKY130 | IHP SG13G2 |
-|---|---|---|
-| Simulation (Icarus, Verilator) | pass | pass |
-| DRC / LVS / antenna errors | 0 / 0 / 0 | 0 / 0 / 0 |
-| Setup / hold violations | 0 / 0 | 0 / 0 |
-| Worst setup / hold slack | 9.17 ns / 0.11 ns | 10.34 ns / 0.13 ns |
-| Standard cells (incl. fill, taps) | 298 | 68 |
-
-- Layout: `docs/counter-sky130A.png`
+- Notes on the videos and the current IHP template: `docs/tiny-tapeout.md`.
 
 ## Next week
-- Run the flow on my own laptop (learning path, exercises 1 to 3) and note how the install goes.
+- Install the open-source tools on my laptop and note how the install goes.
 - Tiny Tapeout: the two remaining videos (*Making ASICs*, *Manufacturing ASICs*), the FAQ, SiliWiz, and a small Wokwi design.
-- Plan the counter on the IHP template (week 3): the changes are listed in `docs/tiny-tapeout.md`.
+- Plan putting a small design on the IHP Verilog template (week 3), without submitting.
 - Draft the risk assessment.
 
 ## Questions for Prof. Popovici
