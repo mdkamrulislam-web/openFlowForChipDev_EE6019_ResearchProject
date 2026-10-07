@@ -2,7 +2,7 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 2 October 2026 (project week 1, after the 2 Oct meeting).*
+*Last updated: 8 October 2026 (project week 2, teaching drafts checked and worked example verified).*
 
 ---
 
@@ -39,7 +39,11 @@ Revised after the 2 Oct 2026 meeting.
 
 ---
 
-## 3. Current state of the repository (1 Oct 2026)
+## 3. Current state of the repository (7 Oct 2026)
+
+- Week 2 teaching material is collected on branch `week-02`: redesigned [PowerPoint slides](docs/slides/tiny-tapeout-flow-v1.pptx), PDF and builder, the RISC-V template comparison, risk assessment, weekly log and meeting preparation. All 26 slides were rendered and inspected. Remaining captures and rebuild instructions are in `docs/slides/README.md`; review status is recorded in section 10.
+- The genuine Tiny Tapeout worked example is [tt-sky130-counter, PR #1](https://github.com/mdkamrulislam-web/tt-sky130-counter/pull/1), ready for review. RTL, docs, GDS, precheck, gate-level test and viewer all passed at commit `61ef06b`; [GDS run](https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748), [live viewer](https://mdkamrulislam-web.github.io/tt-sky130-counter/). The SKY130 counter uses 4.96% of a tile and 47 synthesis cells. It has not been submitted to a shuttle.
+- The earlier counter layout below comes from this repository's separate 150 × 150 µm LibreLane flow. It is background evidence, not a Tiny Tapeout tile result.
 
 - `main` holds the working flow. [PR #1](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/1) (the flow) and [PR #2](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/2) (this file) were merged on 1 Oct 2026, and CI is green on `main` for both PDKs. `README.md`, `docs/setup.md` and `docs/flow.md` are the user-facing documentation.
 - Kamrul is new to physical design. `docs/learning-path.md` is his hands-on route through the flow (install, read the reports, break it on purpose, a small design of his own), and is also the start of the student guide.
@@ -162,24 +166,26 @@ Study path doc (owner-only link): <https://claude.ai/code/artifact/919efaa6-7ecf
 - **Four flows**, all ending in a GitHub repo whose Actions build the GDS, submitted at app.tinytapeout.com: **Wokwi** (gates in a browser; beginners), **Verilog/HDL** (`src/`, cocotb tests in `test/`, `info.yaml`; Actions `test`, `gds` via LibreLane, `docs`, `fpga`; this is the one we use), **local hardening** (`tt/tt_tool.py` with LibreLane 3.0.3 via pip), and **analogue** (out of scope).
 - **IHP template:** <https://github.com/TinyTapeout/ttihp-verilog-template>. As of 30 Sep 2026 it has `src/config.json` (LibreLane settings, 50 MHz default), four workflows (`test`; `gds` with precheck, gate-level test and viewer; `docs`; `fpga`, manual), actions pinned to tag `ttihp26b`, and `cocotb==2.0.1`. Notes from the videos, what has changed since they were made, and the counter-to-template checklist are in `docs/tiny-tapeout.md`.
 - **Tile limits:** about 167 × 108 µm on IHP (160 × 100 µm in older material), roughly 1,000 gates, 8 inputs, 8 outputs, 8 bidirectional pins, `clk` and `rst_n`, at least 50 MHz. The top module must be named `tt_um_<user>_<name>` with the fixed port list `ui_in, uo_out, uio_in, uio_out, uio_oe, ena, clk, rst_n`. The demonstrator must fit this or use extra tiles.
-- **Version gap:** Tiny Tapeout pins LibreLane 3.0.3; our image ships 3.1. Check that a design clean in one is clean in the other.
+- **Version gap:** checked 7 Oct, the SKY130 `ttsky26d` action defaults to LibreLane 3.0.14 and IHP `ttihp26b` to 3.0.5; this repo's image ships 3.1.0.dev3. See the dated source links in `docs/tiny-tapeout.md`. Record each actual run's versions; support-tool branches may move even when the action tag is unchanged.
 - **IHP terms:** chips stay IHP's property, lent for 2 years, no resale, shipping only within the EU and Switzerland (Ireland is fine).
 - **Class bundles** (likely route for next year's students): 5 projects + 1 board EUR 565; 25 + 3 EUR 2,195; 75 + 5 EUR 5,325 (<https://tinytapeout.com/teaching/>).
 - **"Both open flows"** (25 Sep): after the 2 Oct meeting, most likely Tiny Tapeout (small designs; teaching) and the larger RISC-V template (research). Not yet confirmed in those words.
 
 **Videos, in watching order:** [From idea to chip design in minutes](https://www.youtube.com/watch?v=qVWq_XZko-M); [Making ASICs](https://www.youtube.com/watch?v=dckPKyO2nSo); [Manufacturing ASICs](https://www.youtube.com/watch?v=aBDJQ9NYTEU); [Getting started with Wokwi](https://www.youtube.com/watch?v=F1SwXF2ny4g); [Working with an HDL](https://www.youtube.com/watch?v=KbWb6xd9jFE); [Get your submission ready](https://www.youtube.com/watch?v=fCGPKdmM3Dc); optional [Build Your First Chip with Tiny Tapeout](https://www.youtube.com/watch?v=UVZK-kmN7wc). Reading: [Making ASICs](https://tinytapeout.com/making_asics/), [FAQ](https://tinytapeout.com/faq/), [SiliWiz](https://tinytapeout.com/siliwiz/), [Digital design lessons 1–3](https://tinytapeout.com/digital_design/), [HDL rules](https://tinytapeout.com/hdl/important/), [Testing](https://tinytapeout.com/hdl/testing/), [Local hardening](https://tinytapeout.com/guides/local-hardening/), [Specs](https://tinytapeout.com/specs/), [basic](https://tinytapeout.com/guides/workshop/) and [advanced](https://tinytapeout.com/guides/advanced-workshop/) workshops.
 
-**Planned exercise (week 3):** put the counter through the IHP template without submitting. Use the template, copy the RTL into `src/`, rename the top to `tt_um_mdkamrulislam_counter` with the fixed ports, fill in `info.yaml` and `docs/info.md`, adapt `test/test.py` (cocotb; `cd test && pip install -r requirements.txt && make -B`), push and get `test`, `gds`, `docs` green. Then harden locally:
+**Worked example (moved into week 2):** the counter is prepared in the official SKY130 template at [tt-sky130-counter](https://github.com/mdkamrulislam-web/tt-sky130-counter), without submitting. The wrapper is `tt_um_mdkamrulislam_counter`, with enable on `ui_in[0]`, count on `uo_out`, and wrap on `uio_out[0]`. Its cocotb test uses only top-level ports. Get `test`, `gds` (including precheck and gate-level test), and `docs` green before calling it complete. The minimal counter assumes synchronous enable; physical buttons need synchronisation and debouncing.
+
+Optional local IHP hardening reference, separate from the week 2 SKY130 example; the commands have not been run in this session:
 
 ```bash
-export PDK_ROOT=~/ttsetup/pdk PDK=ihp-sg13g2 LIBRELANE_TAG=3.0.3
+export PDK_ROOT=~/ttsetup/pdk PDK=ihp-sg13g2 LIBRELANE_TAG=3.0.5
 pip install librelane==$LIBRELANE_TAG
 ./tt/tt_tool.py --create-user-config --ihp
 ./tt/tt_tool.py --harden --ihp
 ./tt/tt_tool.py --print-warnings --ihp
 ```
 
-Compare area, cell count, slack and run time with `make harden PDK=ihp-sg13g2` here. That is the first entry of the tool survey.
+A comparison with this repository's local flow is optional background work; confirm whether the tool survey is still a report deliverable.
 
 ---
 
@@ -278,15 +284,17 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 
 ---
 
-## 10. Next steps (as of 2 Oct 2026)
+## 10. Next steps (as of 8 Oct 2026)
 
 - [x] Send the week 1 log and scope questions; 2 Oct meeting held; notes in `logbook/week-01-meeting-prep.md`.
 - [x] Follow-up email on the research template sent (2 Oct).
-- [ ] **Week 2 main task:** PowerPoint slides on the Tiny Tapeout Verilog flow for undergraduates, step by step up to the submission step, with screenshots from Kamrul's own fork of the template.
-- [ ] Watch *Making ASICs* and *Manufacturing ASICs* (for the slides' introduction).
-- [ ] Draft the one-page risk assessment (desk and computer work: display-screen use, laptop batteries and chargers, fire exits).
+- [x] **Week 2 main draft:** redesigned PowerPoint slides on the Tiny Tapeout Verilog flow, with the counter as a beginner example, actual template evidence and sourced lecturer notes. Kamrul/supervisor review and four remaining captures are listed in `docs/slides/README.md`.
+- [ ] Watch *Making ASICs* and *Manufacturing ASICs*. Website-based notes are added; the videos remain pending.
+- [x] Draft the one-page risk assessment in `docs/risk-assessment.md`; supervisor/local-controls review remains.
+- [x] Draft the research-template comparison in `docs/research/riscv-template-first-look.md`; template choice remains open.
+- [x] Complete the genuine Tiny Tapeout counter run and collect its cell count/utilisation and layout evidence. Some browser captures remain for the teaching slides.
 - [ ] When he names the template: read its documentation, run its example, and re-plan section 7 from week 4.
-- [ ] Write `logbook/week-02.md` before the 9 Oct meeting.
+- [x] Draft `logbook/week-02.md` and `logbook/week-02-meeting-prep.md`; revise with final evidence and Kamrul's review before sending.
 
 ## 11. Risks
 

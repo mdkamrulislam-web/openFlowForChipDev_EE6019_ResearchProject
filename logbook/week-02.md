@@ -1,0 +1,39 @@
+# Week 2 (5 to 9 Oct 2026)
+
+*Review draft, updated 8 October. Check the wording and add any work not recorded in the repositories before emailing.*
+
+## Tasks Done
+
+- Recorded the previous meeting and revised the project scope: use Tiny Tapeout's existing flow for the teaching slides, and investigate a RISC-V template for neural-network accelerator research. [PR #7](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/7) was merged this week; [the resulting CI run](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/actions/runs/37684836890) passed on SKY130 and IHP.
+- Prepared [slides v1](../docs/slides/tiny-tapeout-flow-v1.pptx) and a [PDF copy](../docs/slides/tiny-tapeout-flow-v1.pdf): 22 teaching slides plus a staff appendix, with lecturer notes, sources and a [rebuild script](../docs/slides/build_slides.py). The counter is the running example, covering binary outputs, count/hold/reset, Verilog, cocotb and actual layout results. All 26 slides were rendered in PowerPoint and visually checked.
+- Prepared a [first look at RISC-V and the candidate research templates](../docs/research/riscv-template-first-look.md). Caravel and Croc are the main candidates; HyperCroc needs further availability checks. A small memory-mapped int8 engine is the provisional starting point, subject to confirmation.
+- Prepared a [desk and computer-work risk assessment](../docs/risk-assessment.md) for review. The required departmental form and local controls still need confirmation.
+- Added [website-based notes on making and manufacturing ASICs](../docs/tiny-tapeout.md#website-notes-for-the-two-remaining-videos), and checked current template settings against the older video material.
+- Prepared and verified the [Tiny Tapeout SKY130 counter example](https://github.com/mdkamrulislam-web/tt-sky130-counter/pull/1), with the fixed interface, pin descriptions, datasheet and a cocotb reference-model test. [RTL tests](https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752), [documentation](https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755) and [GDS, precheck, gate-level test and viewer](https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748) all passed at commit `61ef06b`. The counter uses 4.96% of one tile, with 47 synthesis cells; the [layout viewer](https://mdkamrulislam-web.github.io/tt-sky130-counter/) is live. No design was submitted to a shuttle.
+
+## Problems and how I fixed them
+
+- The earlier counter GDS came from the repository's separate LibreLane flow, on a 150 × 150 µm die. It was not a Tiny Tapeout tile result. Checked the repository structure and prepared a genuine template example, keeping the earlier layout labelled as background evidence.
+- The initial template copy had blank project metadata and placeholder documentation, so its first documentation build failed validation. Filled in the title, author, description, pinout and datasheet; the worked-example documentation build passed.
+- Docker and the local EDA tools are not installed. Used the template's GitHub Actions for the example instead of a local hardening run.
+- Some earlier notes used old template versions and board details. Checked the current sources and recorded version-specific limits rather than treating the videos as current specifications.
+- The first slide draft had repeated layouts and some clipped text. Redesigned it around worked examples, then checked every rendered slide and corrected the layout and notes.
+
+## Remaining Tasks
+
+- Review slides v1 and capture the remaining signed-in screenshots/waveform listed in the [evidence checklist](../docs/slides/README.md); revise after supervisor feedback.
+- Confirm the research template and neural-network scope, reproduce its example and revise the project timeline.
+- Watch *Making ASICs* and *Manufacturing ASICs*. Website reading has been done; the videos remain pending.
+- Review the risk assessment and confirm any required departmental form.
+- Review and merge the teaching-example and weekly-work pull requests.
+
+## Questions
+
+1. Will the undergraduates use the flow in Semester 2 from January 2027, or in 2027–28? Which process and shuttle should the class target?
+2. Is the depth and length of slides v1 suitable? Will they support a taught lab or independent use, and should Wokwi stay in?
+3. Is the research template Caravel, Croc or another platform?
+4. Which neural-network type, application or starting paper should I use?
+5. Is a submission-ready verified layout sufficient, or should the accelerator be fabricated? If fabrication is required, which funded route and deadline apply?
+6. Is the open-tool survey still wanted as a report chapter?
+7. What are the interim-report, final-report and presentation deadlines?
+8. Which licence should the repository and student slides use?
