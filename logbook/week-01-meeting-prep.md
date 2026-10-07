@@ -32,6 +32,14 @@ The scope questions and the website link are at the end of [week-01.md](week-01.
 
 ## Notes from the meeting
 
-*(Write his answers and any new tasks here straight after the meeting, then update `AGENTS.md` sections 5, 9 and 10.)*
+From the meeting transcripts (2 Oct 2026) and his answers to the follow-up email.
 
--
+- **Build a flow like Tiny Tapeout's?** No. Use the Tiny Tapeout flow to design. He wants to run that flow with undergraduate students next year, so document it step by step for a Verilog design: write the code, simulate and test it, build the GDS, up to the point of submission.
+- **Task for next week:** document the flow as PowerPoint slides. Any format and length.
+- **Research part:** a larger template with a RISC-V core ("carousel" as heard; possibly Caravel or Croc, asked by email), used to explore neural-network accelerators, taken through the full flow to a layout ready for submission.
+- **Technology:** whichever is available at that point, SkyWater 130 nm or IHP 130 nm.
+- **Tile size:** he asked what fits in one tile (about 1,000 cells, 8 inputs, 8 outputs, 8 bidirectional pins, clock and reset); "not bad, I was thinking it will be much worse".
+- **Next year:** he plans a batch of student chips; students who go through the flow now may become demonstrators.
+- **Website link** from 25 Sep: it was Tiny Tapeout.
+- **Report and presentation dates:** to be given later.
+- **Still open:** which RISC-V template he meant, and whether there is a type of neural network or paper to start from (email sent 2 Oct).
