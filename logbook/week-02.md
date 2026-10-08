@@ -6,6 +6,7 @@
 
 - Recorded the previous meeting and revised the project scope: use Tiny Tapeout's existing flow for the teaching slides, and investigate a RISC-V template for neural-network accelerator research. [PR #7](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/7) was merged this week; [the resulting CI run](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/actions/runs/37684836890) passed on SKY130 and IHP.
 - Prepared [slides v1](../docs/slides/tiny-tapeout-flow-v1.pptx) and a [PDF copy](../docs/slides/tiny-tapeout-flow-v1.pdf): 22 teaching slides plus a staff appendix, with lecturer notes, sources and a [rebuild script](../docs/slides/build_slides.py). The counter is the running example, covering binary outputs, count/hold/reset, Verilog, cocotb and actual layout results. All 26 slides were rendered in PowerPoint and visually checked.
+- Expanded the teaching material into a [complete beginner DOCX](../docs/beginner-guide/tiny-tapeout-beginner-guide.docx) and [PDF](../docs/beginner-guide/tiny-tapeout-beginner-guide.pdf), with approximately 23,000 words across 85 pages. It starts with bits, hardware logic, clocks and reset, then explains each browser step, test, physical-flow stage and result. Includes 30 genuine figure placements, actual FST waveform captures, answered exercises and a seven-file starter ZIP matching the verified counter. The practical route ends at a free checked layout; submission and fabrication are explained as later steps. All pages were rendered and reviewed.
 - Prepared a [first look at RISC-V and the candidate research templates](../docs/research/riscv-template-first-look.md). Caravel and Croc are the main candidates; HyperCroc needs further availability checks. A small memory-mapped int8 engine is the provisional starting point, subject to confirmation.
 - Prepared a [desk and computer-work risk assessment](../docs/risk-assessment.md) for review. The required departmental form and local controls still need confirmation.
 - Added [website-based notes on making and manufacturing ASICs](../docs/tiny-tapeout.md#website-notes-for-the-two-remaining-videos), and checked current template settings against the older video material.
@@ -18,10 +19,11 @@
 - Docker and the local EDA tools are not installed. Used the template's GitHub Actions for the example instead of a local hardening run.
 - Some earlier notes used old template versions and board details. Checked the current sources and recorded version-specific limits rather than treating the videos as current specifications.
 - The first slide draft had repeated layouts and some clipped text. Redesigned it around worked examples, then checked every rendered slide and corrected the layout and notes.
+- The revised slides still gave too little detail for an independent beginner. Built a comprehensive Word manual with why/do/check instructions, full source explanations, troubleshooting and exercises. The review identified small screenshots, code breaks and a missing optional PDK path; enlarged the figures and corrected the layout and setup instructions.
 
 ## Remaining Tasks
 
-- Review slides v1 and capture the remaining signed-in screenshots/waveform listed in the [evidence checklist](../docs/slides/README.md); revise after supervisor feedback.
+- Review the beginner manual with the supervisor and trial it with a new student. The slides remain a lecture companion; their older capture checklist is recorded in [the deck README](../docs/slides/README.md).
 - Confirm the research template and neural-network scope, reproduce its example and revise the project timeline.
 - Watch *Making ASICs* and *Manufacturing ASICs*. Website reading has been done; the videos remain pending.
 - Review the risk assessment and confirm any required departmental form.
@@ -30,7 +32,7 @@
 ## Questions
 
 1. Will the undergraduates use the flow in Semester 2 from January 2027, or in 2027–28? Which process and shuttle should the class target?
-2. Is the depth and length of slides v1 suitable? Will they support a taught lab or independent use, and should Wokwi stay in?
+2. Is the beginner manual's sequence suitable for independent use? Which sections should be taught in a lab, and what should the companion lecture slides cover?
 3. Is the research template Caravel, Croc or another platform?
 4. Which neural-network type, application or starting paper should I use?
 5. Is a submission-ready verified layout sufficient, or should the accelerator be fabricated? If fabrication is required, which funded route and deadline apply?

@@ -2,6 +2,8 @@
 
 [PowerPoint](tiny-tapeout-flow-v1.pptx) · [PDF preview](tiny-tapeout-flow-v1.pdf)
 
+For independent beginner learning, start with the [complete step-by-step DOCX/PDF manual](../beginner-guide/README.md). It explains the concepts and every practical step in depth, includes the complete seven-file example and uses actual waveform/result evidence. This deck remains a shorter lecture companion. Its older pending capture checklist below applies to the PPTX; the new manual has no screenshot placeholders.
+
 The deck has 22 teaching slides and four staff appendix slides. It follows one real 8-bit counter through pins, RTL, tests, GitHub workflows, layout and the submission process. The diagrams and text are editable PowerPoint shapes; screenshots remain genuine captured evidence. Every slide has lecturer notes and precise source URLs. Source facts were checked on 7 October 2026; the redesigned deck was built and reviewed on 8 October 2026.
 
 ## Rebuild
