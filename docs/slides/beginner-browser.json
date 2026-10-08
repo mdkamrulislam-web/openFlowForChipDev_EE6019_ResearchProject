@@ -1,0 +1,1124 @@
+[
+  {
+    "id": "B01",
+    "section": "Browser lab",
+    "title": "Your browser lab: from files to checked layout",
+    "layout": "flow",
+    "body": [
+      "Start with a browser, a free GitHub account and the starter ZIP.",
+      "Copy the SKY template → add seven files → test → build layout.",
+      "Read the waveform, datasheet and reports; archive one revision."
+    ],
+    "notes": "Introduce the practical destination before asking students to click anything. By the end they should have an online design repository, passing simulation results, a generated datasheet and a physical layout with its checks and reports. The circuit is still a design represented by files. It has not been manufactured. The main route runs the simulators and physical-design tools on GitHub's standard hosted runners, so a student does not need to install a chip-design suite to begin. Public-repository standard runner compute is free; artifact storage still follows GitHub's allowances and retention settings. The supplied ZIP adds a complete teaching example to the official template. Students should keep the manual open beside the slides and pause at each checkpoint. Explain that their account, repository name, commit identifier and run numbers will differ from the author's reference example.",
+    "guide_heading": "Part 2 — Build and test your first counter, step by step",
+    "sources": [
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "check": "Success means checked, archived design files; fabrication is a separate decision."
+  },
+  {
+    "id": "B02",
+    "section": "Browser lab",
+    "title": "Step 0: sign in to your own GitHub account",
+    "layout": "screenshot",
+    "body": [
+      "Open github.com and sign in; new users choose Create an account.",
+      "Use a free personal account and complete email verification.",
+      "Check the account menu shows your username."
+    ],
+    "notes": "GitHub is both the online project folder and the service that starts the automated recipes. Signing in is necessary to create a repository, save changes and download workflow artifacts. Someone can read the public teaching example without signing in, but reading it does not give them permission to change its files. If students already have an institutional GitHub account, use that account and follow its repository rules. New users should enter their own details in their own browser, complete the prompted verification and confirm their email. The screenshot is a genuine public sign-in page captured on 8 October 2026, not evidence that a learner account was created for them. No paid GitHub plan or Codespace is needed for this lesson. Ask students to record their username because it becomes part of their repository and Pages addresses.",
+    "guide_heading": "Step 0 — Get your free GitHub account ready",
+    "sources": [
+      "https://github.com/signup",
+      "https://github.com/login"
+    ],
+    "image": "12-signin.png",
+    "caption": "Actual public GitHub sign-in screen, 8 October 2026; enter your own details.",
+    "focus": "Sign in and Create an account controls.",
+    "check": "You can identify your signed-in account before creating a repository."
+  },
+  {
+    "id": "B03",
+    "section": "Browser lab",
+    "title": "Step 1: predict the counter at a clock edge",
+    "layout": "explain",
+    "body": [
+      "rst_n=0: reset on the next rising edge.",
+      "Reset released, ui_in[0]=1: increment on that edge.",
+      "Reset released, ui_in[0]=0: hold on that edge.",
+      "uo_out[7:0] carries the binary count."
+    ],
+    "notes": "Return briefly to the specification before students edit hardware files. This counter stores an eight-bit unsigned count, representing values from zero through 255. Its state changes only at a rising clock edge. Reset is active low at the Tiny Tapeout wrapper and synchronous: setting rst_n low between edges does not immediately clear the stored count. Reset takes priority over enable when the next rising edge arrives. Enable is the least-significant input bit, ui_in[0]. The separate ena input selects the Tiny Tapeout project and is not this counter's increment enable. Ask students to predict three successive observations after a reset edge: enabled gives one, disabled holds one, and reset returns zero. The output bus is binary; no decimal seven-segment decoder exists in this design. The example's enable is a stable, synchronous testbench or controller signal.",
+    "guide_heading": "Step 1 — Understand the circuit before editing files",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "After reset: enabled edge → 1; disabled edge → 1; reset edge → 0.",
+    "check": "Say when the value changes, rather than only naming its next value."
+  },
+  {
+    "id": "B04",
+    "section": "Browser lab",
+    "title": "Step 1: watch the flag before overflow",
+    "layout": "compare",
+    "body": [
+      "Enabled count 254 → 255 → 0 on successive rising edges.",
+      "wrap = 1 while count is 255 and enable is 1.",
+      "Disable at 255: count holds at 255; wrap becomes 0."
+    ],
+    "notes": "Students often assume that a signal called wrap must be a registered pulse after the arithmetic overflows. Read the actual assignment instead: wrap is enable AND all count bits. With enable high, all eight bits become one when count reaches 255, so the flag becomes high before the next enabled edge takes count to zero. Once count is zero, the flag is low again. Disabling enable at terminal count leaves the register unchanged but makes the combinational flag low. Reset does not directly gate the wrap expression. If reset is asserted while count is 255 and enable remains high, wrap can remain high until a rising edge applies reset and clears the count. Use this distinction when reading the real waveform later. This is a prediction exercise grounded in the actual reference source, not a screenshot of a deliberately broken test.",
+    "guide_heading": "Step 1 — Understand the circuit before editing files",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "example": "count=255, enable=0 → uo_out=11111111, wrap=0.",
+    "check": "Predict both count and wrap; they follow different update rules."
+  },
+  {
+    "id": "B05",
+    "section": "Browser lab",
+    "title": "Step 2: open the official SKY template",
+    "layout": "screenshot",
+    "body": [
+      "Open tinytapeout.com/hdl/templates/.",
+      "Choose the SKY Verilog template.",
+      "Confirm TinyTapeout / ttsky-verilog-template in the header."
+    ],
+    "notes": "A template is an existing repository arranged so that learners can start with the required folders, interface and automated recipes. Open the official Tiny Tapeout template selector and choose the Verilog template for SKY. The current repository is TinyTapeout/ttsky-verilog-template. Verify its owner and name rather than choosing an unrelated counter repository from search results. The page should contain src, test, docs and info.yaml. The template's physical build uses the sky130A process through its published Tiny Tapeout action. IHP and GF have separate templates; they are not interchangeable process selections inside this exercise. The genuine screenshot shows the official SKY template on 8 October 2026. For the first reproduction, keep the supplied workflows and process configuration. The lesson changes the seven teaching-example files, not the integration infrastructure that the template already provides.",
+    "guide_heading": "Step 2 — Open the official SKY template",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"
+    ],
+    "image": "01-template.png",
+    "caption": "Actual official SKY template page, captured 8 October 2026.",
+    "focus": "Repository owner/name and src, test, docs, info.yaml.",
+    "check": "You have opened the SKY Verilog template, before making your own copy."
+  },
+  {
+    "id": "B06",
+    "section": "Browser lab",
+    "title": "Step 3: create a repository from the template",
+    "layout": "screenshot",
+    "body": [
+      "While signed in, select Use this template.",
+      "Choose Create a new repository.",
+      "Continue to the owner, name and visibility form."
+    ],
+    "notes": "The template remains the official shared starting point. Students create their own repository from it so they can save a design and run workflows without changing the upstream project. The signed-in page exposes Use this template, then Create a new repository. A template copy is the intended route here; downloading an isolated Verilog file would omit the workflows, testing environment, documentation rules and fixed interface. The screenshot comes from GitHub's official documentation and demonstrates the account-only control. It is not a capture of the author operating that account screen. Explain the difference between reading the template, copying it and editing the resulting personal repository. If a student cannot see the control, first confirm they are signed in and viewing the official template page. The next slide covers the choices in the creation form and the ownership checkpoint.",
+    "guide_heading": "Step 3 — Make your own repository",
+    "sources": [
+      "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+      "https://github.com/TinyTapeout/ttsky-verilog-template"
+    ],
+    "image": "official-template-menu.png",
+    "caption": "Official GitHub Docs image: template-copy menu; instructional account-only example.",
+    "focus": "Use this template → Create a new repository.",
+    "check": "The creation form will make a copy under your account."
+  },
+  {
+    "id": "B07",
+    "section": "Browser lab",
+    "title": "Step 3: choose your owner, name and Public",
+    "layout": "screenshot",
+    "body": [
+      "Owner: your account. Name: for example tt-counter-lesson.",
+      "Select Public; the default branch alone is sufficient.",
+      "Create the repository; confirm your username in its header."
+    ],
+    "notes": "In the creation form, choose the student's own account as Owner, then enter an available repository name such as tt-counter-lesson. Select Public for this route: the lesson uses standard hosted Actions compute available freely for public repositories. The default branch is sufficient, so copying every upstream branch is unnecessary. Complete the form and inspect the resulting header and address. It should begin with the student's username, not TinyTapeout. Subsequent edits belong in this new copy. The official screenshot illustrates the repository-name field only; the visible instructions also cover owner and visibility, which may appear elsewhere in the actual form. If the name is unavailable, choose another meaningful name and use it consistently in later links. A managed institutional repository may apply its own creation or branch rules. Creating this GitHub repository is separate from creating a fabrication order.",
+    "guide_heading": "Step 3 — Make your own repository",
+    "sources": [
+      "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions"
+    ],
+    "image": "official-repository-name.png",
+    "caption": "Official GitHub Docs image: repository-name field; use your own account and name.",
+    "focus": "Name field; set owner and Public in the same form.",
+    "check": "The URL is github.com/YOUR-USERNAME/YOUR-REPOSITORY."
+  },
+  {
+    "id": "B08",
+    "section": "Browser lab",
+    "title": "Step 4: make sure Actions is enabled",
+    "layout": "screenshot",
+    "body": [
+      "Open the Actions tab in your new repository.",
+      "If an enablement banner appears, enable the workflows.",
+      "If workflows are already available, continue to Pages."
+    ],
+    "notes": "Actions runs the automated recipes stored in the template. A copied repository may already have them enabled, so learners should inspect the page rather than look for a banner that must always be present. If GitHub displays an enablement prompt, accept it within the student's own repository. Do not change workflow files just because the first blank-template run has failed. That run can start before the teaching files and metadata have been supplied. The Tiny Tapeout FAQ screenshot is a genuine official instructional image showing the enablement control in an older example repository. It does not show the current student account or prove that the counter has passed. Explain that a workflow is the full recipe, while a job is one part of it. Next configure the Pages publishing source, which allows the eventual layout viewer to be deployed.",
+    "guide_heading": "Step 4 — Enable Actions and the layout results page",
+    "sources": [
+      "https://tinytapeout.com/faq/#when-i-commit-my-change-the-gds-action-isnt-running"
+    ],
+    "image": "official-enable-actions.png",
+    "caption": "Official Tiny Tapeout FAQ image: Actions enablement in an older example repository.",
+    "focus": "Enable-workflows control, when GitHub displays it.",
+    "check": "The repository can run its template workflows."
+  },
+  {
+    "id": "B09",
+    "section": "Browser lab",
+    "title": "Step 4: set Pages Source to GitHub Actions",
+    "layout": "screenshot",
+    "body": [
+      "Open Settings → Pages.",
+      "Under Build and deployment, set Source to GitHub Actions.",
+      "Use the template publishing workflow already provided."
+    ],
+    "notes": "Pages hosts the generated browser layout viewer. Open the repository Settings tab, find Pages in the sidebar, and set the Source control under Build and deployment to GitHub Actions. The template already supplies the recipe that publishes the viewer; learners do not need to add a second generic Pages workflow. Setting this before the physical build prevents an avoidable downstream deployment error. The official Tiny Tapeout image shows the older tt02-submission-template, so its repository name is historical while the Settings, Pages and Source controls illustrate the current route. A learner needs permission to change settings in their own copy; anonymous public readers cannot see the account-only settings screen. The success check at this stage is simply that Source reads GitHub Actions. A site may not yet exist because no complete layout build has published it. Publishing the viewer is separate from sending a chip design for manufacture.",
+    "guide_heading": "Step 4 — Enable Actions and the layout results page",
+    "sources": [
+      "https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part",
+      "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+    ],
+    "image": "official-pages-actions.png",
+    "caption": "Official Tiny Tapeout FAQ image: Pages Source = GitHub Actions; older repository shown.",
+    "focus": "Settings → Pages → Build and deployment → Source.",
+    "check": "Source displays GitHub Actions before the complete GDS build."
+  },
+  {
+    "id": "B10",
+    "section": "Browser lab",
+    "title": "Step 5: extract the starter, then open its contents",
+    "layout": "explain",
+    "body": [
+      "Download counter-starter.zip from the lesson files.",
+      "Extract it on your computer; open the extracted folder.",
+      "Find info.yaml beside src, test and docs.",
+      "Show filename extensions: counter.v must not be counter.v.txt."
+    ],
+    "notes": "The ZIP is a complete seven-file teaching example, not a replacement for the whole template repository. Extract it before attempting browser upload; uploading the ZIP itself would save an archive rather than put the circuit files where the tools expect them. Open the extracted directory until info.yaml is beside the three folders src, test and docs. Some extraction tools add an outer directory named after the archive. That wrapper directory is not part of the repository path and should not be dragged into the upload page. On Windows, File Explorer's View, Show, File name extensions helps reveal accidental text-file suffixes. A file named counter.v.txt is different from counter.v to the compiler. The supplied file hashes match the reference counter commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Retain the source files and checksum manifest so the example can be reproduced later.",
+    "guide_heading": "Step 5 — Extract the seven-file starter pack",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "check": "You see the root YAML file and three folders, rather than a nested starter directory."
+  },
+  {
+    "id": "B11",
+    "section": "Browser lab",
+    "title": "Step 5: count the seven files",
+    "layout": "code",
+    "body": [
+      "src: counter logic and the Tiny Tapeout wrapper.",
+      "test: source list, Verilog testbench and Python assertions.",
+      "docs: datasheet text; info.yaml: metadata and pin labels."
+    ],
+    "notes": "Walk through the exact file list so students can distinguish hardware, verification and documentation. The reusable counter logic is in src/counter.v. The wrapper in src/project.v connects it to Tiny Tapeout's required top-level interface. The Makefile tells the simulator which Verilog files to compile. The Verilog testbench instantiates the wrapper and exposes its ports to the Python test, which drives inputs and checks outputs. docs/info.md supplies explanatory datasheet text, and the root info.yaml supplies project metadata, source filenames and pin descriptions. There are two source files, three test files, one documentation file and one root metadata file: seven in total. The archive excludes the template's workflows, development environment, test requirements, licence and process configuration. Those remain in the repository created from the official template. Ask a learner to locate each file before uploading, rather than assume a successful extraction implies correct paths.",
+    "guide_heading": "Step 5 — Extract the seven-file starter pack",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "code": "info.yaml\nsrc/counter.v\nsrc/project.v\ntest/Makefile\ntest/tb.v\ntest/test.py\ndocs/info.md",
+    "check": "Two + three + one + one = exactly seven files."
+  },
+  {
+    "id": "B12",
+    "section": "Browser lab",
+    "title": "Step 6: open the browser upload page",
+    "layout": "screenshot",
+    "body": [
+      "In your own repository, open Code and the root file list.",
+      "Choose Add file → Upload files.",
+      "Prepare to upload the extracted contents with their folders."
+    ],
+    "notes": "Return to the personal copy's Code tab before making the upload. The root is the directory containing info.yaml, src, test and docs. Opening Upload files from inside src would put the wrong items in the wrong directory, so verify the current location first. Select Add file, then Upload files. The screenshot is GitHub's official documentation image for the add-file control. It demonstrates the account-only action rather than claiming the author's public screenshot exposed write controls. The folder-preserving upload route is convenient because the seven related files can be saved together as one coherent commit. The template already has six of these paths; the upload replaces their example content and adds src/counter.v. The next slide covers exactly what to drag and how to inspect the listed paths before saving. Nothing has changed remotely until the upload is committed.",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository"
+    ],
+    "image": "official-upload-files.png",
+    "caption": "Official GitHub Docs image: Add file control used to open Upload files.",
+    "focus": "Add file → Upload files, from the repository root.",
+    "check": "The upload page belongs to your copy and its root directory."
+  },
+  {
+    "id": "B13",
+    "section": "Browser lab",
+    "title": "Step 6: drag the contents, preserving folders",
+    "layout": "code",
+    "body": [
+      "Drag info.yaml plus the src, test and docs folders.",
+      "Inspect every displayed upload path before saving.",
+      "Remove an unwanted outer starter-folder prefix."
+    ],
+    "notes": "Drag the root info.yaml and the three folders from inside the extracted starter directory onto GitHub's upload page. Dragging folders preserves relative paths, unlike flattening every contained file into the root. Check that the displayed upload list matches the seven paths shown on this slide. It must say src/counter.v, not just counter.v, and info.yaml must remain at the root. If every path begins with an archive-wrapper directory, remove that upload selection and drag the contents from one level deeper. If a browser or file manager does not preserve folder upload correctly, use the alternative per-file editor route covered shortly. Do not create a second src directory inside src or a second metadata file inside a folder. Uploading the complete set together gives the first meaningful counter build a consistent source, test and documentation version. The original template infrastructure should still be present after this replacement.",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "code": "info.yaml\nsrc/counter.v\nsrc/project.v\ntest/Makefile\ntest/tb.v\ntest/test.py\ndocs/info.md",
+    "check": "All seven listed paths match before you commit."
+  },
+  {
+    "id": "B14",
+    "section": "Browser lab",
+    "title": "Step 6: save one complete counter commit",
+    "layout": "screenshot",
+    "body": [
+      "Message: Add eight-bit counter lesson.",
+      "For your personal lab, choose Commit directly to main.",
+      "Save the changes; follow a required PR route if branch rules apply."
+    ],
+    "notes": "A commit is a saved version of the repository, with an identifier that later connects the source files to their test and layout results. Enter a useful message describing the complete example, then choose the intended branch and save. In a simple personal teaching repository, committing directly to main is the guide's route. If repository rules require a new branch and pull request, follow those rules to place the complete change on the intended branch. The official GitHub image shows a branch-choice control with the new-branch option selected; students should read the visible instruction rather than copy that selected state automatically. After saving, the Code file list should show a new commit and the Actions recipes begin for that version. A browser editor buffer or pending upload is not a saved remote version. Record the commit identifier so later checkpoints can distinguish this complete counter from an earlier blank template run.",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files",
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository"
+    ],
+    "image": "official-commit-branch.png",
+    "caption": "Official GitHub Docs branch-choice example; new branch shown selected. Use your lab's required branch route.",
+    "focus": "Commit branch choice, then the save/commit action.",
+    "check": "The Code file list shows the new commit containing all seven files."
+  },
+  {
+    "id": "B15",
+    "section": "Browser lab",
+    "title": "Alternative: replace an existing file in the editor",
+    "layout": "screenshot",
+    "body": [
+      "Open a file and select its pencil / Edit file control.",
+      "Paste that file's complete Appendix A source.",
+      "Commit changes… with a message to the intended branch."
+    ],
+    "notes": "This route is useful when a browser cannot preserve folder upload or when a student wants to study one file at a time. Six of the seven starter paths already exist in the template. Open each existing path in the personal repository, use its pencil or Edit file control, replace the complete contents with the corresponding Appendix A source, then save through Commit changes. Avoid copying a short teaching excerpt in place of the complete file. A module declaration without its ports or an incomplete test is not a runnable reproduction. The screenshot is an official GitHub Docs image demonstrating the edit control. Editing several files creates several commits and may start temporary failing builds while the set is incomplete. Keep moving through the supplied seven-file list, then evaluate the runs belonging to the final complete commit. The new counter module needs a new-file action, covered next.",
+    "guide_heading": "Alternative: enter or replace each file in the browser editor",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files"
+    ],
+    "image": "official-edit-pencil.png",
+    "caption": "Official GitHub Docs image: edit-file pencil; instructional account-only example.",
+    "focus": "Pencil / Edit file control on an existing repository file.",
+    "check": "Saved contents match the complete appendix file, not a slide excerpt."
+  },
+  {
+    "id": "B16",
+    "section": "Browser lab",
+    "title": "Alternative: add the new counter module",
+    "layout": "screenshot",
+    "body": [
+      "Open src → Add file → Create new file.",
+      "Name it counter.v; paste the complete Appendix A.2 source.",
+      "Select Commit changes… and save; complete the other six files too."
+    ],
+    "notes": "The reusable counter module is the one new source path added by this worked example. When creating it inside src, enter counter.v as the filename. If creating it from the repository root instead, enter src/counter.v so it lands in the correct folder. Paste the complete source from Appendix A.2, including the module declaration, ports, update rule, wrap assignment and endmodule. Click Commit changes to open the commit form, give the change a meaningful message and save it to the intended branch. The official GitHub image shows the button that opens that form, rather than a completed counter commit or the whole dialog. Afterwards verify src/counter.v appears beside src/project.v. A file saved elsewhere will not be found by the supplied source lists. Continue until all seven files are complete, then inspect the final commit's workflows rather than an intermediate save.",
+    "guide_heading": "Alternative: enter or replace each file in the browser editor",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/creating-new-files",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": "official-commit-dialog.png",
+    "caption": "Official GitHub Docs image: Commit changes button opens the form; example is not our counter account.",
+    "focus": "Filename/path and the Commit changes action.",
+    "check": "src contains both counter.v and project.v."
+  },
+  {
+    "id": "B17",
+    "section": "Browser lab",
+    "title": "Step 6 checkpoint: inspect your final tree and version",
+    "layout": "screenshot",
+    "body": [
+      "Open Code: verify src, test, docs and root info.yaml.",
+      "Confirm counter.v and project.v are both inside src.",
+      "Record the final branch and commit identifier."
+    ],
+    "notes": "A successful upload or save is not enough; inspect the resulting repository tree before relying on its builds. The relevant structure should match the reference example, while the owner and repository name belong to the student. The original template infrastructure, including .github/workflows, test/requirements.txt and process configuration, should remain. The actual screenshot shows the public counter's worked-example branch at reference commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Students may use main or another intended branch, so do not copy the reference branch name blindly. A commit identifies the exact saved set of files. Record the final complete version after all browser edits, then use that identifier when opening the test, docs and gds runs. An earlier green template test or a later unrelated run cannot establish what this version did. This checkpoint is also the quickest place to spot an unwanted outer upload folder.",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": "02-example-tree.png",
+    "caption": "Actual reference tree on worked-example at 61ef06b; your copy has its own owner, branch and commit.",
+    "focus": "src/test/docs paths, root info.yaml, branch selector and saved version.",
+    "check": "One final saved version contains all seven example files."
+  },
+  {
+    "id": "B18",
+    "section": "Browser lab",
+    "title": "Step 7: read the metadata before changing it",
+    "layout": "screenshot",
+    "body": [
+      "Open root info.yaml; keep its YAML spacing and nesting.",
+      "Read title, author, description, clock_hz and tiles.",
+      "Reference target: 50,000,000 Hz, 20 ns, one 1×1 tile."
+    ],
+    "notes": "Metadata gives the tools and datasheet important information about the design. It is structured YAML, where indentation groups related values and each key is followed by a colon. Keep spaces and the supplied nesting; tabs or misplaced lists can break validation. The reference has a meaningful title, author and description, language Verilog, clock_hz 50000000 and tiles 1x1. Fifty million cycles per second corresponds to a twenty-nanosecond period. That agrees with the reference's simulation clock and the template's physical clock constraint. These are separate representations, so changing a metadata label alone would not update a future test or timing constraint. For exact reproduction, retain the supplied coherent settings. If personalising an adaptation, credit authors accurately and keep descriptions consistent with the circuit. The actual metadata screenshot belongs to counter commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Next check the filenames and module names that connect metadata to real hardware.",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/config.json"
+    ],
+    "image": "05-metadata.png",
+    "caption": "Actual pinned counter metadata at 61ef06b; values describe this reference build.",
+    "focus": "project fields, clock_hz, tiles, top_module and source_files.",
+    "check": "Metadata is meaningful and agrees with the reference circuit and clock target."
+  },
+  {
+    "id": "B19",
+    "section": "Browser lab",
+    "title": "Step 7: check both source-file lists",
+    "layout": "code",
+    "body": [
+      "In info.yaml, list both Verilog files under project.source_files.",
+      "In test/Makefile, include both in PROJECT_SOURCES.",
+      "These entries are filenames for files already inside src."
+    ],
+    "notes": "Two different tool routes need to know which source files to compile. The physical layout build reads project.source_files in info.yaml. RTL simulation reads PROJECT_SOURCES in test/Makefile. Both must include project.v and counter.v. The wrapper depends on the counter module, so adding the file to the repository without adding it to a compile list can still produce an unknown-module failure. The excerpts shown here belong to two named files; they are lookup examples rather than a combined replacement file. Use the complete appendix contents for reproduction. The source list in metadata uses filenames relative to src, not src-prefixed paths in this reference template. Compare both lists against the actual repository tree. If a future extension adds another hardware source, deliberately update both lists and test the new saved version. Keep the current template's variable name PROJECT_SOURCES rather than copying obsolete instructions using another source-list variable.",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ],
+    "code": "# info.yaml excerpt\nproject:\n  source_files:\n    - \"project.v\"\n    - \"counter.v\"\n\n# test/Makefile excerpt\nPROJECT_SOURCES = project.v counter.v",
+    "check": "Both lists name project.v and counter.v, and both files exist."
+  },
+  {
+    "id": "B20",
+    "section": "Browser lab",
+    "title": "Step 7: match the top name in three places",
+    "layout": "compare",
+    "body": [
+      "info.yaml: project.top_module.",
+      "src/project.v: the wrapper's module declaration.",
+      "test/tb.v: the module instantiated as user_project."
+    ],
+    "notes": "The top module is the outside boundary of this project. Tools and tests must agree on its name, even though the reusable inner module has a different name. The supplied reference uses tt_um_mdkamrulislam_counter in project.top_module, in the declaration inside src/project.v, and in the testbench instance named user_project. Inspect all three places rather than rename one casually. The file project.v can contain a module whose name is much longer than the filename; filenames, module types and instance names are different concepts. The inner module in counter.v remains counter. For exact reproduction, keep the matching supplied names. For an original extension, choose a unique Verilog-safe name beginning tt_um_ and update all three locations together. Letters, digits and underscores are appropriate. The fixed top-level port names, widths and directions still need to remain compatible with the Tiny Tapeout interface. A mismatched name is a compilation problem, not evidence of an arithmetic error.",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v"
+    ],
+    "example": "All three use tt_um_mdkamrulislam_counter; the inner module is counter.",
+    "check": "Compare the exact spelling in all three locations."
+  },
+  {
+    "id": "B21",
+    "section": "Browser lab",
+    "title": "Step 7: confirm the wrapper's pin mapping",
+    "layout": "screenshot",
+    "body": [
+      "Keep ui_in, uo_out, uio_in, uio_out, uio_oe, ena, clk, rst_n.",
+      "ui_in[0] enables counting; ena selects the project.",
+      "uo_out carries count; uio_out[0] carries wrap; uio_oe = 01."
+    ],
+    "notes": "The wrapper connects the reusable counter to Tiny Tapeout's fixed eight-port interface. Inspect src/project.v after checking its name. The counter receives clk, inverted rst_n and ui_in[0], then drives uo_out and uio_out[0]. The inversion turns the external active-low reset into the counter module's active-high reset input; its effect remains synchronous because the register update is clocked. The wrapper sets uio_oe to binary 00000001, so only bidirectional pin zero is an output, and drives the unused output bits to zero. The actual screenshot belongs to reference commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Pin labels in YAML merely describe these connections; they do not create them. Keep the required ports and widths for integration. A physical button connected as enable would require synchronisation and debouncing, while the supplied simulation assumes a controlled stable input. The binary output would need separate decoding for a decimal display.",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": "04-wrapper-code.png",
+    "caption": "Actual counter wrapper at 61ef06b; inspect connections and the output-enable mask.",
+    "focus": "Counter instance, reset inversion, count/wrap wiring and uio_oe.",
+    "check": "Enable, count, wrap and pin directions agree with the specification."
+  },
+  {
+    "id": "B22",
+    "section": "Browser lab",
+    "title": "Step 7: write a datasheet someone can use",
+    "layout": "explain",
+    "body": [
+      "Open docs/info.md.",
+      "How it works: synchronous active-low reset, count, hold and wrap.",
+      "How to test: drive pins and predict outputs.",
+      "External hardware: simulation needs none; later switches need care."
+    ],
+    "notes": "The datasheet is a set of usable instructions, not a title pasted above the circuit. Open docs/info.md and retain the required How it works, How to test and External hardware headings. Describe reset timing explicitly: rst_n low resets the counter at the next rising edge. Explain ui_in[0] as enable and identify uo_out as the binary count and uio_out[0] as the terminal-count flag. A useful test procedure predicts observations after a reset edge, enabled edge and disabled edge. State that no external hardware is needed for simulation. A later board experiment needs a controlled clock and suitable input handling; a raw bouncing switch is not an appropriate clock source. Compare the pin labels in info.yaml to the assignments in project.v. Updating a label does not change a port's direction or add hardware. This documentation is later combined with metadata into the generated PDF, which should agree with the implemented circuit.",
+    "guide_heading": "Give the datasheet enough information to use the circuit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml"
+    ],
+    "example": "“After a reset edge, ui_in[0]=1 increments; ui_in[0]=0 holds.”",
+    "check": "A reader can drive the named pins and predict an observable value."
+  },
+  {
+    "id": "B23",
+    "section": "Browser lab",
+    "title": "Step 8: read how the test drives and samples",
+    "layout": "screenshot",
+    "body": [
+      "Open test/test.py; find the step() helper.",
+      "Inputs change at a falling edge; state updates at the rising edge.",
+      "The checker waits 8 ns, then compares outputs with its model."
+    ],
+    "notes": "A green icon becomes more meaningful when students know what the test actually does. Open test/test.py and find the helper that performs one controlled clock step. The test starts a twenty-nanosecond clock, matching fifty megahertz. It waits for a falling edge, sets enable and reset, waits for the following rising edge, then allows eight nanoseconds for outputs to settle before comparison. This separates input changes from the active state-update edge and supports reuse of the top-level checks with the mapped cell netlist. The Python model calculates expected behaviour independently, rather than simply reading the internal count register and declaring it correct. The screenshot is actual reference test code at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Ask students to connect the helper to their earlier edge predictions. Sample timing matters when investigating a failure; removing an assertion or comparing before outputs settle would weaken the evidence rather than fix the circuit.",
+    "guide_heading": "Step 8 — Read the test before relying on a green icon",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": "23-real-test-code.png",
+    "caption": "Actual reference Python test at 61ef06b; read drive/edge/settle/check order.",
+    "focus": "step() input drive, rising-edge wait and model assertions.",
+    "check": "You can explain why driving and sampling occur at different times."
+  },
+  {
+    "id": "B24",
+    "section": "Browser lab",
+    "title": "Step 8: know what the assertions cover",
+    "layout": "explain",
+    "body": [
+      "Check reset, enabled counting, hold and reset priority.",
+      "After 266 enabled edges from 0, count is 10.",
+      "At 255, disable → hold/flag 0; enable → overflow to 0.",
+      "Also check unused output bits and uio_oe."
+    ],
+    "notes": "The single test case contains several phases and many assertions. It begins with reset and hold, counts through 266 enabled edges to reach ten after one complete 256-value wrap, holds ten, then counts seven more edges to seventeen. A later reset returns zero, and another enabled section reaches five. The final boundary sequence resets again, reaches 255, holds that value for disabled edges with wrap low, then enables one edge to reach zero. Reset is also tested while enable is high to establish priority. The checker compares count, wrap, the other bidirectional output bits and the output-enable mask, not just the arithmetic output. These are the actual reference phases at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. They establish the observed specified behaviours for these cases. They do not prove every possible input sequence, physical switch behaviour or manufactured-chip operation. Ask students to predict one phase before opening the recorded waveform.",
+    "guide_heading": "Step 8 — Read the test before relying on a green icon",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "example": "20 disabled edges at count 10 must leave count at 10.",
+    "check": "Explain a checked boundary case, not merely “the test passed”."
+  },
+  {
+    "id": "B25",
+    "section": "Browser lab",
+    "title": "Step 9: open the test run for your final commit",
+    "layout": "screenshot",
+    "body": [
+      "Actions → test → run for the complete seven-file commit.",
+      "Check the branch and commit identifier.",
+      "Open the test job; expand Run tests."
+    ],
+    "notes": "Actions may show several runs because repository creation and each browser save can start another recipe. Choose the test workflow and open the run corresponding to the complete counter commit. Match both branch and commit identifier to the Code page. A green result from an earlier adder template or another branch is not evidence for the current counter. Open its test job and expand Run tests to inspect the simulator output. The genuine reference screenshot shows successful RTL run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. The unchanged example reported one test, zero failures and zero errors, with 11,368 nanoseconds of simulated time. That simulated duration is different from how long GitHub's job took in wall-clock time. Students' own runs have different IDs. Keep the matching run URL with the commit so source, assertions and artifact can be traced to one saved version.",
+    "guide_heading": "Step 9 — Check the `test` workflow for your final commit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml"
+    ],
+    "image": "07-rtl-run.png",
+    "caption": "Actual successful RTL run 37693100752 at 61ef06b; open its test job to inspect logs.",
+    "focus": "Run identity, branch/commit and the test job.",
+    "check": "The complete counter commit has a completed successful test run."
+  },
+  {
+    "id": "B26",
+    "section": "Browser lab",
+    "title": "Step 9: read the job log, not only the icon",
+    "layout": "screenshot",
+    "body": [
+      "Select the test job in the run's sidebar.",
+      "Expand Run tests and read the pass/fail summary.",
+      "If red, find the first useful compiler or assertion error."
+    ],
+    "notes": "A workflow summary tells students which job succeeded or failed. The expanded job step reveals why. Select the job in the left sidebar, then expand Run tests and find the simulator summary or earliest useful error. A missing module, a Python import failure and a count assertion mismatch require different fixes. Later cleanup or upload messages can be secondary consequences, so begin with the substantive compilation or test error. The screenshot is GitHub's official generic log-viewing example, not an actual counter failure. It illustrates the expand-step control; the student's test recipe has its own named steps. In the reference counter run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6, the functional test passed. Preserve assertions when troubleshooting. The current template also explicitly checks results.xml after make, because successful make completion by itself can be insufficient to catch a failed cocotb result.",
+    "guide_heading": "Step 9 — Check the `test` workflow for your final commit",
+    "sources": [
+      "https://docs.github.com/en/actions/get-started/quickstart",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml"
+    ],
+    "image": "official-actions-log.png",
+    "caption": "Official GitHub Docs image: expanded job log; generic workflow, not a counter failure.",
+    "focus": "Selected job and expandable step output.",
+    "check": "You can locate the test summary or the first specific failure message."
+  },
+  {
+    "id": "B27",
+    "section": "Browser lab",
+    "title": "Step 9: keep and read results.xml",
+    "layout": "screenshot",
+    "body": [
+      "From Summary → Artifacts, download test-results and extract it.",
+      "Read results.xml: reference = 1 test, 0 failures, 0 errors.",
+      "Keep XML with tb.fst, the commit and run URL."
+    ],
+    "notes": "The XML file is structured evidence produced by the test framework. Download the test-results artifact from the completed RTL run while signed in, extract it, and locate results.xml beside tb.fst. One reported test case can contain many phases and assertions, as this counter's test does. Zero failures and errors supports the observed functional result; it does not turn one case into exhaustive verification. The screenshot presents the unchanged downloaded reference XML in a local browser HTML view. It is not a GitHub-generated results page and is not a fabricated success interface. Its data comes from RTL run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Preserve the original XML as well as any explanatory screenshot. The local command used later, python -m cocotb_tools.check_results results.xml, reads this result file and returns failure when a test failed. Next use the FST to inspect the signal transitions behind the assertions.",
+    "guide_heading": "Step 9 — Check the `test` workflow for your final commit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts"
+    ],
+    "image": "21-real-test-results.png",
+    "caption": "Local HTML view of unchanged results.xml from RTL run 37693100752, 61ef06b; not GitHub UI.",
+    "focus": "Test count, failure/error counts and the recorded case.",
+    "check": "The XML belongs to the same successful RTL run as your saved source."
+  },
+  {
+    "id": "B28",
+    "section": "Browser lab",
+    "title": "Waveform: download and extract test-results",
+    "layout": "screenshot",
+    "body": [
+      "Open the successful test run → Summary → Artifacts.",
+      "Click test-results while signed in; extract the ZIP.",
+      "Find tb.fst and results.xml; keep the originals."
+    ],
+    "notes": "A waveform records signal values over simulated time. It provides the time-based picture behind the pass/fail assertions. Return to the successful RTL test run's Summary and scroll to its Artifacts section. Download test-results while signed in, extract the ZIP and locate tb.fst and results.xml. The FST is the waveform data; the XML is the test result. Uploading the ZIP or XML into a waveform viewer will not open the expected trace. The screenshot is GitHub's official generic artifact-list example, whose item is called artifact. The counter run uses test-results instead. Our genuine RTL waveform comes from run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Students should download the matching artifact from their own final run. Preserve its original files together with the source commit and run link, because a screenshot alone cannot retain all signals and time ranges for later investigation.",
+    "guide_heading": "Practical step: open and read your real waveform",
+    "sources": [
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "image": "official-artifact-list.png",
+    "caption": "Official GitHub Docs artifact-list image; choose test-results in your actual RTL run.",
+    "focus": "Artifact-name download link on a completed run's Summary.",
+    "check": "You have extracted tb.fst, not just downloaded an unopened ZIP."
+  },
+  {
+    "id": "B29",
+    "section": "Browser lab",
+    "title": "Waveform: open Surfer and drop the FST",
+    "layout": "flow",
+    "body": [
+      "Open app.surfer-project.org in your browser.",
+      "Drag the extracted tb.fst onto the viewer canvas.",
+      "Wait for loading; look for tb scope and the loaded filename."
+    ],
+    "notes": "Surfer's web viewer allows learners to inspect the real FST without installing a native waveform application. Open the official app address and drag the extracted tb.fst from the file manager onto the canvas. Wait for loading to finish. The testbench scope named tb and the filename in the status area indicate that the data has loaded. An empty wave area at this point may simply mean no signals have been added; it does not establish that the simulation produced no data. Browser file access uses drag and drop here. The web version's load_file command cannot accept an arbitrary local filesystem path as if it were a native desktop application. This stage uses the actual artifact from reference RTL run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6, or the learner's corresponding file. The next slide adds top-level signals and fits the full time range.",
+    "guide_heading": "Practical step: open and read your real waveform",
+    "sources": [
+      "https://app.surfer-project.org/",
+      "https://surfer-project.org/",
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "check": "The filename is loaded and tb appears; next add signals to the wave area."
+  },
+  {
+    "id": "B30",
+    "section": "Browser lab",
+    "title": "Waveform: add tb signals and fit the whole test",
+    "layout": "screenshot",
+    "body": [
+      "Space → type scope_add tb → Enter.",
+      "Space → type zoom_fit → Enter.",
+      "Find clk, rst_n, ui_in, uo_out, uio_out and uio_oe."
+    ],
+    "notes": "Surfer's command palette opens with Space. Enter scope_add tb to add the top-level testbench signals, then reopen the palette and enter zoom_fit to show the full recorded time span. Students can also expand the tb scope and add individual signals. The key signals are clock, active-low reset, enable input bus, count output bus, wrap output bus and output-enable mask. ena should be high because the testbench selects the project. The actual screenshot is a native capture of the waveform area, read from test-results/tb.fst in RTL run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. The complete test lasts 11,368 nanoseconds. At this wide scale, many individual clock edges appear compressed. That is normal: a full-range view helps find phases, while smaller zoom windows let students inspect individual updates. The following slides use real reference windows for reset, overflow and hold.",
+    "guide_heading": "Practical step: open and read your real waveform",
+    "sources": [
+      "https://app.surfer-project.org/",
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "image": "13-real-waveform-full.png",
+    "caption": "Native Surfer capture of genuine RTL tb.fst, run 37693100752, 61ef06b; full 11,368 ns test.",
+    "focus": "Top-level signals and the complete test's time range.",
+    "check": "The wave area contains signals; a dense full view is ready to zoom."
+  },
+  {
+    "id": "B31",
+    "section": "Browser lab",
+    "title": "Waveform: inspect reset and first increments",
+    "layout": "screenshot",
+    "body": [
+      "Space → enter zoom_to 0ns 300ns → Enter.",
+      "rst_n = 0: count becomes 00 at rising clock edges.",
+      "Enable 0 holds at 00; enable 1 starts increments."
+    ],
+    "notes": "Zoom to the first three hundred nanoseconds of the unchanged reference test. The command is entered in Surfer's palette, not a shell terminal. Find clk, rst_n, ui_in and uo_out. The initial unknown count is not a known reset state until a rising edge has applied reset. With rst_n low, the counter becomes zero at its clocked update. Later, reset is released while enable remains low, so the count stays at zero. Once enable is asserted, each rising edge increments. The test changes input values on falling edges, leaving a clear interval before the next active edge. The screenshot is genuine native waveform output from RTL run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. The buses are displayed in hexadecimal, where 00 is zero and 01 is one. Ask students to locate an individual rising edge and predict the value immediately after it.",
+    "guide_heading": "Observe reset and the first increments",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": "14-real-waveform-reset.png",
+    "caption": "Actual reset/start trace from RTL run 37693100752 at 61ef06b; buses shown in hexadecimal.",
+    "focus": "rst_n, input enable and count immediately after rising edges.",
+    "check": "Reset clears on an edge; enabled counting begins only after reset is released."
+  },
+  {
+    "id": "B32",
+    "section": "Browser lab",
+    "title": "Waveform: inspect 254 → 255 → 0",
+    "layout": "screenshot",
+    "body": [
+      "Space → enter zoom_to 5200ns 5340ns → Enter.",
+      "uo_out: fe → ff → 00 means 254 → 255 → 0.",
+      "uio_out is 01 at enabled ff, then 00 after overflow."
+    ],
+    "notes": "The reference overflow is visible near 5,280 nanoseconds. Zoom to 5200 through 5340 nanoseconds and read the count bus. Hexadecimal fe means 254, ff means 255, and 00 means zero. The count reaches ff on an enabled rising edge and becomes zero on the following enabled edge. Meanwhile uio_out is 01 while count is ff and enable is 01, because its least-significant bit carries wrap. The flag is a combinational terminal-count indication before overflow, not a registered pulse after overflow. uio_oe is also 01, enabling only bidirectional pin zero as an output. This is a genuine native capture from test-results/tb.fst, RTL run 37693100752, commit 61ef06bed008e76000f9ae46d65182e476d15dd6. If students modify the test, these exact times may move. Search for the same signal transition rather than treating the reference time coordinates as a fixed specification.",
+    "guide_heading": "Observe 254 → 255 → 0",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": "15-real-waveform-wrap.png",
+    "caption": "Actual overflow trace from RTL run 37693100752, 61ef06b: fe/ff/00 with wrap high at ff.",
+    "focus": "Count transition, wrap bit and the rising edge between ff and 00.",
+    "check": "Explain why the flag is high before the overflow edge."
+  },
+  {
+    "id": "B33",
+    "section": "Browser lab",
+    "title": "Waveform: inspect hold while the clock runs",
+    "layout": "screenshot",
+    "body": [
+      "Space → enter zoom_to 5460ns 5880ns → Enter.",
+      "ui_in changes from 01 to 00: counting becomes disabled.",
+      "uo_out stays at 0a, decimal 10, while clk keeps toggling."
+    ],
+    "notes": "This zoom window shows the register holding a stored value while the clock continues. In the actual reference, the earlier 266 enabled edges leave the count at decimal ten, displayed as hexadecimal 0a. Enable changes from 01 to 00 on the input bus and the subsequent rising edges no longer increment count. The absence of an else assignment in the clocked counter block means the register retains its previous value. It does not mean the clock stopped or that the output is floating. The genuine screenshot is read from the RTL FST in run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Compare clk and uo_out over several edges. Students should explain both the changing clock and unchanged count. Holding a register is a behaviour controlled by enable. For a modified test, use the transitions to locate its hold phase rather than assume the same nanosecond window remains valid.",
+    "guide_heading": "Observe hold while the clock continues",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": "16-real-waveform-hold.png",
+    "caption": "Actual hold trace from RTL run 37693100752 at 61ef06b; 0a means decimal 10.",
+    "focus": "Disabled enable, continuing clock edges and constant count.",
+    "check": "Clock edges continue, but the disabled register holds 10."
+  },
+  {
+    "id": "B34",
+    "section": "Browser lab",
+    "title": "Waveform: recover an empty or confusing view",
+    "layout": "explain",
+    "body": [
+      "Check tb.fst loaded; add tb signals, then use zoom_fit.",
+      "Hex: 0a = 10, fe = 254, ff = 255; change radix if useful.",
+      "Use explicit ns in zoom_to: 1 ns = 1,000 ps.",
+      "For modified tests, find events rather than copy reference times."
+    ],
+    "notes": "Separate a loading problem from a display problem. If the viewer is blank, confirm that the extracted FST, rather than a ZIP or XML file, was dropped onto the canvas. Wait for loading, add the tb signals and use zoom_fit to restore the full range. A loaded file with no added signals can legitimately show an empty wave area. A wide view can compress values, so zoom in before deciding data is absent. The reference buses use hexadecimal; changing the display radix changes presentation, not stored simulation data. The reference file's base time unit is picoseconds, and one nanosecond is one thousand picoseconds. Explicit ns in zoom_to avoids a thousand-fold time-window mistake. Reference coordinates belong to RTL run 37693100752 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. The student's modified test may have different event times. Use drag and drop for local browser files rather than a filesystem path in load_file.",
+    "guide_heading": "If the waveform does not appear",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://app.surfer-project.org/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "check": "You can see the loaded signals and recognise one reset, count or hold event."
+  },
+  {
+    "id": "B35",
+    "section": "Browser lab",
+    "title": "Step 10: build and download the datasheet",
+    "layout": "screenshot",
+    "body": [
+      "Actions → docs → run for your final commit.",
+      "Wait for success; Summary → Artifacts → PDF.",
+      "Extract the download and open datasheet.pdf."
+    ],
+    "notes": "The documentation recipe combines project metadata and docs/info.md into a printable datasheet. Open Actions, choose docs and select the run matching the complete counter commit. Wait for the job to finish, return to Summary and download the PDF artifact while signed in. Extract the archive and open datasheet.pdf. The genuine reference run is 37693100755 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6, and it produced a two-page PDF. This is a separate workflow from functional testing and physical implementation. A successful docs run means its document generation and validation completed; it does not establish correct circuit behaviour by itself. If it fails, inspect meaningful project metadata, pin labels and the required documentation sections. Students should preserve the original generated PDF with their run link and commit, rather than only screenshot the Actions icon. The next checkpoint is to read the document and compare it with the implemented pins and timing.",
+    "guide_heading": "Step 10 — Check the documentation and download the datasheet",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md"
+    ],
+    "image": "09-docs-run.png",
+    "caption": "Actual successful docs run 37693100755 at 61ef06b; its PDF artifact contains a two-page datasheet.",
+    "focus": "Matching run identity, completion status and PDF artifact.",
+    "check": "Your final commit has a generated datasheet you can open."
+  },
+  {
+    "id": "B36",
+    "section": "Browser lab",
+    "title": "Step 10: read the generated PDF critically",
+    "layout": "screenshot",
+    "body": [
+      "Check title, author and used pin descriptions.",
+      "Check reset timing, enable/hold and the flag at 255.",
+      "Compare the test procedure with project.v and test.py."
+    ],
+    "notes": "The PDF is useful only if its instructions agree with the circuit. Read the title and author, then inspect the pin descriptions and operating explanation. Reset should be described as active low at the wrapper and synchronous at the next rising clock edge. Enable should be ui_in[0], count should be the eight uo_out bits, and the flag should be high at enabled count 255 before the next edge overflows. Check that the proposed test procedure predicts concrete values a reader can observe. Pin labels do not make electrical connections, so compare them with project.v rather than infer hardware from prose alone. The screenshot is a genuine rendered page one of the reference's two-page generated datasheet, produced by docs run 37693100755 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. It is different from the source Markdown capture. Ask students to identify one sentence in the PDF that can be checked against the source or waveform.",
+    "guide_heading": "Step 10 — Check the documentation and download the datasheet",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": "24-real-datasheet.png",
+    "caption": "Actual rendered page 1 of the two-page datasheet from docs run 37693100755, 61ef06b.",
+    "focus": "Used pins and reset/enable/wrap operating descriptions.",
+    "check": "The generated document describes the same circuit that passed the test."
+  },
+  {
+    "id": "B37",
+    "section": "Browser lab",
+    "title": "Step 11: wait for all four GDS jobs",
+    "layout": "screenshot",
+    "body": [
+      "Actions → gds → run for your final commit.",
+      "Wait for gds, gl_test, precheck and viewer to finish.",
+      "All four must pass; queued or running is still in progress."
+    ],
+    "notes": "The gds workflow is the complete physical-build recipe, with several jobs establishing different properties. Select it in Actions and open the run for the same final commit already checked in test and docs. The reference run 37693100748 passed gds, gl_test, precheck and viewer at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. A queued or running state is not a failure or a success; let it complete. If gds fails, later jobs may be skipped because their required layout or netlist does not exist. Inspect the earlier substantive error before investigating a downstream skip. Open individual jobs and expand steps to read logs. The actual screenshot shows all four reference jobs green. Students' job durations and run IDs will differ. A separate optional FPGA workflow is not part of this chip-layout checkpoint. The next slide explains what each of the four required jobs contributes to the result.",
+    "guide_heading": "Step 11 — Wait for all four jobs in the `gds` workflow",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"
+    ],
+    "image": "08-gds-run.png",
+    "caption": "Actual GDS run 37693100748 at 61ef06b: gds, gl_test, precheck, viewer all successful.",
+    "focus": "All four completed job states and the matching commit.",
+    "check": "All four jobs passed for the same complete counter version."
+  },
+  {
+    "id": "B38",
+    "section": "Browser lab",
+    "title": "Step 11: four jobs, four different questions",
+    "layout": "compare",
+    "body": [
+      "gds: did the tools produce the placed and wired layout?",
+      "gl_test: did the built cell connections pass the functional test?",
+      "precheck: did Tiny Tapeout's required checks pass?",
+      "viewer: were the layout-viewer files published?"
+    ],
+    "notes": "A single green recipe contains several kinds of evidence. The gds job creates the physical implementation and reports. The gl_test job reruns the functional test against the generated standard-cell netlist, using cell models and unit delays. It checks the specified input/output behaviour after mapping, but it is not an SDF-annotated timing simulation. The hardening reports contain separate static timing analysis. Precheck applies Tiny Tapeout's checks to the generated design and submission bundle; the reference passed all fifteen. Viewer publishes the browser files through Pages. A published picture alone cannot establish correct arithmetic, timing or connectivity. Conversely, a good functional test does not show that a layout was published. The actual reference for these claims is GDS run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Students should explain which job answers a question instead of treating every success icon as interchangeable proof.",
+    "guide_heading": "Step 11 — Wait for all four jobs in the `gds` workflow",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://tinytapeout.com/guides/precheck/"
+    ],
+    "check": "Name the job that checks behaviour and the job that publishes the viewer."
+  },
+  {
+    "id": "B39",
+    "section": "Browser lab",
+    "title": "Step 12: open your published layout site",
+    "layout": "screenshot",
+    "body": [
+      "After viewer passes: Settings → Pages → Visit site.",
+      "Or open the published project URL shown in Pages.",
+      "Allow loading; confirm your top-module name and a visible layout."
+    ],
+    "notes": "The successful viewer job publishes a Pages site for the generated layout. Open Settings, Pages and Visit site, or use the address shown there. A normal project site has a username.github.io/repository address. The reference lives at https://mdkamrulislam-web.github.io/tt-sky130-counter/. Students should open their own published address for their own evidence. The screenshot is GitHub's official documentation image locating the Settings tab; it is not a capture of an account-only settings operation performed by the author. If the site has not been published yet, check viewer completion and the Pages Source setting rather than add a new unrelated workflow. Let the layout data load before deciding the browser is blank. The viewer should identify the top module and display geometry from the generated design. This is a view of layout layers, not a photograph of a manufactured chip. The next slide explores its native controls.",
+    "guide_heading": "Step 12 — Open and explore the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": "official-repository-settings.png",
+    "caption": "Official GitHub Docs image: repository Settings tab; then choose Pages and Visit site in your copy.",
+    "focus": "Settings tab; follow Pages → Visit site.",
+    "example": "Project site: https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/",
+    "check": "A loaded layout appears under your project's top-module name."
+  },
+  {
+    "id": "B40",
+    "section": "Browser lab",
+    "title": "Step 12: explore layers and hide filler cells",
+    "layout": "screenshot",
+    "body": [
+      "Use the viewer's KEYS panel for pan, rotate and zoom.",
+      "Controls → View Settings → Filler cells: hide them to see logic.",
+      "Explore layer controls; compare the view with the build reports."
+    ],
+    "notes": "The layout viewer lets students examine geometric layers from the generated design. Use the visible KEYS instructions rather than assume every viewer has the same mouse gestures. Pan, rotate and zoom, then use Controls, View Settings and the Filler cells checkbox to reduce physical support-cell clutter. In the actual captured view, filler, decap and tap cells were hidden by the native control. This is a display choice; it does not remove them from the design or reduce the measured instance count. The reference's active logic is clustered near the top, with power rails across the tile. The genuine native browser capture comes from the layout published by GDS run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. The picture helps explain placement and wiring, while test and signoff reports establish other checked properties. If WebGL is unavailable, inspect the downloaded gds_render image while resolving the browser view.",
+    "guide_heading": "Step 12 — Open and explore the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": "18-real-layout.png",
+    "caption": "Actual native layout-viewer capture from 61ef06b; filler, decap, tap hidden using its own control.",
+    "focus": "Logic cluster, routing/power geometry and the native View Settings control.",
+    "check": "You can distinguish visible geometry from claims made by tests and reports."
+  },
+  {
+    "id": "B41",
+    "section": "Browser lab",
+    "title": "Step 13: download layout, image and build logs",
+    "layout": "screenshot",
+    "body": [
+      "Completed gds run → Summary → Artifacts.",
+      "gds_render: the generated 2D layout PNG.",
+      "tt_submission: layout, netlist, identity and statistics.",
+      "GDS_logs: detailed build logs and reports."
+    ],
+    "notes": "A screenshot records only one view. The artifacts retain the design and evidence that allow later inspection. In the completed gds run, return to Summary and scroll to Artifacts. Download gds_render for the generated two-dimensional image, tt_submission for the layout and associated implementation data, and GDS_logs for detailed build information. Click each artifact name and extract the ZIP while signed in. The official GitHub image illustrates the download control with a generic artifact name; the actual Tiny Tapeout names are shown in the slide body. Reference artifacts come from run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Students must use the matching run for their own source version. A generated rendering is different from the native interactive viewer, and both are different from a fabricated-chip photograph. Keep the files before their retention window expires, with the run link and commit saved alongside them.",
+    "guide_heading": "Step 13 — Download the evidence, not just a screenshot",
+    "sources": [
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": "official-artifact-list.png",
+    "caption": "Official GitHub Docs download-control example; the actual GDS run has the artifact names listed here.",
+    "focus": "Download links in Summary → Artifacts.",
+    "check": "Downloaded ZIPs are extracted and labelled with their source run."
+  },
+  {
+    "id": "B42",
+    "section": "Browser lab",
+    "title": "Step 13: keep the verification artifacts too",
+    "layout": "explain",
+    "body": [
+      "gatelevel_test_results: mapped-design XML and waveform.",
+      "precheck_reports: Tiny Tapeout check results.",
+      "github-pages: packaged viewer files.",
+      "Also keep test → test-results and docs → PDF."
+    ],
+    "notes": "The physical workflow produces evidence beyond the layout. gatelevel_test_results contains the test results and waveform from checking the generated cell netlist. precheck_reports contains the Tiny Tapeout check results, including the fifteen passing reference checks. github-pages contains the files used for the published browser viewer. These are distinct artifacts from the separate RTL test workflow's test-results and the documentation workflow's PDF. Download from each corresponding run rather than look for every artifact in one workflow. The verified reference has GDS run 37693100748, RTL run 37693100752 and docs run 37693100755, all at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Name folders or save a small evidence index so a later reader can tell RTL from gate-level data. GitHub artifact retention can expire a download link. Keeping originals locally, together with their source identity, is a more useful archive than a collection of success screenshots alone.",
+    "guide_heading": "Step 13 — Download the evidence, not just a screenshot",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts"
+    ],
+    "check": "RTL, gate-level, precheck, documentation and viewer files remain distinguishable."
+  },
+  {
+    "id": "B43",
+    "section": "Browser lab",
+    "title": "Step 13: inspect the submission bundle's identity",
+    "layout": "code",
+    "body": [
+      "Extract tt_submission; find its contained tt_submission folder.",
+      "Compare commit_id.json with the source/run commit.",
+      "Read pdk.json; keep layout, mapped Verilog and statistics together."
+    ],
+    "notes": "Open the extracted tt_submission archive and follow its contained folder tree. Download or extraction tools may add a wrapper directory, so locate the inner tt_submission folder rather than assume a fixed number of outer levels. It contains the design's GDS and OAS layout files, mapped Verilog, other implementation files and metadata such as commit_id.json and pdk.json. The stats directory contains metrics.csv and synthesis-stats.txt. GDS and OAS describe physical layers; the Verilog file describes connected cells after mapping. The process metadata helps establish which PDK produced them. Compare the recorded commit with the workflow and source version before calling the bundle evidence for a design. The reference bundle belongs to GDS run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6 and uses sky130A. The bundle's name does not mean it has been uploaded to a fabrication portal: downloading it is still within the free design exercise.",
+    "guide_heading": "Step 13 — Download the evidence, not just a screenshot",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "code": "tt_submission/\n  tt_um_mdkamrulislam_counter.gds\n  tt_um_mdkamrulislam_counter.oas\n  tt_um_mdkamrulislam_counter.v\n  commit_id.json\n  pdk.json\n  stats/metrics.csv\n  stats/synthesis-stats.txt",
+    "check": "The bundle's identity matches the revision you tested and built."
+  },
+  {
+    "id": "B44",
+    "section": "Browser lab",
+    "title": "Step 14: read counts with their stage and category",
+    "layout": "screenshot",
+    "body": [
+      "47 cells after synthesis.",
+      "279 final non-fill standard-cell instances, including 225 taps.",
+      "4,600 total instances, including 4,321 filler cells.",
+      "Core utilisation: 0.0496131 × 100 ≈ 4.96%."
+    ],
+    "notes": "These measurements describe the genuine reference implementation, not guaranteed results for every counter or future tool version. Synthesis reported forty-seven cells. The final physical implementation reported 279 non-fill standard-cell instances, including 225 tap cells, and 4,600 total instances including 4,321 fillers. Physical support cells appear during implementation, so the totals refer to different stages and categories. None should casually be called a number of logic gates. Core utilisation is reported non-fill cell area divided by available core area, approximately 4.96131 percent for this design. Hiding filler cells in the viewer does not change that report. The screenshot is a local HTML presentation of the unchanged downloaded metrics.csv, not a GitHub-generated metrics interface. Its source is GDS run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Compare synthesis-stats.txt and metrics.csv from your own matching run when studying an extension.",
+    "guide_heading": "Step 14 — Interpret the real counter's measurements",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": "17-real-metrics.png",
+    "caption": "Local HTML view of unchanged metrics.csv from GDS run 37693100748, 61ef06b; not GitHub UI.",
+    "focus": "Synthesis count, final instance categories and utilisation units.",
+    "check": "Every quoted count includes its build stage and what was counted."
+  },
+  {
+    "id": "B45",
+    "section": "Browser lab",
+    "title": "Step 14: read timing, geometry and warnings",
+    "layout": "compare",
+    "body": [
+      "50 MHz target: setup/hold slack +8.64285/+0.109636 ns.",
+      "Reported setup/hold violations: 0/0; Magic DRC/LVS errors: 0/0.",
+      "Precheck: all 15 passed; review warnings separately."
+    ],
+    "notes": "Timing and layout checks answer different questions. Setup and hold slack report margins against the timing constraints and models used for this implementation. The reference worst margins are positive: approximately 8.64285 nanoseconds for setup and 0.109636 nanoseconds for hold, with zero reported violations. Magic DRC reports geometry checks against manufacturing rules, while LVS compares the layout's extracted connections to the intended circuit. Both reported zero errors in this run. Tiny Tapeout precheck passed all fifteen checks. These statements belong to GDS run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6 and should be quoted with that context. The lint report also had zero errors and 447 TIMESCALEMOD warnings from inherited timescale and generated cell modules. A green result does not mean every warning count is zero. Read and classify warnings rather than hide them. These checks support a design result under the recorded conditions; they are separate from testing a manufactured chip.",
+    "guide_heading": "Step 14 — Interpret the real counter's measurements",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "check": "Quote units and checked conditions; distinguish warnings from failures."
+  },
+  {
+    "id": "B46",
+    "section": "Browser lab",
+    "title": "Step 15: start with the first useful error",
+    "layout": "explain",
+    "body": [
+      "Open the failed job and expand its first failing step.",
+      "Our first blank-template failure was empty metadata.",
+      "Finish the seven files; inspect the complete final commit.",
+      "Fix the cause before reading downstream skipped jobs."
+    ],
+    "notes": "Failures are useful when they are tied to a concrete stage and saved version. The genuine initial blank-template GDS run 37693066241 failed metadata validation because title, author and description were empty. Initial docs run 37693066333 also needed meaningful pin descriptions and documentation content. Those runs belonged to blank main commit 799863810d7ef1761fb9f5b8241fbb386223a2c7, before the complete counter was saved. They are not failed assertions in the finished counter. The final counter commit 61ef06bed008e76000f9ae46d65182e476d15dd6 passed its workflows. Students should open the failing job, find the first useful message and identify whether the issue is validation, compilation, testing, physical implementation or deployment. A later missing log or skipped job may simply follow an earlier failure. Completing all seven files and checking the new final run resolves an incomplete template state. Repeating an unchanged deterministic failure does not supply missing metadata or correct a source error.",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693066241",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693066333",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "check": "Explain the error and the revision it belongs to before changing a file."
+  },
+  {
+    "id": "B47",
+    "section": "Browser lab",
+    "title": "Step 15: match the symptom to its cause",
+    "layout": "compare",
+    "body": [
+      "Unknown module: check both source lists and all three top names.",
+      "Docs validation: check metadata, pin labels and required sections.",
+      "Count mismatch: predict reset/enable behaviour at the sampled edge.",
+      "Commit the fix; keep the assertion and inspect the new run."
+    ],
+    "notes": "These are conditional troubleshooting routes, not fabricated failures in the verified counter. An unknown-module or missing-file message usually calls for checking compile lists, filenames and the matching top declaration and testbench instance. A documentation validation message calls for checking title, author, description, pin keys and the required Markdown sections. A count assertion mismatch requires reading the expected and observed values and tracing reset and enable at the relevant clock edge. In the supplied test, inputs are driven at a falling edge and outputs sampled after the rising edge plus settling time. If RTL passes but the mapped-cell test fails, examine those timing assumptions and top-level checks rather than immediately weakening the test. Preserve the assertion while fixing the source or test-model cause. The unchanged reference passed RTL run 37693100752 and GDS run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. Record a real future failure accurately if an extension exposes one.",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "check": "One justified fix creates one new version whose results can be evaluated."
+  },
+  {
+    "id": "B48",
+    "section": "Browser lab",
+    "title": "Step 15: fix Pages or a blank viewer",
+    "layout": "explain",
+    "body": [
+      "Deployment failure: confirm Pages Source = GitHub Actions.",
+      "Multiple github-pages artifacts after a viewer rerun: start a fresh full GDS run.",
+      "Blank WebGL view: wait, check viewer success, then try another browser.",
+      "Use the downloaded gds_render PNG while investigating."
+    ],
+    "notes": "Separate a publishing failure from a browser rendering failure. If the viewer job failed, inspect its first deployment error and verify Settings, Pages, Source is GitHub Actions. Tiny Tapeout documents a particular problem after enabling Pages and rerunning only viewer on an existing GDS workflow: multiple github-pages artifacts may conflict. In that case use a fresh complete workflow run after correcting the setting, rather than repeatedly rerun the old viewer job. A successful deployment with a blank browser canvas is a different issue. Wait for loading, check WebGL support and try a suitable browser. Downloaded gds_render provides a genuine static layout image while investigating interactive rendering. These are troubleshooting instructions; no new failure was manufactured for a screenshot. The reference viewer was successfully published by GDS run 37693100748 at commit 61ef06bed008e76000f9ae46d65182e476d15dd6. The next slide shows how to deliberately start the complete workflow on the intended branch.",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part",
+      "https://tinytapeout.com/faq/#my-viewer-job-fails-after-enabling-github-pages-and-rerunning-it-on-an-existing-gds-action",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "check": "Identify deployment or rendering first, then use the matching remedy."
+  },
+  {
+    "id": "B49",
+    "section": "Browser lab",
+    "title": "Step 15: deliberately start a fresh complete run",
+    "layout": "screenshot",
+    "body": [
+      "Actions → choose gds in the workflow list.",
+      "Select Run workflow; choose the intended branch.",
+      "Select Run workflow in that menu.",
+      "Check the new run uses your intended saved commit."
+    ],
+    "notes": "Manual workflow dispatch is useful after a relevant settings fix or when a fresh full run is specifically needed. Open Actions, select gds in the left workflow list, then use Run workflow. Choose the intended branch and click Run workflow in the menu. This needs write permission and starts the recipe using current saved files on that branch. It does not save an unsaved editor buffer or select the author's historical commit automatically. The official Tiny Tapeout FAQ image illustrates the control in an older example repository. It is not a capture of a new paid or fabrication operation, and it does not represent another run performed for the reference evidence. For a source change, saving a new commit normally starts the template workflows already. Repeatedly rerunning unchanged source is not a solution to a deterministic compile or assertion error. After dispatch, open the newly created run and verify its branch and commit before interpreting its result.",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://tinytapeout.com/faq/#i-updated-and-saved-my-wokwi-design-how-do-i-re-run-the-github-action-to-update-the-gds-files",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-running-a-workflow"
+    ],
+    "image": "official-run-workflow.png",
+    "caption": "Official Tiny Tapeout FAQ image: Run workflow controls in an older example repository.",
+    "focus": "Workflow selection, branch menu and Run workflow button.",
+    "check": "The fresh run belongs to the branch and complete saved version you intended."
+  },
+  {
+    "id": "B50",
+    "section": "Browser lab",
+    "title": "Step 16: optional local setup in Ubuntu or WSL",
+    "layout": "code",
+    "body": [
+      "Use an Ubuntu/WSL terminal; these are Linux commands.",
+      "On your own machine install prerequisites below; managed labs use supplied tools.",
+      "Replace the URL placeholders, clone your project and enter its root."
+    ],
+    "notes": "The main browser route is already complete without local tool installation. Local simulation is optional for quicker edit and test cycles or to understand what the Actions job runs. These commands use Ubuntu, including an already configured WSL environment on Windows; they are not PowerShell commands. On a managed laboratory machine, use the supplied environment rather than changing system packages. On an owned Ubuntu machine, the shown package installation supplies Git, Python, virtual-environment support, make and Icarus Verilog. Python packages alone do not install the simulator. Replace YOUR_USERNAME and YOUR_REPOSITORY with the student's completed repository, clone it and enter its root. git rev-parse HEAD identifies the checked-out saved version. If using another branch, select it before testing. The reference CI uses Ubuntu 24.04 and Python 3.11; a different local environment is not automatically an identical reproduction. Appendix B provides the fuller tool checks and explanations.",
+    "guide_heading": "Step 16 — Choose whether you need local simulation",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md"
+    ],
+    "code": "sudo apt-get update\nsudo apt-get install -y git python3 python3-venv\nsudo apt-get install -y python3-pip make iverilog\ngit clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git\ncd YOUR_REPOSITORY\ngit rev-parse HEAD",
+    "check": "The project root contains info.yaml, src and test; record the checked-out commit."
+  },
+  {
+    "id": "B51",
+    "section": "Browser lab",
+    "title": "Step 16: run RTL, then explicitly check XML",
+    "layout": "code",
+    "body": [
+      "From the project root, create and activate the Python environment.",
+      "Install the template test requirements; run inside test.",
+      "Keep results.xml and tb.fst; use Actions gl_test for the first mapped-cell result."
+    ],
+    "notes": "Create an isolated Python environment in the project root and activate it for the current terminal. Install the requirements from the template's test/requirements.txt rather than independently selecting a newer cocotb release. The reference pins cocotb 2.1.0 and pytest 8.4.2. Change into test, run make -B to compile and execute the test, then explicitly run the cocotb results checker. The final command reads results.xml and signals failure if a test failed; make completion alone may be insufficient. For the unchanged reference, expect one passing test, zero failures and errors, and an FST waveform, with 11,368 nanoseconds of simulated time. The same browser Surfer procedure can open the local FST. Local mapped-cell testing additionally needs the matching generated netlist and installed SKY130 cell models. The main Actions gl_test job prepares those dependencies automatically. Local runs do not upload edits: a later GitHub result needs the saved new repository version.",
+    "guide_heading": "Step 16 — Choose whether you need local simulation",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/requirements.txt",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "code": "python3 -m venv .venv\nsource .venv/bin/activate\npython -m pip install -r test/requirements.txt\ncd test\nmake -B\npython -m cocotb_tools.check_results results.xml",
+    "check": "Inside test: results.xml and tb.fst exist; the explicit checker succeeds."
+  },
+  {
+    "id": "B52",
+    "section": "Browser lab",
+    "title": "Step 17: specify one small extension first",
+    "layout": "explain",
+    "body": [
+      "Example: an enabled count-down counter, with 0 wrapping to 255.",
+      "Define reset priority, hold and the new terminal flag.",
+      "Keep the fixed Tiny Tapeout interface.",
+      "Predict boundary cases before editing RTL."
+    ],
+    "notes": "An extension should start with a new specification, not a random change to an operator. For a count-down counter, define what an enabled rising edge does at zero: an eight-bit unsigned count wraps to 255. Retain explicit reset and hold behaviour, and decide what the terminal indication means for the new direction. A useful choice is a flag high at enabled zero before the edge underflows. That would require changing the old all-ones flag expression as well as the arithmetic. A parallel-load design is another possible exercise, but choose one coherent change at a time and allocate its input pins deliberately. The fixed Tiny Tapeout port interface remains. These are proposed learning extensions, not a claim that the downloaded reference already implements them. The passing evidence at commit 61ef06bed008e76000f9ae46d65182e476d15dd6 is for the original incrementing counter. Ask students to write expected values for reset, hold, a normal decrement and the zero boundary before coding.",
+    "guide_heading": "Step 17 — Make a small extension after the example passes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "example": "Proposed count-down boundary: count 0, enable 1, reset released → next count 255.",
+    "check": "Your written rules specify both the stored count and the combinational flag."
+  },
+  {
+    "id": "B53",
+    "section": "Browser lab",
+    "title": "Step 17: update, commit and recheck the extension",
+    "layout": "flow",
+    "body": [
+      "Update RTL, Python model/assertions, metadata and datasheet together.",
+      "New files need both source lists; renamed tops need all three locations.",
+      "Commit; check test, docs and all four gds jobs for that version.",
+      "Compare its own cell counts and utilisation."
+    ],
+    "notes": "A changed circuit needs changed verification and documentation. For the proposed count-down version, update the hardware and independently calculate decrementing expected values in the Python model, including the chosen terminal flag. Add assertions for normal transitions, hold, reset priority and the new boundary. If the interface mapping changes, keep YAML pin labels and docs/info.md in agreement. Additional hardware files need both source lists; a renamed top needs all three matching module-name locations. Save the complete extension as a new commit, then inspect its test and docs workflows and all four jobs in gds. Compare measurements from that same run with the original reference. Do not attach a screenshot from the original incrementing counter as proof that the extension passed. The reference comparison is commit 61ef06bed008e76000f9ae46d65182e476d15dd6 with GDS run 37693100748, RTL run 37693100752 and docs run 37693100755. Keep the two versions' evidence separate.",
+    "guide_heading": "Step 17 — Make a small extension after the example passes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "check": "The extension has its own matching source, tests, documents and layout evidence."
+  },
+  {
+    "id": "B54",
+    "section": "Browser lab",
+    "title": "Step 18: archive one checked revision",
+    "layout": "flow",
+    "body": [
+      "Record repository, branch, full commit and the three run links.",
+      "Keep datasheet, XML, FST, layout/netlist, metrics and build logs.",
+      "Keep precheck reports and source/provenance manifests.",
+      "Label original-counter and extension evidence separately."
+    ],
+    "notes": "The free exercise ends with an archive someone else can inspect. Save the repository URL, intended branch and full commit, then retain links to the matching test, docs and gds runs. Download the generated datasheet, RTL and mapped-cell test results and waveforms, layout and cell netlist, process and commit metadata, metrics, detailed logs and precheck reports. Keep the original source files and the starter checksum and screenshot-provenance manifests with the teaching package. Artifacts may expire, so make the archive while the downloads are available. The author's reference is commit 61ef06bed008e76000f9ae46d65182e476d15dd6, RTL run 37693100752, docs run 37693100755 and GDS run 37693100748. Student versions have different identities and should be labelled accordingly. An attractive layout screenshot is useful context but cannot replace the downloadable evidence. Technical and visual review of this teaching example has been performed; an observed beginner usability trial remains a separate evaluation.",
+    "guide_heading": "Step 18 — Finish the free exercise here",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts"
+    ],
+    "check": "Another person can identify the version and reopen its original evidence."
+  },
+  {
+    "id": "B55",
+    "section": "Browser lab",
+    "title": "Step 18: stop before fabrication actions",
+    "layout": "explain",
+    "body": [
+      "The free result is a tested, checked and archived layout.",
+      "Fabrication needs a separate approved order and submitted revision.",
+      "A later GitHub commit does not automatically replace a submitted revision.",
+      "Stop before payment, ordering or fabrication submission."
+    ],
+    "notes": "Successful GitHub recipes produce design files and evidence. They do not place an order or submit a revision to a fabrication shuttle. Standard public-repository hosted Actions compute supports the free practical route, subject to GitHub's storage allowances. The later Tiny Tapeout portal route separates project or order creation from submitting a design revision, and later source commits need an explicit new submission if the intended fabrication version changes. The manual explains that boundary for understanding, but this classroom exercise ends with the checked archive. No payment, fabrication order or fabrication submission was performed for the verified counter. The reference evidence remains commit 61ef06bed008e76000f9ae46d65182e476d15dd6 and its successful test, docs and GDS runs. Ask students to describe what they have actually produced: source, tests, documentation, physical layout and reports. Any future fabrication decision requires its own approved process and should begin by identifying the exact checked revision.",
+    "guide_heading": "Step 18 — Finish the free exercise here",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "check": "You can explain the completed design result and the separate fabrication boundary."
+  }
+]

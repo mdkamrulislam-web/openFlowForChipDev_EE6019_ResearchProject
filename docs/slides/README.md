@@ -1,10 +1,37 @@
-# Tiny Tapeout beginner lecture
+# Your first Tiny Tapeout chip: complete beginner course
 
-[PowerPoint](tiny-tapeout-flow-v1.pptx) · [PDF preview](tiny-tapeout-flow-v1.pdf)
+[Complete PowerPoint — 195 slides](tiny-tapeout-beginner-course.pptx) · [PDF — 195 pages](tiny-tapeout-beginner-course.pdf) · [Full Word manual](../beginner-guide/tiny-tapeout-beginner-guide.docx) · [Seven-file starter ZIP](../beginner-guide/counter-starter.zip)
 
-For independent beginner learning, start with the [complete step-by-step DOCX/PDF manual](../beginner-guide/README.md). It explains the concepts and every practical step in depth, includes the complete seven-file example and uses actual waveform/result evidence. This deck remains a shorter lecture companion. Its older pending capture checklist below applies to the PPTX; the new manual has no screenshot placeholders.
+This is a full course for a student starting from circuit fundamentals. One real eight-bit counter connects bits, stored state, clock edges, Verilog, Python tests, browser actions, physical design and manufacturing. Practical steps explain their purpose, show the action and give an observable check. Short predictions and worked examples build towards the genuine results. Study it over several sessions; the optional local lab and longer exercise set can be used separately.
 
-The deck has 22 teaching slides and four staff appendix slides. It follows one real 8-bit counter through pins, RTL, tests, GitHub workflows, layout and the submission process. The diagrams and text are editable PowerPoint shapes; screenshots remain genuine captured evidence. Every slide has lecturer notes and precise source URLs. Source facts were checked on 7 October 2026; the redesigned deck was built and reviewed on 8 October 2026.
+The deck contains **39 genuine screenshot placements**, editable diagrams, readable code excerpts and **approximately 26,500 words of teaching notes**. Notes include full source URLs and the corresponding [manual](../beginner-guide/README.md) section. The PDF contains the visible slides; read PowerPoint notes or the manual for longer explanations. Download the starter rather than copying visually wrapped code from a slide. Sources and interface snapshots are dated **8 October 2026**.
+
+The learning exercise ends with a **free checked and archived layout package**. Submission, ordering, costs and wafer fabrication are explained afterwards. No fabrication order, payment or submission was made. Prices are dated estimates, and successful flow reports are not measured silicon performance.
+
+## Study route
+
+Slide 3 has clickable lesson cards in PowerPoint and visible slide ranges. Use the slide number printed at the bottom of every page.
+
+| Slides | Lesson | What you learn or do |
+|---|---|---|
+| 1–8 | Start here | Prepare the workspace, recognise the reference revision and understand the free endpoint |
+| 9–33 | Foundations | Bits, buses, logic, state, clock edges, reset, hold and wrap |
+| 34–50 | Counter RTL | Read the counter and wrapper statement by statement |
+| 51–68 | Verification | Read the Python test, reference model, assertions and stimulus phases |
+| 69–127 | Browser lab | Follow steps 0–18: template, upload, workflows, XML, datasheet, actual waves and artifacts |
+| 128–151 | Physical design | Understand cells, floorplan, placement, clock tree, routing, timing, DRC, LVS and precheck |
+| 152–161 | Fabrication | Separate the free endpoint from an approved later order; explain masks, wafer processes, dicing and packaging |
+| 162–167 | Optional local lab | Set up tools, run tests and check matching gate-level dependencies |
+| 168–192 | Worked exercises | Try twelve exercises before advancing to their answer slides |
+| 193–195 | Finish and review | Explain the evidence and keep a package for your exact source revision |
+
+## Images and review
+
+Screenshots preserve the original image bytes from [the manual image directory](../beginner-guide/img/). Account-only controls use attributed official documentation examples; captions identify those separately from the actual counter's public results. XML/metrics views are labelled local views of downloaded evidence. Waveform screenshots are native Surfer captures of the actual `tb.fst`. Diagram and prediction captions distinguish illustrations from measured evidence. There are no screenshot placeholders in the complete course.
+
+[beginner-slide-sources.json](beginner-slide-sources.json) records each slide, source, manual heading, image and native crop. Full image origin and attribution appear in the notes and [screenshot-sources.json](../beginner-guide/screenshot-sources.json). The original file is retained when PowerPoint crops a screenshot to enlarge the relevant controls or code.
+
+All 195 slides were rendered with installed PowerPoint and visually reviewed, with full-size checks for dense code, screenshots and diagrams. Native text bounds, slide bounds, PDF page count, notes and source references were checked. This establishes technical and visual review; usability and study time have not been measured with a new student.
 
 ## Rebuild
 
@@ -13,12 +40,15 @@ Use Python 3.10 or later; this build was checked with Python 3.13.15 and the pin
 ```powershell
 python -m venv .venv-slides
 .\.venv-slides\Scripts\python -m pip install -r docs/slides/requirements.txt
-.\.venv-slides\Scripts\python docs/slides/build_slides.py
+.\.venv-slides\Scripts\python docs/slides/assemble_beginner_course.py
+.\.venv-slides\Scripts\python docs/slides/build_beginner_slides.py
 ```
 
-The builder reads [lecture-notes.json](lecture-notes.json) and local files in [img](img), then writes the PPTX and [slide-sources.json](slide-sources.json). It makes no network calls. Aptos/Aptos Display and Consolas are the intended fonts; they are available in the installed Microsoft Office environment used for review. Rebuilding does not execute the ASIC flow.
+The assembler combines [concepts](beginner-concepts.json), [browser steps](beginner-browser.json), [physical-design lessons](beginner-physical.json) and the manual's exercises into [beginner-course.json](beginner-course.json). The builder reads that JSON, [beginner_visuals.py](beginner_visuals.py), [the reviewed font-fit profiles](beginner-text-fit.json) and the local manual images. It writes the PPTX and per-slide source manifest, without network calls or executing the ASIC flow. The generated course JSON can also be built directly without running the assembler.
 
-To export the PDF, open the PPTX in PowerPoint and use **File → Export → Create PDF/XPS**. The reviewed PDF and slide PNGs were exported by installed PowerPoint through COM. All 26 slides were inspected in rendered contact sheets, with full-size checks on changed code, screenshot and diagram slides. Use the PDF to review visual layout; use the PPTX to read notes, follow links or edit.
+Aptos/Aptos Display and Consolas are the intended fonts, available in the installed Microsoft Office environment used for review. Main prose is at least 20 pt, code at least 18 pt and titles at least 32 pt; small captions, table labels, source links and footers use smaller type. Edit the source JSON or diagrams and rebuild. Content or font changes require another render review.
+
+To export the PDF, open the new PPTX in PowerPoint and use **File → Export → Create PDF/XPS**. The supplied PDF and review PNGs were exported by installed PowerPoint through COM. Use the PDF for reading or printing and PowerPoint for notes, links or editing.
 
 ## Real worked-example identity
 
@@ -38,7 +68,11 @@ The build used SKY130, a 1x1 tile, a 50 MHz clock target and LibreLane 3.0.14. R
 
 `img/counter-sky130-background.png` belongs to the earlier **separate 150 × 150 µm custom LibreLane flow**. It is retained for provenance and is not used as Tiny Tapeout evidence in the deck.
 
-## Capture checklist
+## Earlier overview and its historical capture checklist
+
+[tiny-tapeout-flow-v1.pptx](tiny-tapeout-flow-v1.pptx) and its PDF remain the earlier 26-slide overview. They are preserved for history; use the complete course above for the requested beginner teaching depth. Their builder is `build_slides.py`, source is `lecture-notes.json` and manifest is `slide-sources.json`.
+
+**The following checklist applies only to that earlier overview.** Its pending markers do not describe missing figures in the complete course or manual. The complete course already includes actual metrics and FST views, plus credited official examples for signed-in controls.
 
 Four screenshot tasks remain, plus an optional future failed-assertion example. Slides label them honestly. Anonymous public captures cannot show account-only settings or full job logs; use an authorised signed-in session for those pages. Preserve project/run/commit identity in the capture. Do not draw imitation GitHub UI or label a constructed waveform as a simulation capture.
 

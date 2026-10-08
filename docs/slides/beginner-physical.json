@@ -1,0 +1,954 @@
+[
+  {
+    "id": "P01",
+    "section": "Physical design",
+    "title": "Follow one design through changing representations",
+    "layout": "flow",
+    "body": [
+      "The counter's specified behaviour stays the same.",
+      "Each stage produces a different kind of evidence."
+    ],
+    "flow": [
+      {
+        "name": "RTL",
+        "detail": "Describes state and logic"
+      },
+      {
+        "name": "Netlist",
+        "detail": "Names cells and connections"
+      },
+      {
+        "name": "Layout",
+        "detail": "Places cells and wires"
+      },
+      {
+        "name": "Reports",
+        "detail": "Check the implementation"
+      }
+    ],
+    "check": "Which artifact contains geometry rather than behaviour?",
+    "notes": "Begin with the familiar counter rather than with tool names. The specification says what should happen at a rising edge: reset clears the count, otherwise enable increments it, otherwise the stored value remains. RTL expresses this rule. Synthesis chooses library cells and connects them, producing a netlist. Physical tools then decide where those cells go and how their connections become wires. The layout describes manufacturing geometry. Reports and tests answer questions about that implementation. Explain that these are representations of one design, with different purposes. A netlist is not a screenshot, and a layout file is not a Python program that counts when opened. Ask students to classify counter.v, an implemented Verilog netlist, a GDS file and a timing report. The answer to the visible check is the layout artifact. Keep this distinction available throughout the following stages: a pretty layout does not replace behaviour, timing or connectivity evidence.",
+    "guide_heading": "Part 3 — Understand what the layout build actually did",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ]
+  },
+  {
+    "id": "P02",
+    "section": "Physical design",
+    "title": "Synthesis starts from a precise update rule",
+    "layout": "code",
+    "body": [
+      "Eight count bits need stored state.",
+      "Reset and enable decide the next stored value.",
+      "The terminal-count expression becomes combinational logic."
+    ],
+    "code": "always @(posedge clk) begin\n  if (rst)\n    count <= {WIDTH{1'b0}};\n  else if (en)\n    count <= count + 1'b1;\nend\nassign wrap = en & (&count);",
+    "check": "At count 255 with enable low: count holds; wrap is low.",
+    "notes": "Connect the physical chapter to the RTL students already understand. The clocked block describes storage whose value changes at a rising edge. Its branches define priority: reset first, then enable. When neither branch updates count, the storage holds its value. Synthesis must preserve this behaviour while implementing it with cells available in the selected library. Do not promise that one source statement becomes exactly one gate; optimisation may combine expressions or choose a different arrangement of cells. The continuous assignment for wrap describes an output dependent on current count and enable. It is not another register. Work the visible terminal-count case: all count bits are one, but enable is zero, so the AND expression makes wrap zero while count stays at 255. Explain that synthesis needs a supported hardware description and the correct top module and source files. A syntactically valid file alone does not establish the intended circuit.",
+    "guide_heading": "3.1 From behaviour to actual gates: synthesis",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ]
+  },
+  {
+    "id": "P03",
+    "section": "Physical design",
+    "title": "The synthesis result reports 47 cells",
+    "layout": "explain",
+    "body": [
+      "The reference synthesis report contains 47 cells.",
+      "Its netlist names instances and the wires connecting them.",
+      "Placement, clock distribution and routing still follow."
+    ],
+    "example": "47 synthesis cells ≠ 4,600 final physical instances.",
+    "check": "Find the synthesis summary in GDS_logs; record its commit.",
+    "notes": "Use the real result to establish the meaning of a cell count before introducing several different counts later. The synthesis report for reference commit 61ef06b contains 47 cells. This is a result of this RTL, library, tool version and configuration. It is not a measured property of a manufactured counter, and it is not a universal size for every eight-bit counter. A cell instance is one use of a library circuit; examples include storage elements and logic gates. The synthesis netlist gives names and connections but does not yet provide the completed physical positions and routed wires. Physical implementation also introduces support cells, which explains why the final instance count is much larger. Ask students to open their GDS run's synthesis logs, search for the cell statistics and associate the result with their own commit. Missing or unmapped cells and synthesis errors should be resolved before treating later output as evidence.",
+    "guide_heading": "3.1 From behaviour to actual gates: synthesis",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html#classic"
+    ]
+  },
+  {
+    "id": "P04",
+    "section": "Physical design",
+    "title": "The PDK connects the tools to a manufacturing process",
+    "layout": "explain",
+    "body": [
+      "A PDK supplies process layers, rules, models and technology data.",
+      "A standard-cell library supplies reusable digital circuits.",
+      "This template uses SKY130 and its high-density cell library."
+    ],
+    "example": "Changing a filename cannot turn SKY130 geometry into IHP geometry.",
+    "check": "Record sky130A, the library and the PDK/tool versions.",
+    "notes": "Spell out process design kit before using PDK as shorthand. It contains the information tools need to represent a particular manufacturing process, including layers and rules. The standard-cell library supplies circuits characterised for that process. Synthesis can choose those circuits, while physical tools use their geometry and electrical information. This worked example uses the official SKY130 template and sky130A. Explain why the technology choice is consequential: moving to another process means using the appropriate template, libraries and configuration, then rebuilding and checking the design. Renaming an existing GDS file does none of that work. Clarify that 130 nm names a process family; it does not mean every shape in the layout is exactly 130 nm wide. Have students locate the PDK and tool information in their downloaded submission package and record it with the full commit. This makes the result reproducible and prevents unrelated runs from being compared as if their conditions were identical.",
+    "guide_heading": "3.2 The PDK: the rules for a particular manufacturing process",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/tree/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a",
+      "https://skywater-pdk.readthedocs.io/en/main/",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ]
+  },
+  {
+    "id": "P05",
+    "section": "Physical design",
+    "title": "Floorplanning establishes the space and interfaces",
+    "layout": "flow",
+    "body": [
+      "Define the boundary, usable core, rows and pin positions.",
+      "Plan how power reaches the cells.",
+      "Tiny Tapeout supplies a constrained tile and fixed interface."
+    ],
+    "flow": [
+      {
+        "name": "Boundary",
+        "detail": "Where the tile ends"
+      },
+      {
+        "name": "Core",
+        "detail": "Where cells can be placed"
+      },
+      {
+        "name": "Pins",
+        "detail": "Where connections enter and leave"
+      },
+      {
+        "name": "Power",
+        "detail": "Supply distribution"
+      }
+    ],
+    "check": "A tile is one part of a shared chip.",
+    "notes": "Introduce floorplanning with the idea of planning a room before placing furniture. The boundary describes the region, the usable core provides space for cell rows, pins connect the design to its surroundings, and power needs a distribution plan. Mark this as an analogy: actual tools also obey electrical and process rules. In Tiny Tapeout, students start within a defined tile and a fixed interface, rather than drawing any outline they want. The shared chip contains other user designs and selection infrastructure as well. Therefore the reported core utilisation for the counter is not its percentage of the complete manufactured chip. Ask students to distinguish tile, core and shared chip in an illustrative diagram. Do not label that teaching diagram as the measured reference floorplan. If a design does not fit, confirm the intended design and tile configuration, then read the reported cause before changing dimensions or density settings.",
+    "guide_heading": "3.3 Floorplanning: choose the usable space and place the interfaces",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://tinytapeout.com/hdl/templates/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ]
+  },
+  {
+    "id": "P06",
+    "section": "Physical design",
+    "title": "Placement must leave room for connections",
+    "layout": "explain",
+    "body": [
+      "Place cell instances in legal rows and positions.",
+      "Keep connected cells sensibly arranged.",
+      "Cell area, wiring space and timing all affect the result."
+    ],
+    "example": "A small netlist can still be awkward to place or route.",
+    "check": "Read a placement failure before changing density or tile size.",
+    "notes": "Placement decides physical positions for the cell instances. Explain legal placement as fitting cells into permitted rows without forbidden overlaps or invalid positions. Connected cells benefit from sensible separation, but minimising one wire is not the only requirement: all cells and connections must share the region, meet physical rules and support timing. A design can contain relatively little cell area yet create difficult wiring. This is why utilisation alone is not proof that an extension will succeed. Use an illustrative arrangement of a few labelled storage and logic cells to show how moving a cell changes connection lengths; do not present invented positions as the actual counter placement. For troubleshooting, first identify whether the reported failure concerns legality, congestion, dimensions or timing. Blindly changing a density value can move the failure into a later stage. Students should keep the source and configuration version associated with every placement result they discuss.",
+    "guide_heading": "3.4 Placement: put the cells in legal positions",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html#classic"
+    ]
+  },
+  {
+    "id": "P07",
+    "section": "Physical design",
+    "title": "Calculate what 4.96131% utilisation means",
+    "layout": "explain",
+    "body": [
+      "Reported core utilisation: 4.96131%.",
+      "Counted area includes physical support cells such as taps.",
+      "It is not a percentage of the entire shared chip."
+    ],
+    "example": "818.285 µm² ÷ 16,493.3 µm² × 100 ≈ 4.96131%",
+    "check": "The remaining 95% is not guaranteed capacity for any extension.",
+    "notes": "Work the arithmetic slowly and retain the units. The numerator is the reported non-filler standard-cell area, approximately 818.285 square micrometres. The denominator is the core area, approximately 16,493.3 square micrometres. Dividing areas and multiplying by 100 gives approximately 4.96131 percent. These are reference-run results, not a pixel measurement from a screenshot. The counted area includes physical support cells such as taps, so this figure should not be called logic-only occupancy. It also refers to the core, rather than the entire shared Tiny Tapeout chip. Explain the practical limit of the conclusion: a low utilisation figure provides useful evidence of a small implementation, but routing, pin access, clocking, power and constraints can limit an extension. Ask students to repeat the calculation from their own metrics and state both numerator and denominator. An unqualified statement that 95 percent is free for anything would overstate the evidence.",
+    "guide_heading": "3.4 Placement: put the cells in legal positions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://skywater-pdk.readthedocs.io/en/main/contents/libraries/sky130_fd_sc_hd/cells/tapvpwrvgnd/README.html"
+    ]
+  },
+  {
+    "id": "P08",
+    "section": "Physical design",
+    "title": "A clock tree distributes the sampling event",
+    "layout": "flow",
+    "body": [
+      "Physical wires and loads delay the clock.",
+      "Clock-tree synthesis inserts and arranges buffers.",
+      "Skew means different clock arrival times at storage elements."
+    ],
+    "flow": [
+      {
+        "name": "Clock input",
+        "detail": "One source"
+      },
+      {
+        "name": "Buffer branches",
+        "detail": "Distribute the load"
+      },
+      {
+        "name": "Flip-flops",
+        "detail": "Receive the sampling edge"
+      }
+    ],
+    "check": "RTL's single clock name does not imply zero physical skew.",
+    "notes": "In the RTL, all count bits refer to the same clock signal. In physical silicon, that signal travels through wires and drives electrical loads. It cannot reach every storage element at exactly the same instant. Clock-tree synthesis, shortened to CTS, builds a distribution network using buffers and routing. Define skew as the difference between arrival times at two storage elements. That difference affects the time available for data to travel and settle, so timing must be checked after implementation. Draw a simple illustrative tree with one source and two branches; label it as a teaching diagram, not a reconstruction of the actual counter tree. Clock support cells are another reason the final physical instance count differs from the synthesis count. Ask students why merely observing a perfect clock in RTL simulation does not establish physical timing. The answer is that simulation's logical clock event does not model the implemented distribution network and its delays.",
+    "guide_heading": "3.5 Clock-tree synthesis: distribute the clock",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html#classic"
+    ]
+  },
+  {
+    "id": "P09",
+    "section": "Physical design",
+    "title": "Routing turns netlist connections into wires",
+    "layout": "flow",
+    "body": [
+      "Choose wire paths on permitted metal layers.",
+      "A via connects conductors on different layers.",
+      "Respect width, spacing and connectivity rules."
+    ],
+    "flow": [
+      {
+        "name": "Cell pin",
+        "detail": "Connection starts"
+      },
+      {
+        "name": "Metal path",
+        "detail": "Carries the signal"
+      },
+      {
+        "name": "Via",
+        "detail": "Changes layer"
+      },
+      {
+        "name": "Destination",
+        "detail": "Connection arrives"
+      }
+    ],
+    "check": "Reference: 16 unused, non-critical disconnected inputs; zero critical.",
+    "notes": "A netlist says which nodes belong together. Routing must create valid physical paths for those connections. Define a metal layer as one available wiring layer and a via as a conductive connection between layers. A line that looks connected in a small screenshot does not establish electrical connectivity or legal geometry; reports check those properties. Explain the reference disconnection count carefully. The flow records 16 disconnected pins but zero critical disconnected pins. They correspond to unused inputs: seven dedicated input bits, eight bidirectional input bits and the harness enable input that this teaching counter ignores. This is not a general instruction to ignore disconnections in another design. Required inputs and logic connections still need inspection. Antenna and routing-rule results also matter. Ask students to distinguish an intentionally unused interface input from a missing required data connection. Their own reports must support that interpretation; the reference count cannot certify a changed design.",
+    "guide_heading": "3.6 Routing and extraction: connect the placed cells",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ]
+  },
+  {
+    "id": "P10",
+    "section": "Physical design",
+    "title": "Extraction estimates the electrical effects of wires",
+    "layout": "explain",
+    "body": [
+      "Real wires have resistance and capacitance.",
+      "Parasitic extraction estimates them from implemented geometry.",
+      "Timing analysis uses this information."
+    ],
+    "example": "Changing a route can change delay while preserving connectivity.",
+    "check": "Antenna checking addresses fabrication charge, not radio reception.",
+    "notes": "Explain parasitics as electrical effects accompanying the physical implementation. The word does not mean the wires are errors. Resistance and capacitance affect how quickly a signal changes at its destination. Extraction estimates those effects from the routed geometry, supplying information for timing analysis. Two routes can connect the same logical nodes yet have different electrical behaviour. This bridges the gap between a passing functional simulation and the need for timing reports. Introduce antenna checking here because it also concerns physical conductors. During manufacturing, accumulated charge on a conductor can damage a connected transistor gate; the term antenna refers to that fabrication effect, rather than a radio receiver. The reference reports zero antenna violations under the checks used. Ask students to explain why a route that preserves the logical circuit can still change timing. Do not invent a delay value for the reference route: use the actual timing report when discussing numerical results.",
+    "guide_heading": "3.6 Routing and extraction: connect the placed cells",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://skywater-pdk.readthedocs.io/en/main/glossary.html#antenna-rule-violations",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ]
+  },
+  {
+    "id": "P11",
+    "section": "Physical design",
+    "title": "A 50 MHz target means a 20 ns clock period",
+    "layout": "code",
+    "body": [
+      "The reference uses a 20 ns clock constraint.",
+      "Its generic input and output delays are 4 ns.",
+      "These describe the analysed interface, not measurements of a board."
+    ],
+    "code": "period = 1 / frequency\n       = 1 / 50,000,000 seconds\n       = 20 nanoseconds",
+    "check": "Read the SDC constraints before interpreting timing slack.",
+    "notes": "Calculate the period explicitly so students can connect clock frequency to the report. Fifty million cycles per second means one cycle lasts twenty nanoseconds. A timing-constraint file, usually called SDC, tells the analysis which clock and interface assumptions to use. The reference run uses the template's generic twenty-nanosecond clock and four-nanosecond input and output delay constraints. Those interface values are assumptions for the analysis; they are not measured delays of an attached development board. Avoid simply subtracting both four-nanosecond values from every path: different path types use different applicable constraints. Before interpreting slack, students should identify the path and the constraints that apply to it. The run also includes uncertainty and checks multiple analysis conditions. Have students locate the final SDC in their downloaded logs and record the clock target with the result. Changing a declared target changes the claim being checked, rather than fixing a broken functional specification.",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/config.json",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ]
+  },
+  {
+    "id": "P12",
+    "section": "Physical design",
+    "title": "Setup and hold protect opposite sides of an edge",
+    "layout": "compare",
+    "body": [
+      "Setup: data must be stable before the sampling edge.",
+      "Hold: data must remain stable after the sampling edge.",
+      "STA checks paths without simulating every possible input sequence."
+    ],
+    "example": "An illustrative edge has a stable-before region and a stable-after region.",
+    "check": "A passing setup check alone does not establish a passing hold check.",
+    "notes": "Use a small teaching timeline with one rising clock edge. Mark a region immediately before the edge for setup and a region immediately after it for hold. Explain that these are requirements of the receiving storage cell, not extra lines of Verilog. Setup asks whether data can arrive and settle in time for capture. Hold asks whether it remains stable long enough after capture. Static timing analysis, shortened to STA, checks paths using cell and wire models and the supplied constraints. It does this without applying every possible simulation sequence. Both requirements matter, so a positive setup margin does not allow a student to omit hold results. Keep the timeline illustrative and avoid adding numerical setup or hold requirements that the counter reports do not provide. Then ask students to explain the two sides of the edge in their own words before showing the real reported margins on the next slide.",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ]
+  },
+  {
+    "id": "P13",
+    "section": "Physical design",
+    "title": "Read the real timing result with its conditions",
+    "layout": "explain",
+    "body": [
+      "Worst reported setup slack: +8.64285 ns.",
+      "Worst reported hold slack: +0.109636 ns.",
+      "Reported setup and hold violation counts: zero."
+    ],
+    "example": "Positive margins support the stated target under the analysed conditions.",
+    "check": "They do not measure a fabricated chip's maximum frequency.",
+    "notes": "Show the two actual reported margins and keep nanoseconds visible. For setup, a useful first interpretation of slack is the remaining time after accounting for the required arrival and the predicted arrival under the applied constraints. Positive slack means the reported path meets that requirement. Hold slack should be read from its own analysis, rather than treated as another setup result. The reference summary reports positive worst setup and hold margins and zero violations. A timing corner combines process, voltage and temperature models with a wire-extraction condition; the summary considers several corners. These numbers therefore belong to this implementation and its stated analysis conditions. They are not a measurement of manufactured silicon, and the worst setup slack alone is not a licence to advertise a new maximum clock frequency. Ask students to record target, worst margins, violation counts, commit and tool/PDK identity together. That makes their conclusion specific enough to assess.",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ]
+  },
+  {
+    "id": "P14",
+    "section": "Physical design",
+    "title": "Practise interpreting a timing failure",
+    "layout": "exercise",
+    "body": [
+      "Hypothetical teaching example; not a failure in the verified run."
+    ],
+    "example": "This is a teaching example; the reference run did not report this failure.",
+    "check": "Would slowing the clock repair an incorrect count sequence? No.",
+    "notes": "Clearly label this exercise as hypothetical. The verified counter run has positive margins; we are not claiming that an invented failure occurred. Ask what negative setup slack means. Under the reported constraints, the predicted arrival is too late by the stated amount. The next useful action is to read the failing path, identify its start and end and understand the applicable clock and interface assumptions. A change might concern the specification, RTL, implementation or justified constraints, depending on what that evidence shows. Merely making the clock slower changes the performance target. It does not repair a counter that increments incorrectly or has the wrong reset priority. Also avoid treating a setup-oriented change as a universal hold fix. Ask students to separate a behaviour failure, a setup failure and a hold failure. Each needs the relevant evidence, and none should be inferred from the colour of a layout screenshot.",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ],
+    "question": "Hypothetical setup slack is −0.8 ns. What does it mean, and what should you inspect first?",
+    "answer": "The path is 0.8 ns late under its stated constraints. Inspect the path and constraints."
+  },
+  {
+    "id": "P15",
+    "section": "Physical design",
+    "title": "DRC checks geometry against process rules",
+    "layout": "explain",
+    "body": [
+      "Design rule checking tests permitted widths, spacing and other geometry.",
+      "Correct logic can still have illegal physical shapes.",
+      "The reference reports zero Magic DRC errors."
+    ],
+    "example": "Illustrative error: two unrelated wires placed closer than allowed.",
+    "check": "State which checks ran and passed.",
+    "notes": "Expand design rule checking before using DRC. Rules describe permitted manufacturing geometry, including minimum wire width and spacing. Explain why behaviour alone is insufficient: the intended logic can be correct while an implemented shape violates a process rule. Draw two illustrative conductors too close together and mark the spacing problem. Keep the diagram explicitly educational; it is not a screenshot of an actual reference failure. The real reference hardening run reports zero Magic DRC errors, and Tiny Tapeout precheck also passes. This conclusion must retain the scope of the enabled checks. It does not mean every possible tool and rule deck ran. If a student gets a DRC violation, they should identify the layer, rule and geometry in the report and inspect the relevant enabled flow steps. A green simulation result cannot remove a spacing violation, and a coloured layout picture alone cannot establish that every required rule passed.",
+    "guide_heading": "3.8 DRC: is the geometry manufacturable under the checked rules?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ]
+  },
+  {
+    "id": "P16",
+    "section": "Physical design",
+    "title": "LVS checks whether the geometry represents the circuit",
+    "layout": "compare",
+    "body": [
+      "DRC asks whether the shapes follow checked rules.",
+      "LVS compares extracted connectivity with the intended netlist.",
+      "The reference Netgen result matches; reported LVS errors are zero."
+    ],
+    "example": "A legally spaced wire connected to the wrong node can fail LVS.",
+    "check": "Passing DRC does not by itself establish passing LVS.",
+    "notes": "Expand layout versus schematic, then describe the comparison in this digital flow. The tool extracts circuit connectivity from the physical layout and compares it with the expected netlist, including relevant device information. DRC and LVS therefore ask different questions. A wire can have legal width and spacing but connect two nodes that should not be connected; the geometry may satisfy that spacing rule while failing circuit comparison. Use an illustrative wrong-node example and state that it is not an observed defect in the reference. The actual Netgen report says the circuits match uniquely, and the reference metrics report zero LVS errors. Ask students to locate their own final comparison report, rather than relying only on the workflow summary. If LVS fails, changing an expected value in the Python test does not repair the physical connection. Read the mismatch, identify the relevant nets or devices and address its actual cause.",
+    "guide_heading": "3.9 LVS: does the geometry represent the intended circuit?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ]
+  },
+  {
+    "id": "P17",
+    "section": "Physical design",
+    "title": "Check scope: KLayout ran in precheck",
+    "layout": "compare",
+    "body": [
+      "Hardening: Magic DRC and Netgen LVS ran.",
+      "Hardening's KLayout DRC and XOR steps were disabled.",
+      "Separate precheck ran KLayout geometry checks, including FEOL and BEOL."
+    ],
+    "example": "Disabled in one stage ≠ absent from every check.",
+    "check": "FEOL: device-side rules; BEOL: interconnect-side rules.",
+    "notes": "This slide prevents a specific misreading of the reference evidence. The template disables its KLayout DRC and XOR steps within the hardening flow. Magic DRC and Netgen LVS run there. The separate Tiny Tapeout precheck job does use KLayout checks, including front-end geometry, back-end wiring, off-grid shapes and pin-label overlap. Expand FEOL as front end of line, associated with device formation, and BEOL as back end of line, associated with interconnect. The important conclusion is about where checks occurred, rather than declaring a tool universally enabled or disabled. A student's evidence record should name the enabled checks, their results and the workflow stage. Do not turn all visible jobs passed into a claim that every possible check was used. Ask students to find one disabled hardening step and one completed precheck step in the actual logs, then explain why the two observations are compatible.",
+    "guide_heading": "3.8 DRC: is the geometry manufacturable under the checked rules?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/tt-gds-action/tree/395eedb3eeec3c2f4961c3b04ff2cf87f5525636"
+    ]
+  },
+  {
+    "id": "P18",
+    "section": "Physical design",
+    "title": "Precheck verifies the package for integration",
+    "layout": "screenshot",
+    "body": [
+      "The reference precheck passed all 15 reported checks.",
+      "It checks integration requirements, pins, boundaries and geometry.",
+      "Require gds, precheck, gl_test and viewer for the same commit."
+    ],
+    "image": "08-gds-run.png",
+    "caption": "Actual reference run: four successful jobs at 61ef06b.",
+    "focus": "The four job names and their success states",
+    "check": "A successful viewer does not prove its parallel jobs passed.",
+    "notes": "Use the genuine workflow summary to locate the four jobs. The gds job implements the design, precheck tests the resulting package against Tiny Tapeout requirements, gl_test exercises the implemented netlist, and viewer publishes the layout view. In the reference run all four pass. The precheck results contain fifteen passing checks, covering topics including geometry, boundaries, pins, allowed layers, cell names and syntax. The exact list and number can change with the shuttle and action version, so students should inspect their own report rather than memorise fifteen as a permanent guarantee. Explain that downstream or parallel jobs answer different questions. A viewer can succeed even when a separate check has not passed. Have students open each job and record its conclusion for the same final source commit. The screenshot is evidence of this reference run; students still need the corresponding run results for their own repositories.",
+    "guide_heading": "3.10 Precheck and gate-level simulation: two more kinds of evidence",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/tt-gds-action/tree/395eedb3eeec3c2f4961c3b04ff2cf87f5525636"
+    ]
+  },
+  {
+    "id": "P19",
+    "section": "Physical design",
+    "title": "The gate-level test checks implemented behaviour",
+    "layout": "compare",
+    "body": [
+      "RTL test: exercises the behavioural hardware description.",
+      "Gate-level test: exercises the implementation netlist with cell models.",
+      "This template uses functional/unit-delay settings, without extracted SDF."
+    ],
+    "example": "Both tests check top-level pins, so renamed internal signals are unnecessary.",
+    "check": "Gate-level functional simulation complements STA; it does not replace it.",
+    "notes": "Gate-level simulation replaces the behavioural design representation with its implemented cell netlist and the appropriate library models. The counter test deliberately uses top-level ports, allowing the same external cases to run without depending on an internal RTL name that synthesis may remove. Explain the actual simulation scope. The template's Makefile uses functional and unit-delay settings. It does not load the layout's extracted delays through SDF, meaning Standard Delay Format. Therefore this successful test supports implemented functional behaviour for the tested cases; it is not an extracted-delay timing simulation. STA remains separate timing evidence. Ask students which result answers whether reset and hold still work after mapping, and which answers whether the analysed paths meet timing requirements. The first is supported by the gate-level functional test, while the second uses STA. Neither result alone establishes the other checks, such as DRC, LVS or integration precheck.",
+    "guide_heading": "3.10 Precheck and gate-level simulation: two more kinds of evidence",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ]
+  },
+  {
+    "id": "P20",
+    "section": "Physical design",
+    "title": "Three cell counts describe different things",
+    "layout": "screenshot",
+    "body": [
+      "47 cells: synthesis result.",
+      "279 non-filler instances: includes 225 taps.",
+      "4,600 final instances: includes 4,321 fillers."
+    ],
+    "image": "17-real-metrics.png",
+    "caption": "Actual downloaded reference metrics, opened locally.",
+    "focus": "Instance counts and utilisation; retain the artifact identity",
+    "example": "279 + 4,321 = 4,600; support cells are not extra counter operations.",
+    "notes": "Keep the three count categories separate. Synthesis reports forty-seven cells for its mapped circuit. The final non-filler physical count is two hundred and seventy-nine, including two hundred and twenty-five taps as well as logic and other implementation cells. Adding four thousand three hundred and twenty-one filler cells gives four thousand six hundred total physical instances. Tap cells provide electrical contacts to substrate and well regions; they support the physical circuit rather than storing count bits. Fillers occupy required physical gaps and are not thousands of additional counter operations. Do not subtract categories and assume the remainder exactly reproduces the synthesis count, because implementation can add or change cells. The screenshot is a local browser view of genuine downloaded metrics, not a recreation of GitHub's interface. Ask students to name the stage and inclusion rules whenever they quote a cell count. A remembered gates-per-tile estimate cannot replace the actual fit and timing checks.",
+    "guide_heading": "3.11 Read the actual reports and keep the units straight",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://skywater-pdk.readthedocs.io/en/main/contents/libraries/sky130_fd_sc_hd/cells/tapvpwrvgnd/README.html"
+    ]
+  },
+  {
+    "id": "P21",
+    "section": "Physical design",
+    "title": "A passing run can still contain warnings",
+    "layout": "explain",
+    "body": [
+      "Reference lint errors: zero.",
+      "Reference timescale warnings: 447.",
+      "Classify a warning by its cause and effect before changing code."
+    ],
+    "example": "447 warnings are not 447 failed cocotb assertions.",
+    "check": "Record the warning and the successful result together.",
+    "notes": "Distinguish errors, warnings and failed test assertions. The reference run completes successfully with zero lint errors but four hundred and forty-seven timescale warnings. The counter supplies a timescale, while generated or other modules do not supply one consistently. This warning count does not mean the Python test failed hundreds of assertions. It also means that passed should not be rewritten as no warnings. Ask students to read the actual warning message and identify which files and conditions produce it. A useful evidence note records the count, cause, observed effect and any remaining limitation. Do not recommend broad edits merely to make a summary look tidier: a changed source requires a new commit and a new set of checks. For another warning, the interpretation could be more serious, so the reference explanation is not permission to ignore all warnings. The disciplined habit is to investigate and classify each relevant category.",
+    "guide_heading": "3.11 Read the actual reports and keep the units straight",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ]
+  },
+  {
+    "id": "P22",
+    "section": "Physical design",
+    "title": "Archive files that support your conclusion",
+    "layout": "code",
+    "body": [
+      "Download artifacts while they remain available.",
+      "GDS/OAS stores geometry.\nThe netlist lists connections.",
+      "The artifact is a file package.\nOrdering is a separate action."
+    ],
+    "code": "evidence/\n  identity.txt\n  rtl-test/results.xml + tb.fst\n  layout/\n  build-logs/\n  datasheet/\n  observations.txt",
+    "check": "Record repository, full commit, run URLs and versions.",
+    "notes": "A screenshot is useful orientation, but it cannot replace the files and reports behind the conclusion. Show a simple evidence directory containing the design identity, RTL test result and FST waveform, layout files, build logs, generated datasheet and observations. The reference submission artifact contains GDS and OASIS geometry, an implemented Verilog netlist and statistics. Folder nesting can vary with future action packaging, so search by filename and extension if the first folder is not the expected one. GitHub may require sign-in to download artifacts, and retention is limited; archive evidence while it is available. Explain the misleading artifact name explicitly: downloading tt_submission does not place an order or submit a revision to a shuttle. Have students find their own full commit and run URLs before saving the package. Files from different source versions do not jointly establish a final checked revision, even if each separate screenshot shows green.",
+    "guide_heading": "3.12 Download the artifacts and inspect the layout",
+    "sources": [
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ]
+  },
+  {
+    "id": "P23",
+    "section": "Physical design",
+    "title": "Explore the real layout without overstating the picture",
+    "layout": "screenshot",
+    "body": [
+      "Coloured shapes represent manufacturing layers.",
+      "The native toggle hides filler, decap and tap cells together.",
+      "Rotation and zoom help locate cells and routed connections."
+    ],
+    "image": "18-real-layout.png",
+    "caption": "Actual counter viewer, with fill/decap/tap hidden.",
+    "focus": "Placed cell area and the routed geometry",
+    "check": "Geometry exists; reports still establish timing and rule results.",
+    "notes": "Show the genuine loaded counter viewer and identify the module name. The coloured shapes represent manufacturing-layer geometry; viewing them does not manufacture anything. The native display control groups filler, decoupling and tap cells together. Hiding that group makes the logic and its routes easier to inspect. A decoupling cell provides capacitance associated with the supply rather than an extra count operation. The viewer may refit its camera when display options change, so two screenshots should not be compared as exact pixel-area measurements. Students should rotate and zoom their own view and write one defensible observation, such as that the intended module loaded and its layout exists. Stronger claims require corresponding reports. Also explain that the OAS file can take time to load and process; an initially empty canvas does not show that the design is empty. Use the published viewer URL for the intended revision and confirm its identity.",
+    "guide_heading": "3.12 Download the artifacts and inspect the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ]
+  },
+  {
+    "id": "P24",
+    "section": "Physical design",
+    "title": "Finish the free exercise with one checked revision",
+    "layout": "explain",
+    "body": [
+      "Keep specification, source and pin mapping.",
+      "Match RTL, docs and all four GDS jobs to one commit.",
+      "Archive artifacts, waveform observations, metrics and limitations."
+    ],
+    "example": "Explain reset, hold, wrap and one timing result to a demonstrator.",
+    "check": "You can complete this package without buying silicon.",
+    "notes": "Use this as the assessment checkpoint, rather than treating a green icon or colourful layout as the endpoint. The student should show a clear counter specification, the complete source identity, a passing functional test, documentation that agrees with the implemented pins, and successful physical, integration and netlist checks for the same revision. The published viewer should load the intended geometry. Their evidence package should retain downloaded files and reports, three meaningful waveform observations and one correctly interpreted timing result. Ask them to explain reset priority, holding count while the clock continues, and why the terminal-count flag is high at enabled 255 before overflow. They should also identify remaining warnings and the analysed clock target. This practical package is achievable without placing an order. A later manufacturing decision belongs to the class or project owner, with its budget, chosen shuttle and review process. Changes after this checkpoint require fresh evidence for the changed source.",
+    "guide_heading": "4.1 Your free stopping point: a checked, archived revision",
+    "sources": [
+      "https://tinytapeout.com/faq/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ]
+  },
+  {
+    "id": "P25",
+    "section": "Fabrication",
+    "title": "A tile and a development kit are separate purchases",
+    "layout": "screenshot",
+    "body": [
+      "8 October 2026 calculator: SKY130, academic/industry.",
+      "One digital tile €70; one kit €300; shipping €15.",
+      "Displayed total: €385."
+    ],
+    "image": "19-cost-with-board.png",
+    "caption": "Genuine dated public estimate; no quote or order was requested.",
+    "focus": "Tile, PCB and shipping rows; selected account category",
+    "check": "Check current terms before any approved order.",
+    "notes": "This screenshot explains the cost boundary without asking students to transact. It is a genuine public calculator view captured on 8 October 2026, with SKY130, the academic/industry category, one digital tile and one PCB selected. The displayed estimate separates tile space at seventy euros, the development kit at three hundred euros and economy shipping at fifteen euros, giving three hundred and eighty-five euros. Explain that design space and hardware for using the eventual chip are different items. These are dated values for the displayed selection, not a guaranteed quotation for a class or a later shuttle. Eligibility, taxes, delivery and current service terms must be checked at the time of an approved purchase. Do not direct students to request a quote, create an order or enter payment details as part of this exercise. The reference counter has not been ordered or submitted to a shuttle; its completed free evidence remains a valid teaching result.",
+    "guide_heading": "4.2 See the cost boundary without placing an order",
+    "sources": [
+      "https://app.tinytapeout.com/calculator",
+      "https://tinytapeout.com/teaching/",
+      "https://tinytapeout.com/terms/"
+    ]
+  },
+  {
+    "id": "P26",
+    "section": "Fabrication",
+    "title": "A €70 tile selection includes no development kit",
+    "layout": "screenshot",
+    "body": [
+      "8 October 2026 calculator: individual, one tile, zero PCBs.",
+      "The displayed total was €70.",
+      "A tile credit does not automatically include hardware."
+    ],
+    "image": "20-cost-tile-only.png",
+    "caption": "Actual public tile-only selection; no order was placed.",
+    "focus": "Zero PCBs and the €70 total",
+    "check": "Ask what is included, rather than comparing totals alone.",
+    "notes": "Compare this selection with the previous slide. Removing the PCB changes what would be purchased, not merely the price of the same delivered package. In the genuine 8 October calculator view, the individual category with one SKY130 digital tile and zero PCBs displays seventy euros. That selection includes no development kit. Explain why a tile coupon or credit cannot automatically be treated as an entitlement to hardware. Individual discounts may be limited, and institutional eligibility and current shuttle conditions must be checked separately. Do not imply that every account or class is eligible for a particular displayed category. Students should learn to distinguish tile allocation, development hardware and shipping when reading a calculator. The visible check asks them to identify the included items before comparing amounts. Reiterate that opening and changing selections in a public calculator is a learning activity; obtaining an approved order, using a coupon or submitting a revision is a later process.",
+    "guide_heading": "4.2 See the cost boundary without placing an order",
+    "sources": [
+      "https://app.tinytapeout.com/calculator",
+      "https://tinytapeout.com/teaching/",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ]
+  },
+  {
+    "id": "P27",
+    "section": "Fabrication",
+    "title": "Understand the later order and submission sequence",
+    "layout": "flow",
+    "body": [
+      "Owner approval covers shuttle, budget, rights and delivery.",
+      "A zero-total order is still an order.",
+      "This explains a later process; the exercise stops earlier."
+    ],
+    "flow": [
+      {
+        "name": "Reviewed files",
+        "detail": "Passing builds"
+      },
+      {
+        "name": "Project/order",
+        "detail": "Sign in; select repository"
+      },
+      {
+        "name": "Payment or zero total",
+        "detail": "Complete order stage"
+      },
+      {
+        "name": "Submit revision",
+        "detail": "Choose the source version"
+      }
+    ],
+    "check": "No authenticated payment screens were visited for this lesson.",
+    "notes": "Describe the sequence without performing it. Before an approved booking, the owner confirms the selected technology and shuttle, closing date, tile count, budget, rights and delivery expectations. Reviewed source and passing builds come first. The owner then signs into the Tiny Tapeout portal with GitHub and creates a project using the repository URL, reviewing any requested account authorisation. The project goes through an order stage. The current public interface uses Continue to Payment when an amount is due and Submit Project for a zero-total case. A coupon or credit can affect the total, but a zero amount does not turn the action into a practice simulation. The owner then explicitly submits a design revision. Make clear that this lesson did not visit authenticated payment-provider screens, place an order or submit the counter. Students should read the current official guide before any separately approved action, since the service interface and terms can change.",
+    "guide_heading": "4.3 What an approved submission would do",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://app.tinytapeout.com/_build/assets/CreateProjectForm-CKe81cnQ.js",
+      "https://app.tinytapeout.com/_build/assets/CreateSubmission-krpe5UGC.js"
+    ]
+  },
+  {
+    "id": "P28",
+    "section": "Fabrication",
+    "title": "A new GitHub commit does not replace a submitted revision",
+    "layout": "compare",
+    "body": [
+      "GitHub commit: saves a version and can trigger builds.",
+      "Order stage: books the selected allocation.",
+      "Submit a new revision: explicitly selects design source for integration."
+    ],
+    "example": "After an RTL change: new passing builds → deliberate new submission.",
+    "check": "Record the commit accepted by the submission before the deadline.",
+    "notes": "Separate three events that beginners can easily combine mentally. A commit saves source history and may trigger workflow builds. Completing an order handles the selected allocation and any payment or zero-total case. Submitting a new revision selects a particular source version for the manufacturing integration process. Creating a project or paying alone is not equivalent to submitting the final design revision. If the owner changes code before the shuttle closes, the changed revision needs passing builds and an explicit new submission. A later push or newly generated artifact does not automatically replace the version previously accepted. Have students describe what evidence would identify the submitted source: the full commit associated with the accepted revision, not merely the latest branch name. This remains a conceptual discussion in the free lesson. After manufacture has begun, editing a GitHub repository cannot alter geometry already sent to the foundry.",
+    "guide_heading": "4.3 What an approved submission would do",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://app.tinytapeout.com/_build/assets/CreateSubmission-krpe5UGC.js"
+    ]
+  },
+  {
+    "id": "P29",
+    "section": "Fabrication",
+    "title": "Integration creates the shared chip before tapeout",
+    "layout": "flow",
+    "body": [
+      "Accepted tiles join shared selection and chip infrastructure.",
+      "The complete chip needs additional integration checks.",
+      "Tapeout hands over final manufacturing data."
+    ],
+    "flow": [
+      {
+        "name": "Checked tile",
+        "detail": "One user design"
+      },
+      {
+        "name": "Shared chip",
+        "detail": "Many designs and infrastructure"
+      },
+      {
+        "name": "Final checks",
+        "detail": "Integrated implementation"
+      },
+      {
+        "name": "Tapeout",
+        "detail": "Manufacturing-data handover"
+      }
+    ],
+    "check": "Passing one standalone tile is only part of a complete chip.",
+    "notes": "Explain the transition from a student's tile to the shared physical chip. Tiny Tapeout must place accepted user designs into the complete layout and connect them to common selection and interface infrastructure. The overall chip needs checks beyond the standalone tile result. A passing tile is necessary evidence for its design, but it does not establish that the whole integration has been completed or manufactured. Define tapeout as handing over final design data for manufacturing. The historical name comes from magnetic tape, although files are now transferred electronically. It is distinct from running a local simulator or downloading an artifact called tt_submission. Draw an illustrative set of tiles within a shared chip outline and label the shared infrastructure. Do not imply that the diagram is the actual future shuttle layout. The accepted source version matters because later repository edits cannot change data already handed over for manufacture.",
+    "guide_heading": "Integration and final preparation",
+    "sources": [
+      "https://tinytapeout.com/making_asics/",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made"
+    ]
+  },
+  {
+    "id": "P30",
+    "section": "Fabrication",
+    "title": "Masks and repeated process steps create wafer structures",
+    "layout": "flow",
+    "body": [
+      "A wafer contains many repeated chip sites.",
+      "Lithography defines patterns for process steps.",
+      "Insulating layers separate structures; conductive layers connect them."
+    ],
+    "flow": [
+      {
+        "name": "Form a layer",
+        "detail": "Deposit or prepare material"
+      },
+      {
+        "name": "Pattern",
+        "detail": "Lithography and resist"
+      },
+      {
+        "name": "Modify",
+        "detail": "Etch or alter selected regions"
+      },
+      {
+        "name": "Repeat",
+        "detail": "Build devices and interconnect"
+      }
+    ],
+    "check": "The fab uses manufacturing data, not a screenshot of the viewer.",
+    "notes": "Use a deliberately simplified manufacturing diagram to bridge geometry files and silicon. A wafer is a disc of semiconductor material with many repeated chip sites. Manufacturing forms devices and connections through controlled process steps: material is deposited or prepared, lithography defines a pattern, selected regions are removed or modified, and later layers repeat related operations. Doping alters semiconductor properties, insulating layers separate structures, and conductive layers provide interconnections. Masks and the process recipe correspond to different layers and operations; the foundry does not print the 3D viewer image onto silicon. Keep the illustration conceptual. Do not borrow advanced-node EUV requirements, exact layer counts or cycle times from generic sources and assign them to this SKY130 shuttle. Also repeat that 130 nm is a process-family name rather than the exact size of every feature. Ask students how a coloured shape in the viewer relates to a process layer and why the PDK's rules matter.",
+    "guide_heading": "Layers, masks and the wafer",
+    "sources": [
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made",
+      "https://www.asml.com/en/technology/lithography-principles",
+      "https://tinytapeout.com/making_asics/"
+    ]
+  },
+  {
+    "id": "P31",
+    "section": "Fabrication",
+    "title": "Transistor networks implement gates and stored state",
+    "layout": "flow",
+    "body": [
+      "Transistors help control conducting paths.",
+      "CMOS uses complementary networks to implement logic.",
+      "The standard-cell library supplies the counter's gates and flip-flops."
+    ],
+    "flow": [
+      {
+        "name": "Transistors",
+        "detail": "Physical devices"
+      },
+      {
+        "name": "Library cells",
+        "detail": "Reusable circuits"
+      },
+      {
+        "name": "Counter netlist",
+        "detail": "Connected instances"
+      }
+    ],
+    "example": "An inverter maps logical 0 to 1, and 1 to 0.",
+    "notes": "Connect the digital abstraction to physical devices without attempting a transistor-design course. At this level, a transistor helps control whether a conducting path is available. CMOS logic uses complementary transistor networks to produce logic functions. An inverter gives a simple example: under valid supply and electrical conditions, logical zero at the input produces logical one at the output, and vice versa. Larger circuit networks implement arithmetic and storage cells. In this project, students did not draw each transistor. The standard-cell library provides the actual gate and flip-flop circuits, synthesis selects instances, and physical tools place and connect their layouts. This separation makes the flow manageable while retaining the link to manufacturing through the PDK, library models and checks. Any device-to-cell illustration should be labelled as conceptual, rather than presented as the extracted transistor schematic of the reference counter. Ask students to trace how one RTL storage requirement eventually needs a physical storage circuit.",
+    "guide_heading": "Why transistors can implement the counter",
+    "sources": [
+      "https://skywater-pdk.readthedocs.io/en/main/contents/libraries.html",
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made"
+    ]
+  },
+  {
+    "id": "P32",
+    "section": "Fabrication",
+    "title": "Testing and assembly continue after wafer processing",
+    "layout": "flow",
+    "body": [
+      "Testing identifies devices that work or fail.",
+      "Dicing separates dies; packaging provides protected connections.",
+      "Board assembly and testing prepare usable development hardware."
+    ],
+    "flow": [
+      {
+        "name": "Processed wafer",
+        "detail": "Many chip sites"
+      },
+      {
+        "name": "Test and dice",
+        "detail": "Check; separate dies"
+      },
+      {
+        "name": "Package",
+        "detail": "Protect and connect"
+      },
+      {
+        "name": "Board",
+        "detail": "Assemble and test"
+      }
+    ],
+    "check": "Delivery depends on the selected service and kit; check current schedules.",
+    "notes": "A completed wafer is not yet the same thing as the development board a student uses. After processing, testing can identify devices that work or fail. Dicing separates individual dies from the wafer. Packaging provides protection and usable electrical connections, and board assembly connects the packaged device to the development hardware. The exact testing and delivery arrangement depends on the selected service and kit, so present this as a conceptual sequence rather than a promise about every shuttle. The finished chip still needs valid power, a clock, reset, design selection and appropriate I/O conditions. Manufacturing, assembly, external inputs and board handling can introduce issues outside the functional test used in this lesson. Shuttle manufacturing and delivery expectations are measured in months rather than software-build minutes. Refer students to the current service schedule and order information, and do not promise a delivery date based on an old video or this reference design's successful workflow.",
+    "guide_heading": "Wafer testing, dicing, packaging and board testing",
+    "sources": [
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made",
+      "https://tinytapeout.com/chips/",
+      "https://tinytapeout.com/faq/",
+      "https://tinytapeout.com/terms/"
+    ]
+  },
+  {
+    "id": "P33",
+    "section": "Fabrication",
+    "title": "Read the counter as binary on a board",
+    "layout": "explain",
+    "body": [
+      "Select the design and use a controlled learning clock.",
+      "Hold rst_n low across a rising edge; release it, then enable ui_in[0].",
+      "Read uo_out[7:0]; uio[0] flags enabled count 255."
+    ],
+    "example": "Count 5 = 00000101: output bits 2 and 0 are high.",
+    "check": "The RTL does not include a decimal-display decoder.",
+    "notes": "This is preparation for later hardware use, not a requirement to own a board now. Follow the guide for the actual board revision, since current ETR instructions differ from older board guides. Power and configure the board, select the intended design, and choose a controlled slow clock or single-step mode for learning. A fifty-megahertz analysis target does not make individual counts visually readable at fifty million updates per second. Hold reset low through a rising edge, release it, then apply the synchronous count enable on dedicated input bit zero. At count five, output bits two and zero are high, giving binary 00000101. A decimal display requires a controller or additional decoding; this RTL supplies no seven-segment decoder. Bidirectional bit zero is driven as an output and is high while count is 255 and enable is high, then low after overflow. Use the board's own GPIO specifications for valid electrical levels.",
+    "guide_heading": "4.5 How this counter would be used on a board later",
+    "sources": [
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/",
+      "https://tinytapeout.com/specs/gpio/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md"
+    ]
+  },
+  {
+    "id": "P34",
+    "section": "Fabrication",
+    "title": "A physical button is not an ideal testbench input",
+    "layout": "compare",
+    "body": [
+      "Synchronisation reduces risks from asynchronous sampling.",
+      "Debouncing suppresses repeated changes from switch contacts.",
+      "These solve different problems; this counter assumes synchronous enable."
+    ],
+    "example": "One press can produce several electrical transitions near clock edges.",
+    "check": "A simulator's logical 1 does not mean one volt.",
+    "notes": "The testbench changes inputs at controlled times away from the sampling edge. A physical switch can change near that edge, and its contacts can bounce several times during one press. These introduce separate concerns. Synchronisation reduces the risk associated with sampling an asynchronous change. Debouncing suppresses repeated apparent changes caused by contact bounce. One does not automatically solve the other, and neither is implemented by this minimal teaching counter. Its enable input is assumed to be synchronous to the clock, supplied by a suitable controller or testbench. Ask students why directly attaching a pushbutton would not reproduce the ideal simulated input. Avoid implying that a small extra gate alone guarantees safe asynchronous sampling. Also bridge logical values and electrical levels: simulated one is a logic state, not a one-volt supply specification. Use the actual board instructions and current GPIO specifications to determine permitted voltages and speed before any later hardware connection.",
+    "guide_heading": "4.5 How this counter would be used on a board later",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+      "https://tinytapeout.com/specs/gpio/",
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/"
+    ]
+  },
+  {
+    "id": "P35",
+    "section": "Optional local lab",
+    "title": "Local simulation is an optional faster feedback loop",
+    "layout": "compare",
+    "body": [
+      "Browser route: Actions supplies the simulation and physical tools.",
+      "Local RTL route: you supply Linux, Python, make and Icarus.",
+      "Use Ubuntu or a managed lab environment; these are not PowerShell commands."
+    ],
+    "check": "Installing a full physical-design suite is unnecessary for this RTL exercise.",
+    "notes": "State the scope before installing anything. The main browser workflow already provides a route to a tested, checked and archived layout without local tool installation. Local RTL simulation is optional and can make edit/test cycles faster while teaching what the test job runs. The commands in this appendix target an Ubuntu Linux terminal, including Ubuntu inside an already configured WSL2 environment. They are not commands to paste into PowerShell. Students without a suitable Linux or managed lab environment should continue using the browser route. Installing WSL, Docker or a complete physical-design tool suite is not required for this lesson. A managed laboratory may already supply the tools, and students should follow its setup rather than change system packages. Explain that the terminal's current directory matters. Before running a command, identify whether the instructions expect the project root or its test subdirectory. Local simulation does not submit a design or order hardware.",
+    "guide_heading": "B.1 Choose a supported environment",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md",
+      "https://tinytapeout.com/guides/local-hardening/"
+    ]
+  },
+  {
+    "id": "P36",
+    "section": "Optional local lab",
+    "title": "Check tools and obtain your saved source",
+    "layout": "code",
+    "body": [
+      "On your own Ubuntu installation, install missing prerequisites.",
+      "Clone your repository or extract its complete project ZIP.",
+      "Test the same source version\nas your saved reference run."
+    ],
+    "code": "sudo apt-get update\nsudo apt-get install -y git python3 \\\n  python3-venv python3-pip make iverilog\ngit --version\npython3 --version\nmake --version\niverilog -V",
+    "check": "Project root contains info.yaml, src and test.",
+    "notes": "Explain each command rather than treating this as a universal installation recipe. On a student's own Ubuntu system, apt-get obtains packages from the configured repositories and sudo gives the installation system privileges. The listed tools supply Git, Python, virtual-environment support, make and the Icarus simulator. On a managed lab machine, use the demonstrator's environment instead of changing system packages. Each version command should identify a tool rather than report command not found. Obtain the student's saved repository using git clone or a complete project ZIP, then enter its project root. If using Git, git rev-parse HEAD records the full source identity, and a deliberately different branch must be selected before testing. The verified CI uses Python 3.11 and Ubuntu 24.04 with pinned packages; a different local tool version can be useful for learning without being an identical reproduction. The wrapped installation command uses a real backslash continuation between its two lines.",
+    "guide_heading": "B.2 Get your own saved project files",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md"
+    ]
+  },
+  {
+    "id": "P37",
+    "section": "Optional local lab",
+    "title": "Install test packages inside an isolated environment",
+    "layout": "code",
+    "body": [
+      "Run from the project root.",
+      "A virtual environment isolates the test's Python packages.",
+      "Reference requirements pin cocotb 2.1.0 and pytest 8.4.2."
+    ],
+    "code": "python3 -m venv .venv\nsource .venv/bin/activate\npython -m pip install -r test/requirements.txt",
+    "check": "Python packages do not install the Icarus Verilog executable.",
+    "notes": "A Python virtual environment keeps the test's package versions separate from unrelated system packages. The first command creates the environment in a directory named .venv within the project. The second activates it for the current terminal. The third installs the requirements supplied by the template the student actually copied. For the verified reference, those requirements pin cocotb 2.1.0 and pytest 8.4.2. Do not silently substitute the newest cocotb or instructions from an older article that expects another version. Explain the separation between the Python test and the Verilog simulator: installing cocotb does not install the Icarus executable. Both must be available. A new terminal may require the activation command again. Ask students to confirm their current directory and active environment before investigating an import failure. Their source should contain the updated counter and wrapper, while test/Makefile lists both files; environment setup alone cannot fix a missing source file.",
+    "guide_heading": "B.3 Install the pinned Python test packages",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/requirements.txt",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md"
+    ]
+  },
+  {
+    "id": "P38",
+    "section": "Optional local lab",
+    "title": "Run the test, then explicitly check its XML result",
+    "layout": "code",
+    "body": [
+      "Icarus compiles the design; cocotb drives inputs and checks assertions.",
+      "The XML checker verifies reported failures and errors.",
+      "Reference result: one passing test; 11,368 ns simulated time."
+    ],
+    "code": "cd test\nmake -B\npython -m cocotb_tools.check_results results.xml",
+    "check": "Require results.xml and tb.fst; make alone can conceal a test failure.",
+    "notes": "Run these commands from the project root after activating the virtual environment. Changing into test makes the relative source paths in the Makefile resolve as intended. Make reads the compilation and simulation recipe, and its -B option asks it to rebuild rather than assume existing compiled outputs are current. Icarus compiles the Verilog source and testbench; cocotb drives the top-level signals and checks the expected model. The final command reads the XML result and signals a failure if tests failed. This explicit check matters because make alone can return a successful exit status even when cocotb reports a test failure. For the unchanged reference, look for one passing test_project, zero failures and errors, and an actual tb.fst file. Its simulated circuit time is 11,368 nanoseconds, which is different from elapsed wall-clock time. A passing result supports the tested phases; it does not prove every possible state sequence or physical check.",
+    "guide_heading": "B.4 Compile and run, then check the results explicitly",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/.github/workflows/test.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ]
+  },
+  {
+    "id": "P39",
+    "section": "Optional local lab",
+    "title": "Local gate-level testing needs matching implementation files",
+    "layout": "code",
+    "body": [
+      "Copy the exact implementation netlist to test/gate_level_netlist.v.",
+      "PDK_ROOT names the directory containing sky130A.",
+      "These checks inspect existing files; they do not install a PDK."
+    ],
+    "code": "export PDK_ROOT=/path/to/installed/pdk\nSC=\"$PDK_ROOT/sky130A/libs.ref\"\nSC=\"$SC/sky130_fd_sc_hd/verilog\"\ntest -f \"$SC/primitives.v\"\ntest -f \"$SC/sky130_fd_sc_hd.v\"\ntest -f gate_level_netlist.v\nmake -B GATES=yes\npython -m cocotb_tools.check_results results.xml",
+    "check": "Correct missing paths before make; use the build's pdk.json identity.",
+    "notes": "Keep this clearly optional. Local gate-level simulation requires the netlist from the exact implementation and matching installed SKY130 cell models. Copy the implemented netlist to test/gate_level_netlist.v. Set PDK_ROOT to the installed directory containing sky130A, not to sky130A itself, because the Makefile appends that component. Replace the example path with the actual installation path. The temporary SC variable only shortens the visible file checks; the Makefile continues using PDK_ROOT. Each test -f should return success. If one fails, locate the missing file and correct the path before invoking make. Record and match the PDK version using the build's pdk.json rather than substituting unrelated models. Run the commands inside test with the Python environment active. The main workflow's gl_test job obtains these prerequisites automatically, making Actions the recommended first result. This functional/unit-delay test still does not load extracted SDF delays or replace static timing analysis.",
+    "guide_heading": "B.5 View the FST and understand gate-level dependencies",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md",
+      "https://tinytapeout.com/guides/local-hardening/"
+    ]
+  },
+  {
+    "id": "P40",
+    "section": "Optional local lab",
+    "title": "Inspect the waveform and diagnose one cause at a time",
+    "layout": "flow",
+    "body": [
+      "Open tb.fst in web Surfer or an available native viewer.",
+      "Inspect clock, reset, enable, count and terminal-count output.",
+      "Read the first useful error before changing anything."
+    ],
+    "flow": [
+      {
+        "name": "Missing tool",
+        "detail": "Check installation"
+      },
+      {
+        "name": "Missing source",
+        "detail": "Check lists and directory"
+      },
+      {
+        "name": "Import error",
+        "detail": "Check environment"
+      },
+      {
+        "name": "Wrong count",
+        "detail": "Compare specification and wave"
+      }
+    ],
+    "check": "Local changes need a saved commit and fresh Actions evidence.",
+    "notes": "The local FST can be opened using the same free web Surfer procedure as the browser lesson. A native GTKWave or Surfer installation is optional. Where GTKWave is available, run gtkwave tb.fst inside test, then add the current top-level signals. A saved viewer configuration from an older adder template may refer to old signals; an empty saved view is not proof that the counter waveform is missing. For troubleshooting, confirm the test directory, active environment, installed simulator, source lists and matching top-module names. Distinguish a missing tool, missing file, Python import error and incorrect expected count, since they require different fixes. Read the first useful compiler or assertion error and compare it with the specification and wave. Running locally neither uploads changes nor orders a chip. Save an intentional change through a commit and push using the student's repository workflow, then review a complete new set of Actions results for that revision.",
+    "guide_heading": "B.5 View the FST and understand gate-level dependencies",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md",
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ]
+  }
+]

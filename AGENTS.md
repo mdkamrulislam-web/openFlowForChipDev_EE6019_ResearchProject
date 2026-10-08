@@ -2,13 +2,13 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 8 October 2026 (project week 2, comprehensive beginner manual prepared and worked example verified).*
+*Last updated: 8 October 2026 (project week 2, complete beginner manual and slide course prepared; worked example verified).*
 
 ---
 
 ## 1. The project in one paragraph
 
-EE6019 is the MEngSc (Electrical and Electronic Engineering) research project at University College Cork, 2026–27, supervised by **Prof. Emanuel Popovici**. The student is Kamrul (GitHub `mdkamrulislam-web`). Since the 2 Oct 2026 meeting the project has two parts. **Teaching:** document the existing **Tiny Tapeout** Verilog flow step by step so that UCC undergraduates can use it next year to make their own chips; Kamrul does *not* build a new flow. On 8 October Kamrul requested a comprehensive DOCX beginner manual with screenshots, reasons, instructions, checks and examples, without a length limit. The manual is now the primary independent-learning material, with the slides as a lecture companion. **Research:** design a **neural-network accelerator** on a larger open template with a **RISC-V** core and take it through the full open flow to a layout ready for submission. **The project must be finished by 30 April 2027**; that date is fixed and cannot slip.
+EE6019 is the MEngSc (Electrical and Electronic Engineering) research project at University College Cork, 2026–27, supervised by **Prof. Emanuel Popovici**. The student is Kamrul (GitHub `mdkamrulislam-web`). Since the 2 Oct 2026 meeting the project has two parts. **Teaching:** document the existing **Tiny Tapeout** Verilog flow step by step so that UCC undergraduates can use it next year to make their own chips; Kamrul does *not* build a new flow. On 8 October Kamrul requested a comprehensive DOCX beginner manual with screenshots, reasons, instructions, checks and examples, without a length limit, then explicitly asked for the slides too. The 85-page manual and complete 195-slide course now support independent learning and teaching. The earlier 26-slide overview is preserved for history. **Research:** design a **neural-network accelerator** on a larger open template with a **RISC-V** core and take it through the full open flow to a layout ready for submission. **The project must be finished by 30 April 2027**; that date is fixed and cannot slip.
 
 ### How the scope got here
 
@@ -28,7 +28,7 @@ Revised after the 2 Oct 2026 meeting.
 
 | Deliverable | What it is | Where | Needed by |
 |---|---|---|---|
-| Tiny Tapeout beginner guide and lecture slides | Comprehensive DOCX/PDF manual: fundamentals, complete example, screenshots, browser steps, tests, checked layout and free stopping point; later submission and fabrication explained. PowerPoint remains a lecture companion. | `docs/beginner-guide/`, `docs/slides/` | First version 9 Oct 2026 |
+| Tiny Tapeout beginner guide and slide course | Comprehensive DOCX/PDF manual and editable PowerPoint/PDF course: fundamentals, complete example, screenshots, browser steps, tests, checked layout and free stopping point; later submission and fabrication explained. | `docs/beginner-guide/`, `docs/slides/` | First version 9 Oct 2026 |
 | Open-tool survey | Each flow stage mapped to its commercial tool and its open replacement | Report chapter 2 | To agree |
 | Research design | Neural-network accelerator on the RISC-V template, verified and taken through the full flow to a submission-ready layout | Repo | Mar 2027 |
 | Report, logbook, presentation | EE6019 submission, with weekly Friday logs and the risk assessment | UCC submission | Dates to follow |
@@ -42,7 +42,7 @@ Revised after the 2 Oct 2026 meeting.
 ## 3. Current state of the repository (8 Oct 2026)
 
 - Week 2 teaching material is collected on branch `week-02`, [PR #8](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/8). Primary material: [beginner DOCX](docs/beginner-guide/tiny-tapeout-beginner-guide.docx), PDF, Markdown source, builder, seven-file starter ZIP and screenshot provenance. The 85-page manual has approximately 23,000 words, 30 genuine figure placements, complete code, worked exercises, waveform interpretation and why/do/check browser steps. All pages were rendered in Word and reviewed; the exact ZIP bytes match counter commit `61ef06b`. [Beginner-guide README](docs/beginner-guide/README.md) records evidence and rebuild instructions.
-- The redesigned [PowerPoint slides](docs/slides/tiny-tapeout-flow-v1.pptx) and PDF remain a 26-slide lecture companion; the independent beginner guide supersedes their shorter explanations. The RISC-V template comparison, risk assessment, weekly log and meeting preparation are also on this branch. Older slide screenshot markers are listed in `docs/slides/README.md`; they do not represent missing figures in the new manual.
+- The [complete beginner PowerPoint course](docs/slides/tiny-tapeout-beginner-course.pptx) and PDF have 195 slides, 39 genuine screenshot placements and approximately 26,500 words of teaching notes. They cover foundations, statement-by-statement RTL/test explanations, browser steps 0–18, physical design, fabrication concepts, optional local setup and twelve longer worked exercises. Native diagrams are editable; enlarged screenshot details preserve original image bytes. All slides were rendered and reviewed, with native text/geometry checks and per-slide sources. [Slide README](docs/slides/README.md) gives chapter ranges and rebuild instructions. The earlier `tiny-tapeout-flow-v1.pptx` is preserved as a 26-slide overview; its historical capture markers do not represent gaps in the full course or manual. The RISC-V comparison, risk draft, weekly log and meeting preparation are also on this branch.
 - The genuine Tiny Tapeout worked example is [tt-sky130-counter, PR #1](https://github.com/mdkamrulislam-web/tt-sky130-counter/pull/1), ready for review. RTL, docs, GDS, precheck, gate-level test and viewer all passed at commit `61ef06b`; [GDS run](https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748), [live viewer](https://mdkamrulislam-web.github.io/tt-sky130-counter/). The SKY130 counter uses 4.96% of a tile and 47 synthesis cells. It has not been submitted to a shuttle.
 - The earlier counter layout below comes from this repository's separate 150 × 150 µm LibreLane flow. It is background evidence, not a Tiny Tapeout tile result.
 
@@ -289,7 +289,7 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 
 - [x] Send the week 1 log and scope questions; 2 Oct meeting held; notes in `logbook/week-01-meeting-prep.md`.
 - [x] Follow-up email on the research template sent (2 Oct).
-- [x] **Week 2 main draft:** comprehensive step-by-step Tiny Tapeout beginner DOCX/PDF manual in `docs/beginner-guide/`, with complete counter files and genuine screenshots. Practical work stops at the free checked-layout package; later submission and fabrication are explained. The PowerPoint deck is a lecture companion. Kamrul/supervisor review and a new-student trial remain.
+- [x] **Week 2 teaching draft:** comprehensive Tiny Tapeout beginner DOCX/PDF manual in `docs/beginner-guide/` and complete 195-slide PowerPoint/PDF course in `docs/slides/`, with complete counter files and genuine screenshots. Practical work stops at the free checked-layout package; later submission and fabrication are explained. Kamrul/supervisor review and a new-student trial remain.
 - [ ] Watch *Making ASICs* and *Manufacturing ASICs*. Website-based notes are added; the videos remain pending.
 - [x] Draft the one-page risk assessment in `docs/risk-assessment.md`; supervisor/local-controls review remains.
 - [x] Draft the research-template comparison in `docs/research/riscv-template-first-look.md`; template choice remains open.

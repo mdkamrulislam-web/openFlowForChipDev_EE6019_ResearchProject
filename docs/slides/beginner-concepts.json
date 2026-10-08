@@ -1,0 +1,1347 @@
+[
+  {
+    "id": "C01",
+    "section": "Foundations",
+    "title": "Our first chip circuit counts from 0 to 255",
+    "layout": "flow",
+    "body": [
+      "An ASIC is a chip built for a particular job.",
+      "Our job: remember an 8-bit count and update it on a clock edge.",
+      "RTL (register-transfer level) describes the registers and logic."
+    ],
+    "notes": "Begin with the observable job rather than the tools. This example is an eight-bit unsigned counter, so its output represents one of 256 values. After reset, enabling the counter produces zero, one, two and eventually 255 before returning to zero. The circuit also reports terminal count through a separate flag. Students will describe this behaviour in Verilog, check it with a Python testbench, and later build a geometric layout. The layout build does not put a manufactured chip in their hands. ASIC means application-specific integrated circuit: the hardware performs the job described by the design. RTL means register-transfer level; here it describes stored count bits and the logic that chooses their next values. Ask students which part remembers the current number. The answer is the count register, not the source file or the clock itself. All examples in this section refer to the pinned worked-example revision.",
+    "guide_heading": "1. What are we making?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "Reset → 0; enabled rising edges → 1, 2, 3 … 255, 0.",
+    "check": "What must the circuit remember between clock edges? The current count."
+  },
+  {
+    "id": "C02",
+    "section": "Foundations",
+    "title": "Verilog describes connected hardware",
+    "layout": "compare",
+    "body": [
+      "Software instructions run on an existing processor.",
+      "An HDL (hardware description language) describes circuits that can operate together.",
+      "The clocked count and continuous wrap logic coexist."
+    ],
+    "notes": "A familiar program can suggest the wrong mental model for this example. The manufactured counter will not fetch the Verilog file and execute it line by line. Synthesis interprets the supported hardware description and creates a circuit made from library cells. Within that circuit, the stored count and the flag logic are connected and operate together. The order of separate module instances and continuous assignments in the file is not a schedule for a processor. There is still meaningful ordering inside a procedural block: the if and else-if express reset priority. Distinguish that local decision from the concurrency of separate hardware blocks. Use the actual counter as the example: its always block specifies when state changes, while its assign statement describes logic that responds whenever the relevant inputs change. Ask whether moving the assign statement above the always block would create a different counting sequence. It would not change these connections or their intended behaviour.",
+    "guide_heading": "Hardware descriptions differ from software instructions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "example": "count remembers a value; wrap continuously examines count and en.",
+    "check": "Does the chip execute a Verilog text file? No: the file describes hardware."
+  },
+  {
+    "id": "C03",
+    "section": "Foundations",
+    "title": "Logic calculates. A register remembers.",
+    "layout": "compare",
+    "body": [
+      "Combinational logic calculates from its current inputs.",
+      "A register stores a value between active clock edges.",
+      "Our count is stored; our wrap flag is calculated."
+    ],
+    "notes": "Introduce state before showing syntax. A combinational circuit has an output determined by its current inputs after propagation delay. A register retains a value, allowing an output to depend on what happened earlier. For the counter, the current count is state. Addition calculates a possible next count, reset selects zero, and enable selects whether the stored value changes. The rising clock edge causes the selected next value to be stored. The wrap flag is different: it is calculated from the current count and enable, with no separate flag register in this design. This distinction explains why lowering enable can clear wrap immediately while count remains 255. Avoid saying that all Verilog reg declarations physically become registers; how a signal is assigned determines the inferred hardware. Ask students to describe a count held at two while the clock continues. The register remembers two because the update rule chooses to keep its existing state.",
+    "guide_heading": "Logic calculates; stored state remembers",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "example": "At count = 255: en changes 1 → 0; wrap becomes 0, count stays 255.",
+    "check": "Which output can change between rising edges here? wrap."
+  },
+  {
+    "id": "C04",
+    "section": "Foundations",
+    "title": "One bit has two logical values",
+    "layout": "bits",
+    "body": [
+      "A bit represents logical 0 or logical 1.",
+      "Physical pins use low and high voltage ranges.",
+      "Logical 1 does not mean exactly one volt."
+    ],
+    "notes": "A bit is a binary digit, and our teaching diagrams use zero and one to describe logical values. In physical hardware those values are represented by voltage ranges accepted as low and high. The actual voltage limits depend on the process and board interface, so do not connect equipment using an assumed one-volt high level. During simulation, the testbench usually drives known binary values, although HDL signals can also expose unknown or high-impedance states. Those extra simulation states are useful warnings, not additional unsigned numbers the counter intentionally counts through. Start with one pin and then build an eight-bit bus. Explain that an illuminated LED is only a possible indicator of a pin's state; LED wiring can invert what appears illuminated. For the examples that follow, the labels show logical pin values directly. Ask students to point to bit zero rather than guessing from left-to-right drawing position.",
+    "guide_heading": "2. Start with bits and pins",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "value": 1,
+    "example": "ui_in[0] = 1 means the enable input is logically high.",
+    "check": "Do not choose a supply voltage from the digit 1."
+  },
+  {
+    "id": "C05",
+    "section": "Foundations",
+    "title": "Eight bits give 256 patterns",
+    "layout": "bits",
+    "body": [
+      "Each of eight bits has two possibilities: 2⁸ = 256.",
+      "Our unsigned values run from 0 through 255.",
+      "00000000 is 0; 11111111 is 255."
+    ],
+    "notes": "An unsigned eight-bit quantity has 256 possible bit patterns because each of its eight positions can independently be zero or one. Numbering those patterns starts at zero, so the largest value is 255, not 256. This is a property of the representation chosen for this counter, rather than a universal limit on Verilog integers. Signed eight-bit interpretation would give a different numerical range, but this example uses unsigned count bits. Emphasise the distinction between the number of patterns and the maximum value. The all-zero pattern is already one of the 256 possibilities. This understanding prepares students for overflow: eight stored bits cannot retain a ninth carry bit when an addition produces 256. Ask them how many values a three-bit unsigned counter could represent. It has eight patterns and a maximum value of seven. Return to the eight-bit case before introducing binary weights on the next slide.",
+    "guide_heading": "2. Start with bits and pins",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "value": 255,
+    "example": "3 bits: 8 patterns, values 0–7. 8 bits: 256 patterns, values 0–255.",
+    "check": "256 patterns does not mean the maximum count is 256."
+  },
+  {
+    "id": "C06",
+    "section": "Foundations",
+    "title": "Each position has a binary weight",
+    "layout": "bits",
+    "body": [
+      "From bit 7 to bit 0: 128, 64, 32, 16, 8, 4, 2, 1.",
+      "Add the weights whose bits are 1.",
+      "Bit 0 is the least significant bit."
+    ],
+    "notes": "Use the editable bit strip to associate a weight with every position. The rightmost position in the usual written notation is bit zero and has weight one. Moving left doubles the weight: two, four, eight and so on. To interpret a pattern, add only the weights under positions containing one. Zero positions contribute nothing. For the visible example, 00000101 has ones at bit two and bit zero, so its value is four plus one, or five. Do not read the text as a decimal number one hundred and one. Explain that [7:0] names positions, not a count of seven bits. The endpoints are inclusive, giving eight positions. Students will shortly use the same position labels when reading the output pins and selecting the enable input. Have a learner identify bit one in the strip, then explain why that zero contributes nothing to the value five.",
+    "guide_heading": "Why does `00000101` mean 5?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "value": 5,
+    "example": "00000101 = 4 + 1 = 5.",
+    "check": "For [7:0], count both endpoints: there are eight bits."
+  },
+  {
+    "id": "C07",
+    "section": "Foundations",
+    "title": "Count 5 appears on two output bits",
+    "layout": "bits",
+    "body": [
+      "uo_out carries the count as eight binary output signals.",
+      "At count 5, uo_out[2] and uo_out[0] are high.",
+      "The other six output bits are low."
+    ],
+    "notes": "Connect the number representation to the actual wrapper rather than leaving binary as an abstract exercise. The counter's count port is connected directly to uo_out, so a stored value of five produces the pattern 00000101 on that bus. Bit two represents four and bit zero represents one. This is binary output, not an instruction to display the decimal character five. A seven-segment display would need additional decoding or a controller that reads and translates the binary value. An eight-bit LED strip or a controller readback is a more direct illustration of the existing design. At the simulation clock rate, a person cannot follow every increment by watching LEDs; later hardware demonstrations need a suitable slow controller-supplied or single-step clock. Keep the present drawing labelled as predicted logical pin values. Ask students which pins would be high for six: bit two and bit one.",
+    "guide_heading": "Pin examples that catch common mistakes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "value": 5,
+    "example": "Count 5 → uo_out = 00000101. A decimal display needs a decoder.",
+    "check": "What is uo_out[1] at count 5? It is 0."
+  },
+  {
+    "id": "C08",
+    "section": "Foundations",
+    "title": "Try it: which pins represent 10?",
+    "layout": "exercise",
+    "body": [
+      "Use the weights 128, 64, 32, 16, 8, 4, 2, 1.",
+      "Choose weights that add to decimal 10.",
+      "Name the output positions that are high."
+    ],
+    "notes": "Pause before revealing the answer so students perform the conversion themselves. Ten is eight plus two, so the high positions are bit three and bit one. The complete eight-bit pattern is 00001010. Both the leading zeros and the positions matter when this value is presented on the fixed bus. Encourage learners to verify their answer by converting it back to decimal, rather than memorising a pattern. Eight plus two returns ten. A common mistake is to write 00010010, which represents sixteen plus two, or eighteen. Another is to say the third and first pins without defining whether numbering starts at zero; use the explicit names uo_out[3] and uo_out[1]. This exercise prepares students to inspect a waveform or controller readback later. It does not require running any tools. Explain that the example is a prediction from the bus mapping, not a captured physical measurement.",
+    "guide_heading": "Mini exercise",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "value": 10,
+    "question": "What is uo_out when the unsigned count is 10?",
+    "answer": "00001010: uo_out[3] and uo_out[1] are high."
+  },
+  {
+    "id": "C09",
+    "section": "Foundations",
+    "title": "Three notations can describe the same value",
+    "layout": "compare",
+    "body": [
+      "8'b00000101: eight bits written in binary.",
+      "8'd5: eight bits written in decimal.",
+      "8'h05: eight bits written in hexadecimal."
+    ],
+    "notes": "Read a sized Verilog number in three parts: the size before the apostrophe, the base letter, and the digits after it. The three examples all describe the same eight-bit value five. Binary makes individual positions visible, decimal makes ordinary arithmetic familiar, and hexadecimal is a compact way to write groups of four bits. An underscore within the digits, as in 8'b0000_0001, improves readability without adding another bit. The expression 1'b1 is therefore a one-bit value of one, which appears in the counter's increment expression. Later, Python's 0xFF uses a different notation for hexadecimal 255; it is not a Verilog sized literal. Keep the two languages visibly distinct. Ask students what 7'b0 means in the wrapper. It is a seven-bit value with all seven bits zero, used to give the unused output data paths a known value.",
+    "guide_heading": "Recognising Verilog number notation",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "8'b00000101 = 8'd5 = 8'h05; underscores do not add bits.",
+    "check": "Read 1'b1 as a one-bit binary one, not a variable name."
+  },
+  {
+    "id": "C10",
+    "section": "Foundations",
+    "title": "Keep the Tiny Tapeout interface intact",
+    "layout": "flow",
+    "body": [
+      "ui_in: eight dedicated input signals.",
+      "uo_out: eight dedicated output signals.",
+      "uio: eight bidirectional pins with three internal paths.",
+      "clk, rst_n and ena are control signals."
+    ],
+    "notes": "The shared Tiny Tapeout infrastructure expects a particular wrapper interface. Our design must fit that interface rather than adding or deleting top-level ports to make its own preferred shape. The eight dedicated inputs are named ui_in, and the eight dedicated outputs are named uo_out. The eight bidirectional pins have input, output-data and direction-control paths inside the wrapper. Those three buses describe the same eight bidirectional pins; they are not three separate sets of eight external pins. The clock, reset and project-selection indication are also provided through the interface. The counter uses only a subset of these paths, but the unused paths still need an intentional treatment. Start with the role of each bus before showing the long port declaration. Ask students where the count goes. Its entire eight-bit value goes to uo_out, while the separate terminal-count flag uses one bidirectional output path.",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "example": "ui_in[0] → enable; uo_out[7:0] → count; uio[0] → wrap.",
+    "check": "The three uio buses describe eight shared pins, not 24 pins."
+  },
+  {
+    "id": "C11",
+    "section": "Foundations",
+    "title": "Only input bit 0 enables this counter",
+    "layout": "bits",
+    "body": [
+      "The wrapper connects ui_in[0] to the counter’s en input.",
+      "00000001 enables counting; 10000000 does not.",
+      "Other ui_in bits do not change this example’s behaviour."
+    ],
+    "notes": "Students often assume that any nonzero input bus value enables counting. This wrapper makes a more specific connection: only ui_in[0] drives the counter's en port. A bus value of one has bit zero high, so counting is enabled. A bus value of 128 has bit seven high but bit zero low, so the counter holds. Values such as three also have bit zero high and would enable the hardware, although the current Python helper intentionally drives only zero or one. Keep that distinction clear when the test model is introduced: its enable argument is a Boolean-like zero or one, not an arbitrary eight-bit bus value. Use a bit strip labelled ui_in to show which position is connected. Ask students to predict ui_in equal to two. Bit one is high and bit zero is low, so the stored count does not increment on an ordinary rising edge.",
+    "guide_heading": "Pin examples that catch common mistakes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "value": 128,
+    "example": "ui_in = 128 → 10000000 → ui_in[0] = 0 → hold.",
+    "check": "A nonzero input bus is not sufficient; inspect bit 0."
+  },
+  {
+    "id": "C12",
+    "section": "Foundations",
+    "title": "ena selects the project; en controls counting",
+    "layout": "compare",
+    "body": [
+      "ena belongs to the shared project-selection interface.",
+      "en belongs to our counter and comes from ui_in[0].",
+      "The test selects the project, then varies the counting enable."
+    ],
+    "notes": "These similar names have different roles. ena is supplied by the Tiny Tapeout infrastructure when this project is selected. The counter's en port is our own functional input, connected to ui_in[0]. In the minimal wrapper, ena is listed among intentionally unused inputs and is not used to gate counting. The test sets ena to one so the example is exercised in its selected-project context, then changes ui_in[0] to start or hold the count. Do not suggest that lowering ena is the documented way to pause this counter; its stated counting control is ui_in[0]. Also avoid treating ena as another freely added user pin. The fixed interface and shared chip infrastructure determine its role. Ask students which signal they would set low to hold the count while keeping the project selected. The answer is ui_in[0], so the counter sees en equal to zero.",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "example": "Selected project: ena = 1. Hold counting: ui_in[0] = 0.",
+    "check": "Do not replace the connection .en(ui_in[0]) with ena."
+  },
+  {
+    "id": "C13",
+    "section": "Foundations",
+    "title": "A bidirectional pin needs a direction",
+    "layout": "flow",
+    "body": [
+      "uio_in reads the pin’s input path.",
+      "uio_out supplies the pin’s output data.",
+      "uio_oe chooses direction: 1 = output, 0 = input."
+    ],
+    "notes": "Show one bidirectional pin with three labelled internal paths. The input path reports a value entering the design. The output-data path supplies the value the design would drive. The output-enable path decides whether that output driver is active. For this interface, a one in uio_oe selects output operation for the corresponding position; zero selects input operation. A zero in uio_out alone does not force an input-configured pin low, because its driver is disabled. This distinction is essential when wiring external hardware: two devices must not intentionally drive incompatible levels onto the same pin. Our wrapper makes only uio position zero an output and uses it for wrap. The remaining bidirectional positions are inputs and are unused by the counter. Ask students to identify the direction-control bus rather than inferring direction from the words input and output in the data-path names.",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "example": "For pin uio[0]: output data = wrap; output enable = 1.",
+    "check": "uio_out = 0 and uio_oe = 0 means an inactive output driver."
+  },
+  {
+    "id": "C14",
+    "section": "Foundations",
+    "title": "00000001 makes only uio[0] an output",
+    "layout": "bits",
+    "body": [
+      "The wrapper assigns uio_oe = 8'b0000_0001.",
+      "Bit 0 is an output; bits 7 through 1 remain inputs.",
+      "The direction pattern stays constant during this test."
+    ],
+    "notes": "Apply the binary-weight lesson to a direction mask rather than a numerical count. The constant 00000001 has only bit zero set, so only the corresponding bidirectional pin has its output driver enabled. In this context the pattern is interpreted position by position; its decimal value of one is useful for the test assertion, but it is not a count. The wrapper sends the wrap flag to uio_out[0] and gives the seven remaining output-data paths zeros. Their direction bits remain zero, so those unused paths do not actively drive the pins. This makes the complete interface deliberate and easy to check. Later, the test verifies the whole uio_oe bus equals one, catching an accidental extra output-enable bit. Ask what 00000101 would select. It would configure positions two and zero as outputs, which would change the current design's external interface assumptions.",
+    "guide_heading": "7.3 Drive the remaining output paths",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "value": 1,
+    "example": "Direction mask 00000001 → one output driver, at uio[0].",
+    "check": "Does uio_oe = 1 enable every pin? No, only bit 0."
+  },
+  {
+    "id": "C15",
+    "section": "Foundations",
+    "title": "Write the next-state rule before the code",
+    "layout": "explain",
+    "body": [
+      "At a rising edge: reset first, then enable, then hold.",
+      "Reset sets count to 0; enable adds 1 modulo 256.",
+      "With neither condition active, keep the current count."
+    ],
+    "notes": "A specification states the behaviour independently of how the RTL is written. For this example, evaluate the rule on every rising clock edge. If reset is active, choose zero. Otherwise, if enable is high, choose the current count plus one with eight-bit wraparound. Otherwise, choose the current count again. The order gives reset priority over enable. Distinguish the current state before an edge from the next state stored after that edge; this language will make both the RTL and the Python model easier to follow. The separate wrap output is calculated from the current count and enable, so it needs its own rule rather than being silently treated as another stored next-state value. Ask students to predict a starting count of seventeen with both reset and enable active. The next count is zero. Explain that the same prediction must hold regardless of which tools build or simulate the circuit.",
+    "guide_heading": "The next-state rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "Before = 17; reset active and en = 1 → after the rising edge = 0.",
+    "check": "A specification should let you predict an answer before running a tool."
+  },
+  {
+    "id": "C16",
+    "section": "Foundations",
+    "title": "A clock edge is the update event",
+    "layout": "trace",
+    "body": [
+      "The clock repeatedly changes between low and high.",
+      "A rising edge is the transition 0 → 1.",
+      "This test uses a 20 ns period: 50 million cycles per second."
+    ],
+    "notes": "Draw a clock with rising transitions clearly marked, then show that the count updates only at those transitions. The high level by itself is not a repeated request to increment. Likewise, the falling transition is not an update event for this counter. A full clock period includes a high interval and a low interval. In the actual test the period is twenty nanoseconds, so the frequency is one divided by twenty nanoseconds, or fifty megahertz. This is a simulation setting, not a measurement of the fastest frequency a manufactured circuit can achieve. Our trace diagrams are predictions derived from the RTL, not screenshots of the recorded FST. Keep count values aligned with the period after each rising edge. Ask how many updates occur during one high interval if enable stays high. There is one at its starting rising edge, not an unlimited stream of increments while the level remains high.",
+    "guide_heading": "What is a clock edge?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "example": "20 ns = one full cycle; count reacts to its rising edge.",
+    "check": "A clock held high produces no further rising edges.",
+    "rows": [
+      {
+        "edge": "1 ↑",
+        "rst_n": 1,
+        "en": 1,
+        "before": 0,
+        "after": 1,
+        "wrap": 0
+      },
+      {
+        "edge": "2 ↑",
+        "rst_n": 1,
+        "en": 1,
+        "before": 1,
+        "after": 2,
+        "wrap": 0
+      }
+    ]
+  },
+  {
+    "id": "C17",
+    "section": "Foundations",
+    "title": "Follow six rising edges",
+    "layout": "trace",
+    "body": [
+      "Begin from a known count of 0 after reset.",
+      "Enabled edges add 1; a disabled edge holds 2.",
+      "Reset wins, then counting resumes from 0."
+    ],
+    "notes": "Work through the rows slowly, asking for the next count before revealing it. The starting state is explicitly known to be zero after reset; we are not assuming that an unreset physical register powers up to zero. With reset released and enable high, the first two rising edges store one and two. The third edge has enable low and therefore retains two. At the fourth edge reset is asserted through rst_n equal to zero, so the count becomes zero even though enable is high. Releasing reset allows the fifth edge to store one; the sixth enabled edge stores two. All wrap values are zero because none of these states is 255. Each row describes the signals sampled for that rising edge and the settled result afterwards. This is a predicted teaching trace. Ask students to point out which row demonstrates reset priority and which demonstrates memory during hold.",
+    "guide_heading": "Follow six rising edges",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "Predicted sequence: 0 → 1 → 2 → 2 → 0 → 1 → 2.",
+    "check": "Reset is demonstrated at edge 4; hold is demonstrated at edge 3.",
+    "rows": [
+      {
+        "edge": 1,
+        "rst_n": 1,
+        "en": 1,
+        "before": 0,
+        "after": 1,
+        "wrap": 0
+      },
+      {
+        "edge": 2,
+        "rst_n": 1,
+        "en": 1,
+        "before": 1,
+        "after": 2,
+        "wrap": 0
+      },
+      {
+        "edge": 3,
+        "rst_n": 1,
+        "en": 0,
+        "before": 2,
+        "after": 2,
+        "wrap": 0
+      },
+      {
+        "edge": 4,
+        "rst_n": 0,
+        "en": 1,
+        "before": 2,
+        "after": 0,
+        "wrap": 0
+      },
+      {
+        "edge": 5,
+        "rst_n": 1,
+        "en": 1,
+        "before": 0,
+        "after": 1,
+        "wrap": 0
+      },
+      {
+        "edge": 6,
+        "rst_n": 1,
+        "en": 1,
+        "before": 1,
+        "after": 2,
+        "wrap": 0
+      }
+    ]
+  },
+  {
+    "id": "C18",
+    "section": "Foundations",
+    "title": "rst_n is active low; rst is active high",
+    "layout": "compare",
+    "body": [
+      "At the wrapper, rst_n = 0 means reset is asserted.",
+      "Inside the counter, rst = 1 means reset is asserted.",
+      "The wrapper inverts the signal: rst = ~rst_n."
+    ],
+    "notes": "Active low describes which logical level requests an action. The suffix _n is a common naming convention indicating an inverted or active-low signal; it is not a special Verilog keyword. The actual behaviour comes from the connections and update logic. Our wrapper receives rst_n, but the reusable counter expects an active-high rst input. The named connection .rst(~rst_n) bridges those conventions by applying bitwise inversion to a one-bit signal. When rst_n is zero, the internal rst is one. When rst_n is one, the internal rst is zero and the reset request is released. Separate polarity from timing: active low tells us the requesting level, but it does not yet say whether reset acts immediately or only at a clock edge. Ask students to fill both rows of the truth table, then explain why connecting rst_n directly to rst would invert the intended reset behaviour.",
+    "guide_heading": "Active-low reset is a naming convention",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "rst_n 0 → rst 1 → reset requested. rst_n 1 → rst 0 → released.",
+    "check": "A name documents intent; the inversion and clocked logic implement it."
+  },
+  {
+    "id": "C19",
+    "section": "Foundations",
+    "title": "This reset waits for the next rising edge",
+    "layout": "trace",
+    "body": [
+      "Synchronous reset is evaluated at the active clock edge.",
+      "Lowering rst_n between edges does not immediately clear count.",
+      "Keep rst_n low through a rising edge to store 0."
+    ],
+    "notes": "Give polarity and timing separate explanations. The reset is active low at the wrapper, and it is synchronous because the counter's always block is sensitive only to posedge clk. If the count is seven and rst_n falls between rising edges, the stored count remains seven until the next rising edge evaluates the reset condition. At that edge the register stores zero. If reset is asserted and released entirely between rising edges, this counter may never sample an active reset request. There is no asynchronous reset event in the sensitivity list. Our teaching row shows the result after the next edge; a drawing before that edge should still show seven. Ask whether a stopped clock can apply this synchronous reset. It cannot update the register without an active edge. This is why later board instructions keep reset asserted while providing at least one suitable clock edge rather than relying on a brief button press alone.",
+    "guide_heading": "Exercise 4: Reset between edges",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "Between edges: count = 7. rst_n falls. Next ↑clk: count becomes 0.",
+    "check": "Active-low does not automatically mean asynchronous.",
+    "rows": [
+      {
+        "edge": "next ↑",
+        "rst_n": 0,
+        "en": 0,
+        "before": 7,
+        "after": 0,
+        "wrap": 0
+      }
+    ]
+  },
+  {
+    "id": "C20",
+    "section": "Foundations",
+    "title": "Reset has priority over enable",
+    "layout": "trace",
+    "body": [
+      "The reset condition is checked before the enable condition.",
+      "rst_n = 0 and en = 1 still produce count = 0.",
+      "Counting resumes on an enabled edge after reset is released."
+    ],
+    "notes": "Use a nonzero starting count so the effect of reset is unmistakable. At the first visible edge, the previous count is seventeen, rst_n is zero and enable is one. The wrapper translates the low reset input into an active-high internal rst. The counter takes the first branch of its if statement and stores zero. The else-if enable branch is not also performed on that edge. After reset is released, an enabled edge stores one. This priority is part of the specification and appears independently in the Python model through its conditional expression. Explain why two independent if statements would need careful analysis: a later assignment could accidentally alter the intended priority. Students should predict the result before looking at code. The table is a predicted RTL trace, with wrap shown after each edge. None of these values reaches terminal count, so the flag remains zero throughout this particular example.",
+    "guide_heading": "Exercise 3: Reset priority",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "example": "17 → reset + enable → 0; release reset + enable → 1.",
+    "check": "Both controls active means reset, not reset followed by increment.",
+    "rows": [
+      {
+        "edge": 1,
+        "rst_n": 0,
+        "en": 1,
+        "before": 17,
+        "after": 0,
+        "wrap": 0
+      },
+      {
+        "edge": 2,
+        "rst_n": 1,
+        "en": 1,
+        "before": 0,
+        "after": 1,
+        "wrap": 0
+      }
+    ]
+  },
+  {
+    "id": "C21",
+    "section": "Foundations",
+    "title": "Hold the value while the clock continues",
+    "layout": "trace",
+    "body": [
+      "en = 0 makes the register keep its existing count.",
+      "The clock can continue producing rising edges.",
+      "This design does not gate or stop the clock."
+    ],
+    "notes": "Holding the count and stopping the clock can look similar if only the numerical output is observed, but they are different operations. Our RTL keeps the ordinary clock running and uses enable to decide whether to update the register. When enable is zero and reset is inactive, the clocked block makes no new assignment to count, so the stored value is retained. If reset becomes active while the clock continues, the next edge can still clear the count even though enable is zero. If the clock were stopped, there would be no edge to apply that synchronous reset. Show repeated rising edges with a constant count of ten, then an enabled edge that produces eleven. This predicted trace helps students recognise the hold phase later in the real waveform. Warn against adding improvised combinational clock gating as a beginner extension; the existing functional enable already expresses the desired pause behaviour.",
+    "guide_heading": "Why hold is different from stopping the clock",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "example": "Two disabled edges hold 10; re-enable at the next edge → 11.",
+    "check": "With en = 0, can an active reset still clear count? Yes, at ↑clk.",
+    "rows": [
+      {
+        "edge": 1,
+        "rst_n": 1,
+        "en": 0,
+        "before": 10,
+        "after": 10,
+        "wrap": 0
+      },
+      {
+        "edge": 2,
+        "rst_n": 1,
+        "en": 0,
+        "before": 10,
+        "after": 10,
+        "wrap": 0
+      },
+      {
+        "edge": 3,
+        "rst_n": 1,
+        "en": 1,
+        "before": 10,
+        "after": 11,
+        "wrap": 0
+      }
+    ]
+  },
+  {
+    "id": "C22",
+    "section": "Foundations",
+    "title": "255 + 1 becomes 0 in eight stored bits",
+    "layout": "bits",
+    "body": [
+      "11111111 + 1 produces the nine-bit result 100000000.",
+      "Only the lowest eight bits fit in count.",
+      "The stored result is 00000000: modulo-256 arithmetic."
+    ],
+    "notes": "Show the addition with an extra position available for the carry, then show the eight positions actually stored by count. The mathematical result of 255 plus one is 256, whose binary representation needs nine bits. Assigning that result to this eight-bit unsigned register retains the lowest eight bits, which are all zero. The behaviour is therefore arithmetic modulo 256. It is intentional overflow for this example, not a simulator failure or a sign that the counter stops working. The Python model must reproduce the same width limitation because Python integers do not automatically stop at eight bits. Later it uses a bit mask for precisely this reason. Ask what follows zero when enable remains high: the next rising edge stores one. This slide illustrates representation and does not imply that the separate wrap output is high after the overflow; the flag's exact timing is introduced next.",
+    "guide_heading": "Why does 255 become 0?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "value": 255,
+    "example": "11111111 + 1 = 1_00000000 → keep eight low bits → 00000000.",
+    "check": "Overflow wraps the count; it does not saturate at 255."
+  },
+  {
+    "id": "C23",
+    "section": "Foundations",
+    "title": "wrap is high at 255, before overflow",
+    "layout": "trace",
+    "body": [
+      "wrap = 1 when count is 255 and en is 1.",
+      "At the next enabled edge, count becomes 0 and wrap becomes 0.",
+      "It is a terminal-count flag, not a registered overflow pulse."
+    ],
+    "notes": "This is the most important timing distinction in the example. The flag is calculated from the current count and enable, rather than registered from the carry of an addition. With enable high, an edge that changes 254 to 255 makes the settled wrap output high. During that interval the current count is 255 and the next enabled edge will overflow. The following edge changes 255 to zero, and wrap then becomes low because the count is no longer all ones. In the table, wrap means the settled value after the named edge, with the listed enable still applied. Describe the signal as a terminal-count flag so learners do not expect a pulse after the count reaches zero. All values here are predicted from the RTL; the recorded FST is examined in the workflow chapter. Ask students which row has wrap high, and require them to explain both conditions rather than merely memorising the location.",
+    "guide_heading": "Watch the flag at the same time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "example": "Enabled sequence: 254 / wrap 0 → 255 / wrap 1 → 0 / wrap 0.",
+    "check": "After the overflow edge, count = 0 and wrap = 0.",
+    "rows": [
+      {
+        "edge": 1,
+        "rst_n": 1,
+        "en": 1,
+        "before": 253,
+        "after": 254,
+        "wrap": 0
+      },
+      {
+        "edge": 2,
+        "rst_n": 1,
+        "en": 1,
+        "before": 254,
+        "after": 255,
+        "wrap": 1
+      },
+      {
+        "edge": 3,
+        "rst_n": 1,
+        "en": 1,
+        "before": 255,
+        "after": 0,
+        "wrap": 0
+      },
+      {
+        "edge": 4,
+        "rst_n": 1,
+        "en": 1,
+        "before": 0,
+        "after": 1,
+        "wrap": 0
+      }
+    ]
+  },
+  {
+    "id": "C24",
+    "section": "Foundations",
+    "title": "Disabling at 255 suppresses wrap",
+    "layout": "trace",
+    "body": [
+      "Set en = 0 while count is 255: count holds.",
+      "wrap becomes 0 because enable is part of its expression.",
+      "Re-enable before an edge: wrap rises; that edge then stores 0."
+    ],
+    "notes": "Separate the between-edge flag response from the register's edge-triggered update. Suppose the counter has reached 255 with enable high. Lowering enable makes wrap low through the combinational expression even before another clock edge occurs. With reset inactive, subsequent rising edges retain 255 because counting is disabled. Raising enable again makes wrap high while the current count is still 255. At the following rising edge the count overflows to zero, and the settled flag becomes low again. The final row in this predicted table therefore has wrap zero after the re-enabled edge; it must not erase the explanation that wrap was high immediately before that edge. The actual test includes a dedicated phase for disabled terminal count. Ask why a flag defined only as all count bits high would be wrong for the current specification. It would remain high during the disabled hold, violating the enable mask.",
+    "guide_heading": "What happens if you disable at 255?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "example": "At 255: en 1 → 0 clears wrap without changing the stored count.",
+    "check": "Rows show wrap after each edge; re-enabling makes it high before overflow.",
+    "rows": [
+      {
+        "edge": 1,
+        "rst_n": 1,
+        "en": 0,
+        "before": 255,
+        "after": 255,
+        "wrap": 0
+      },
+      {
+        "edge": 2,
+        "rst_n": 1,
+        "en": 0,
+        "before": 255,
+        "after": 255,
+        "wrap": 0
+      },
+      {
+        "edge": 3,
+        "rst_n": 1,
+        "en": 1,
+        "before": 255,
+        "after": 0,
+        "wrap": 0
+      }
+    ]
+  },
+  {
+    "id": "C25",
+    "section": "Foundations",
+    "title": "Reset does not directly mask the flag",
+    "layout": "compare",
+    "body": [
+      "The wrap expression uses en and count, not reset.",
+      "At count 255 with en = 1, lowering rst_n can leave wrap high.",
+      "At the next rising edge, reset stores 0 and wrap falls."
+    ],
+    "notes": "Use this nuance to test whether learners truly distinguish state from combinational outputs. Reset is synchronous for count, and the flag expression does not include a reset term. If count is 255 and enable remains high, asserting rst_n low between edges does not immediately alter count. Because wrap still sees all count bits high and enable high, it may remain high until the next rising edge clears count. After that edge, the settled count is zero and wrap is low. The specification does not promise a separately reset-masked flag before the edge. A designer could choose that alternative behaviour, but doing so would be a deliberate specification, RTL and test change. Do not silently add it to this example. Ask whether the ordinary reset demonstrations at low count expose this nuance. They do not, because wrap is already zero. This is why boundary conditions deserve focused teaching examples rather than only a short sequence beginning at zero.",
+    "guide_heading": "Watch the flag at the same time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "Before ↑clk: count 255, en 1, rst_n 0 → wrap may still be 1.",
+    "check": "After that reset edge: count 0 and wrap 0. Polarity alone is insufficient."
+  },
+  {
+    "id": "C26",
+    "section": "Counter RTL",
+    "title": "A file, a module and an instance are different",
+    "layout": "flow",
+    "body": [
+      "src/counter.v is a file containing module counter.",
+      "src/project.v contains the Tiny Tapeout wrapper module.",
+      "counter_inst is one instance of counter inside that wrapper."
+    ],
+    "notes": "Treat a module as a reusable circuit definition with named connections. A file is a container for source text and need not share the module's name. An instance is a particular use of a module within another module. In this project, the file counter.v defines module counter. The file project.v defines module tt_um_mdkamrulislam_counter, which creates an instance named counter_inst. Synthesis uses this hierarchy to connect the reusable counter to the fixed wrapper interface. The file names and instance name are therefore not substitutes for the top-module name in configuration. Explain the hierarchy as wrapper containing counter rather than a sequence of files that run one after another. Later, the simulator adds a surrounding tb module and a wrapper instance named user_project. Ask students to identify counter_inst in the source and say whether it is a filename, a definition or a particular instance. It is the particular counter instance inside the wrapper.",
+    "guide_heading": "A module, an instance and a file are different things",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v"
+    ],
+    "example": "File project.v → module tt_um_mdkamrulislam_counter → instance counter_inst.",
+    "check": "The top module is not named project merely because its file is project.v."
+  },
+  {
+    "id": "C27",
+    "section": "Counter RTL",
+    "title": "The top-module name must agree in three places",
+    "layout": "flow",
+    "body": [
+      "src/project.v: the module declaration.",
+      "info.yaml: project.top_module.",
+      "test/tb.v: the instantiated module type."
+    ],
+    "notes": "The build and simulator must locate the same wrapper circuit. The first location is the declaration in src/project.v. The second is top_module inside the project mapping in info.yaml, which tells the layout tooling which module is the design's top. The third is the module type instantiated as user_project in test/tb.v. In the worked example all three use tt_um_mdkamrulislam_counter. The instance name user_project remains a separate identifier, so it does not need to match the module type. A spelling mismatch can prevent elaboration or make the build look for a module that does not exist. This is a preventive check, not a claim that such an error occurred in the verified run. Ask students to search for the exact full name and compare all three locations before relying on green workflow icons. A name change needs a coordinated edit across these locations, not only a renamed Verilog file.",
+    "guide_heading": "Check the three places that must agree",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "example": "Exact shared name: tt_um_mdkamrulislam_counter.",
+    "check": "Compare spelling and case in all three locations before committing."
+  },
+  {
+    "id": "C28",
+    "section": "Counter RTL",
+    "title": "Both build routes need both source files",
+    "layout": "code",
+    "body": [
+      "info.yaml lists the files for the layout build.",
+      "test/Makefile lists the files for RTL simulation.",
+      "Both must include project.v and counter.v."
+    ],
+    "notes": "The wrapper uses the reusable counter module, so compiling only the wrapper file is not sufficient. Two independent source lists need to include both files. In info.yaml, source_files lives inside the project mapping and uses names relative to the src directory expected by the template. The simulation Makefile has PROJECT_SOURCES equal to project.v counter.v and adds its own src-directory prefix. Do not replace these entries with the complete machine-specific Windows paths. The slide shows two labelled excerpts rather than one combined runnable configuration file. Explain why one workflow could succeed while another fails if only one list were updated: they do not automatically read the same source-list variable. No such failure is fabricated here; the verified worked example already has both entries in both locations. Ask what happens when students add another reusable module file later. They should check both lists as part of that design change.",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ],
+    "code": "# info.yaml excerpt\nproject:\n  source_files:\n    - \"project.v\"\n    - \"counter.v\"\n\n# test/Makefile excerpt\nPROJECT_SOURCES = project.v counter.v",
+    "check": "A new RTL file needs consideration in both source lists."
+  },
+  {
+    "id": "C29",
+    "section": "Counter RTL",
+    "title": "File directives prevent hidden assumptions",
+    "layout": "code",
+    "body": [
+      "timescale gives simulation time units and precision.",
+      "default_nettype none prevents accidental implicit wires.",
+      "The file restores default_nettype wire at its end."
+    ],
+    "notes": "These backtick directives are instructions to the Verilog tools rather than ports or stored values in the counter. In counter.v, timescale 1ns / 1ps gives a one-nanosecond time unit and one-picosecond precision for delays interpreted in that module's simulation context. It does not create a physical clock, force the counter to run at one gigahertz, or define a manufactured delay element. The actual clock used by our test is generated by cocotb. default_nettype none asks the tools to reject undeclared implicit nets, helping catch a misspelled connection rather than silently creating a new one-bit wire. At the file's end, default_nettype wire restores the usual default for later source text. The project wrapper uses the net-type directives too. Ask which directive would help detect an undeclared typo. The answer is default_nettype none. Keep the displayed first and last lines labelled as separated excerpts, not a complete module.",
+    "guide_heading": "6.1 File directives and module declaration",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "code": "`timescale 1ns / 1ps\n`default_nettype none\n\n// End of the counter file:\n`default_nettype wire",
+    "check": "timescale is a simulation convention, not a hardware clock source."
+  },
+  {
+    "id": "C30",
+    "section": "Counter RTL",
+    "title": "WIDTH makes the counter reusable",
+    "layout": "code",
+    "body": [
+      "parameter WIDTH = 8 supplies the default width.",
+      "The wrapper explicitly chooses WIDTH = 8.",
+      "[WIDTH-1:0] becomes [7:0] for this instance."
+    ],
+    "notes": "A parameter is a configuration value used when a module instance is elaborated. It is not a signal that changes on every clock edge. This counter definition gives WIDTH a default of eight, and the wrapper explicitly sets that parameter to eight for its instance. The range [WIDTH-1:0] therefore becomes [7:0], providing eight stored bits. A different width would change the representable range and the replication used by reset, while the reduction expression would still examine all count bits. However, our wrapper ports and Python model are deliberately fixed at eight bits. Changing WIDTH alone would not produce a fully consistent wider Tiny Tapeout design; the external interface and tests would need a reviewed adaptation. Ask students to substitute WIDTH equal to four into the range. They obtain [3:0], which is four positions and values zero through fifteen for an unsigned counter. Return to WIDTH equal to eight for all following worked examples.",
+    "guide_heading": "6.1 File directives and module declaration",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "module counter #(\n    parameter WIDTH = 8\n) (",
+    "example": "WIDTH = 8 → [WIDTH-1:0] = [7:0] → eight positions.",
+    "check": "This is a declaration excerpt; the ports follow in the real file."
+  },
+  {
+    "id": "C31",
+    "section": "Counter RTL",
+    "title": "Read each counter port by direction and width",
+    "layout": "code",
+    "body": [
+      "clk, rst and en are one-bit input connections.",
+      "count has WIDTH bits and is assigned in a clocked block.",
+      "wrap is a one-bit output driven by continuous logic."
+    ],
+    "notes": "Read each declaration from left to right. input or output gives the direction relative to module counter, not relative to the person holding a board. A range specifies multiple bit positions; without a range these ports are one bit wide. In this Verilog style, wire denotes a net driven by a connection or continuous assignment, whereas reg permits procedural assignment. The word reg alone is not a guarantee of a physical register: the way it is assigned determines the inferred hardware. Here count is assigned in an always block triggered by the rising clock edge, so it represents stored state. wrap is assigned continuously from count and enable and is combinational. The abbreviated declarations omit source comments for readability but retain the actual types and widths. Ask students which inputs the counter itself calls active high. Its rst and en inputs are high-active; the wrapper handles the external reset inversion.",
+    "guide_heading": "6.2 Inputs and outputs",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "input  wire             clk,\ninput  wire             rst,\ninput  wire             en,\noutput reg  [WIDTH-1:0] count,\noutput wire             wrap",
+    "check": "reg is a procedural type; the clocked assignment establishes stored state."
+  },
+  {
+    "id": "C32",
+    "section": "Counter RTL",
+    "title": "posedge clk tells us when to update",
+    "layout": "code",
+    "body": [
+      "always starts a hardware process.",
+      "@(posedge clk) waits for a rising clock transition.",
+      "begin and end group the statements in this process."
+    ],
+    "notes": "The event control specifies when the counter process evaluates its decisions. posedge clk means a rising transition of the clock signal, which is why a high level held indefinitely produces no extra increments. The begin and end keywords group the reset and enable decisions into the same process. This block describes edge-triggered state updates, not a Python loop that waits a chosen wall-clock interval. The absence of reset from the sensitivity expression confirms that reset is synchronous in this implementation. Present the complete short block so students can relate the event control to the earlier trace. On each active edge, the code chooses one branch using the sampled control values. The register updates use nonblocking assignments, explained separately next. Ask whether a falling clock edge enters this block. It does not for the ordinary zero-to-one clock used here, because the event control requests a positive edge.",
+    "guide_heading": "6.3 The update rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "always @(posedge clk) begin\n    if (rst)\n        count <= {WIDTH{1'b0}};\n    else if (en)\n        count <= count + 1'b1;\nend",
+    "check": "The event control contains clk only: reset is synchronous."
+  },
+  {
+    "id": "C33",
+    "section": "Counter RTL",
+    "title": "Reset writes WIDTH zeros into the register",
+    "layout": "code",
+    "body": [
+      "1'b0 is a one-bit binary zero.",
+      "{WIDTH{1'b0}} repeats that zero WIDTH times.",
+      "<= schedules the register update; it is an assignment here."
+    ],
+    "notes": "Explain the nested braces before treating the line as obvious. The inner expression is one binary zero, and the outer replication creates WIDTH copies of it. At WIDTH equal to eight, the value is 00000000. This width-aware form works with the reusable module's parameter instead of assuming a particular number of digits. The nonblocking assignment symbol <= is used inside the clocked process to schedule the new value of count. In this context it is an assignment, not the less-than-or-equal comparison students may know from other languages. The right-hand value is evaluated for the active edge, and the simulator applies the scheduled update as part of processing that edge. This scheduling is one reason the Python test does not assume that merely receiving a RisingEdge trigger means all downstream outputs have settled. Ask students to expand the replication for WIDTH equal to three. It yields the three-bit pattern 000.",
+    "guide_heading": "6.3 The update rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "if (rst)\n    count <= {WIDTH{1'b0}};",
+    "example": "WIDTH = 8 → {WIDTH{1'b0}} = 00000000.",
+    "check": "The if condition uses internal active-high rst, not external rst_n."
+  },
+  {
+    "id": "C34",
+    "section": "Counter RTL",
+    "title": "Enable adds one; no assignment means hold",
+    "layout": "code",
+    "body": [
+      "else if makes this branch conditional on reset being inactive.",
+      "count + 1'b1 calculates the next unsigned count.",
+      "If en is 0, this clocked block retains the stored value."
+    ],
+    "notes": "The else-if branch expresses two conditions together: reset was not taken, and enable is high. The right-hand count refers to the existing stored value used to calculate its successor. Adding one produces the next count, and assignment to the fixed-width destination gives the already discussed overflow behaviour. There is no final else statement. In this edge-triggered process, a path with no assignment retains the register's existing value, which implements hold. Do not generalise that omission to every always block: incomplete assignments in a process intended to describe combinational logic can infer unwanted storage. This slide concerns the specific posedge block in counter.v. Ask students to substitute count equal to two with reset inactive. If enable is one, the next count is three; if enable is zero, the next count remains two. The same decision must be reflected in the independent Python model rather than inferred from observed outputs.",
+    "guide_heading": "6.3 The update rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "else if (en)\n    count <= count + 1'b1;",
+    "example": "Before = 2. en 1 → after = 3. en 0 → after = 2.",
+    "check": "Holding the register is not the same as assigning it zero."
+  },
+  {
+    "id": "C35",
+    "section": "Counter RTL",
+    "title": "Predict the branch before running anything",
+    "layout": "exercise",
+    "body": [
+      "Begin at count 9; evaluate each rising edge in order.",
+      "A: reset off, enable on. B: reset off, enable off.",
+      "C: reset on, enable on. D: reset off, enable on."
+    ],
+    "notes": "This exercise checks the whole update rule rather than another isolated definition. Starting at nine, the enabled first edge stores ten. The disabled second edge keeps ten. The third edge has active internal reset and enable together, so the reset branch stores zero. With reset released, the fourth enabled edge stores one. The expected sequence is ten, ten, zero, one. Keep the visible reset terminology internal active-high rst for this RTL exercise, and remind students that external rst_n has the opposite polarity. Ask a learner to identify the exact source line responsible for each result. If they predict eleven during hold, return to the missing-assignment explanation. If they predict one during the reset edge, return to branch priority. These are teaching predictions, not reports of a failed test run. Students should be able to explain each value in plain language before using the browser workflow to check the real example.",
+    "guide_heading": "Check before moving on",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "question": "Starting at 9, what values follow edges A, B, C and D?",
+    "answer": "10, 10, 0, 1. Reset wins at C; the disabled B edge holds 10."
+  },
+  {
+    "id": "C36",
+    "section": "Counter RTL",
+    "title": "Reduction AND detects all count bits high",
+    "layout": "code",
+    "body": [
+      "&count reduces eight bits to one result.",
+      "That result is 1 only when every count bit is 1.",
+      "The outer AND also requires en = 1."
+    ],
+    "notes": "The two ampersands in this expression perform related but different roles. The inner &count is a reduction AND: it combines all positions of the count bus into a single result. For known binary values and WIDTH equal to eight, that result is one only for 11111111, or 255. The outer en & (...) combines that one-bit result with the one-bit enable. Both must be high for wrap to be high. The assign keyword describes a continuous connection through combinational logic, so the expression responds when count or enable changes rather than waiting for a dedicated flag clock edge. It does not add a separate wrap register. Ask students to evaluate the expression for count equal to 254 with enable one, then count 255 with enable zero. Both give zero for different reasons. Finish with count 255 and enable one, which gives one before the next enabled overflow edge.",
+    "guide_heading": "6.4 The terminal-count flag",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "assign wrap = en & (&count);",
+    "example": "254, en 1 → 0. 255, en 0 → 0. 255, en 1 → 1.",
+    "check": "assign is continuous logic; wrap is not assigned inside the clocked block."
+  },
+  {
+    "id": "C37",
+    "section": "Counter RTL",
+    "title": "The wrapper declares the fixed external ports",
+    "layout": "code",
+    "body": [
+      "This is the actual Tiny Tapeout top-module declaration.",
+      "The counter’s own ports are connected inside this boundary.",
+      "Keep these external names, directions and widths unchanged."
+    ],
+    "notes": "Now show the complete wrapper port list after students have learned the role of each connection. The long module name is the one that must agree with configuration and the simulation instance. Inputs bring ui_in, uio_in and control values into this wrapper. Outputs send the count bus, bidirectional output data and direction mask to the shared interface. The reusable counter is inside this boundary and has a simpler set of ports. Keeping the external port definition fixed lets the shared infrastructure connect many projects consistently. It does not prevent students from building a different internal circuit later, as long as that circuit is mapped to this interface and checked appropriately. The displayed declaration omits comments but preserves the actual signal names and types. Ask students to identify which bus controls bidirectional direction and which port carries active-low reset. The answers are uio_oe and rst_n; the reusable counter's rst appears only inside the wrapper.",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "code": "module tt_um_mdkamrulislam_counter (\n    input  wire [7:0] ui_in,\n    output wire [7:0] uo_out,\n    input  wire [7:0] uio_in,\n    output wire [7:0] uio_out,\n    output wire [7:0] uio_oe,\n    input  wire       ena,\n    input  wire       clk,\n    input  wire       rst_n\n);",
+    "check": "Do not add a counter en port at this external boundary; use ui_in[0]."
+  },
+  {
+    "id": "C38",
+    "section": "Counter RTL",
+    "title": "Named connections make the adapter readable",
+    "layout": "code",
+    "body": [
+      "counter_inst instantiates counter with WIDTH set to 8.",
+      ".port(signal) names the counter port on the left.",
+      "clk passes through; rst_n is inverted; ui_in[0] enables counting."
+    ],
+    "notes": "Read the first line as an instance of module counter, with parameter WIDTH explicitly set to eight and instance name counter_inst. In a named connection, the identifier after the dot is the port of the instantiated counter. The expression inside parentheses belongs to the surrounding wrapper. Thus .clk(clk) connects the counter clock to the wrapper clock; the identical spelling here does not mean the two roles are interchangeable everywhere. .rst(~rst_n) inverts the wrapper's active-low reset for the counter's active-high reset input. .en(ui_in[0]) selects exactly one input-bus position. The remaining connections carry the count and flag outward and are examined separately next. Named connections make the circuit easier to audit than a positional list whose meaning depends on declaration order. Ask learners to read .en(ui_in[0]) aloud as a complete sentence. It connects the counter's enable input to bit zero of the wrapper's dedicated input bus.",
+    "guide_heading": "7.2 The actual instance and connections",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "counter #(.WIDTH(8)) counter_inst (\n    .clk(clk), .rst(~rst_n), .en(ui_in[0]),\n    .count(uo_out), .wrap(uio_out[0])\n);",
+    "check": "The dot-name is the counter port; parentheses hold the wrapper expression."
+  },
+  {
+    "id": "C39",
+    "section": "Counter RTL",
+    "title": "Route eight count bits and one flag outward",
+    "layout": "flow",
+    "body": [
+      ".count(uo_out) connects the whole eight-bit count bus.",
+      ".wrap(uio_out[0]) connects one flag bit.",
+      "The remaining uio output data and direction are assigned separately."
+    ],
+    "notes": "Use an editable connection diagram with a thick eight-bit path for count and a thin one-bit path for wrap. The count output connects to the complete uo_out bus, preserving bit positions: count bit zero reaches uo_out[0], and count bit seven reaches uo_out[7]. The wrap output connects only to uio_out[0], the output-data path of one bidirectional position. This data connection alone does not enable the pin driver; the wrapper also needs a matching uio_oe bit. Students should distinguish bus width from numerical interpretation. Count five means bits two and zero of uo_out are high, while the flag remains low because five is not terminal count. At count 255 with enable high, all count-output bits are high and the separate flag output is high. Ask whether the wrapper compresses the number into a single output pin. It does not; the entire binary count remains available on eight dedicated outputs.",
+    "guide_heading": "7.2 The actual instance and connections",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "example": "Count 5 → uo_out 00000101; wrap 0 → uio_out[0] 0.",
+    "check": "A connected uio_out bit still needs its corresponding uio_oe bit set."
+  },
+  {
+    "id": "C40",
+    "section": "Counter RTL",
+    "title": "Make every remaining output intentional",
+    "layout": "code",
+    "body": [
+      "uio_out[7:1] gets seven known zero data bits.",
+      "uio_oe enables only position 0 as an output.",
+      "Unused output data does not leave the other pins actively driven."
+    ],
+    "notes": "The count instance drives the complete uo_out bus and uio_out[0]. The wrapper then gives the seven remaining uio_out positions known zeros, so every output-data path has a defined source. The literal 7'b0 supplies seven zero bits to the inclusive range [7:1]. The direction constant 8'b0000_0001 enables only position zero. This pairing is important: assigning zero output data at positions one through seven does not make those externally input-configured pins drive low. Explain that known values help both tools and tests distinguish deliberate unused paths from missing connections. The Python test checks the whole uio_out bus, not only bit zero, so accidentally changing a supposedly unused output-data bit would be detected. It also checks the whole direction mask. Ask students to name the two distinct questions these assignments answer. They specify what output data is present and whether each bidirectional output driver is enabled.",
+    "guide_heading": "7.3 Drive the remaining output paths",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "assign uio_out[7:1] = 7'b0;\nassign uio_oe = 8'b0000_0001;",
+    "check": "Known output data and pin direction are separate decisions."
+  },
+  {
+    "id": "C41",
+    "section": "Counter RTL",
+    "title": "The unused-input line does not add behaviour",
+    "layout": "code",
+    "body": [
+      "This wrapper ignores ena and unused input bits.",
+      "{...} concatenates those signals; & reduces them.",
+      "The included 1'b0 makes _unused zero for known inputs."
+    ],
+    "notes": "The fixed interface contains inputs that this small design does not need. The _unused wire lists those inputs in a common template idiom to document their intentional non-use and reduce certain unused-input warnings. Braces concatenate the listed signals into one collection of bits, then the leading ampersand reduces them with AND. Including a constant zero means the result is zero for ordinary known inputs, and nothing in the counter's behaviour depends on this wire. It is not a hidden second enable, a reset, or an output that students must connect to the board. Distinguish concatenation here from the replication used in reset: both use braces, but their structure and purpose differ. Tools may optimise away this unused expression as they build the real circuit. Ask which input actually affects counting. ui_in[0] does, because it is connected to en; ui_in[7:1], uio_in and ena do not control the minimal counter logic.",
+    "guide_heading": "7.3 Drive the remaining output paths",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "code": "wire _unused = &{ena, ui_in[7:1], uio_in, 1'b0};",
+    "check": "Do not interpret _unused as a feature or a physical output."
+  },
+  {
+    "id": "C42",
+    "section": "Counter RTL",
+    "title": "A physical switch needs more than a wire",
+    "layout": "explain",
+    "body": [
+      "The minimal counter assumes enable is synchronous to its clock.",
+      "A real asynchronous switch needs synchronisation and debouncing.",
+      "Use a suitable controller clock; do not clock it from a raw bouncing button."
+    ],
+    "notes": "The simulator drives precise logical values at controlled times, so its successful test does not automatically make a raw switch safe to connect. A physical switch can change close to a sampling edge and can bounce through several transitions. Synchronisation reduces the risk that an asynchronous transition produces metastability in logic using that signal; it is not a promise that risk becomes mathematically zero. Debouncing handles repeated mechanical transitions and is a separate task. Our minimal example deliberately assumes a synchronous enable and does not contain those input-conditioning circuits. The same caution applies to using a button as a clock: bouncing can generate unwanted edges. For human observation, later demonstrations can use a suitable slow controller-supplied or single-step clock. Ask students whether a green simulation result proves a raw button connection is safe. It does not, because the test checks controlled inputs under a stated interface assumption rather than that uncontrolled physical setup.",
+    "guide_heading": "Why physical switches need more care than simulator values",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md"
+    ],
+    "question": "Can we attach a raw switch and claim the tested interface is unchanged?",
+    "answer": "No. Condition asynchronous/bouncing inputs, or supply synchronous controller signals.",
+    "example": "Real switch → synchronise and debounce.\nController → synchronous inputs.",
+    "check": "Synchronise and debounce real switches; use a controlled clock."
+  },
+  {
+    "id": "C43",
+    "section": "Verification",
+    "title": "The simulator surrounds our circuit with tb",
+    "layout": "flow",
+    "body": [
+      "test/tb.v contains the simulation top module tb.",
+      "tb instantiates the wrapper as user_project.",
+      "cocotb receives tb as dut and drives its exposed signals."
+    ],
+    "notes": "A testbench is a surrounding simulation environment that supplies inputs and checks outputs. It is not part of the counter submitted for manufacture. In this project the Verilog module tb surrounds an instance of the wrapper named user_project. The Makefile sets TOPLEVEL equal to tb and names the Python test module as test, meaning test.py without the file extension. Consequently the dut handle passed into the Python test refers to the simulation top, not directly to the wrapper's internal counter instance. Shared signals in tb are connected to the wrapper's ports, so dut.uo_out exposes the observed count at that boundary. The test deliberately uses these shared top-level signals rather than reaching into counter_inst. That makes it easier to reuse the same checks with a generated gate-level circuit whose internal hierarchy may differ. Ask students to distinguish the two top levels: the design top is the wrapper; the simulation top is tb.",
+    "guide_heading": "8.1 What `tb.v` does",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "TOPLEVEL = tb\nCOCOTB_TEST_MODULES = test",
+    "example": "Simulation hierarchy: tb → user_project → counter_inst in RTL.",
+    "check": "dut is a simulator handle, not another hardware module declaration."
+  },
+  {
+    "id": "C44",
+    "section": "Verification",
+    "title": "tb connects the signals Python will drive",
+    "layout": "code",
+    "body": [
+      "tb declares input-driving variables and output-observation wires.",
+      "The named connections link those signals to the wrapper.",
+      "The Python test reads and writes them through dut."
+    ],
+    "notes": "The testbench declares reg variables for clk, rst_n, ena, ui_in and uio_in because they are driven procedurally by the simulation environment. It declares wires for uo_out, uio_out and uio_oe because the instantiated design drives those observations. These simulation reg declarations do not create manufactured registers in the counter; tb is simulation infrastructure. The displayed excerpt groups the actual named connections for readability and shows the ordinary RTL-mode interface. The generated gate-level variant also uses conditional power connections, explained next. Inputs written by cocotb travel through these shared signals to the wrapper. Outputs calculated by the wrapper appear on the corresponding observation wires. This is why dut.ui_in.value can supply enable and dut.uo_out.value can read count without knowing the internal counter hierarchy. Ask students to trace a value of one from the Python ui_in write through the wrapper to en, then trace count back through uo_out.",
+    "guide_heading": "8.1 What `tb.v` does",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "tt_um_mdkamrulislam_counter user_project (\n    .ui_in(ui_in), .uo_out(uo_out),\n    .uio_in(uio_in), .uio_out(uio_out),\n    .uio_oe(uio_oe), .ena(ena),\n    .clk(clk), .rst_n(rst_n)\n);",
+    "check": "This is the RTL connection excerpt, not a complete standalone tb.v file."
+  },
+  {
+    "id": "C45",
+    "section": "Verification",
+    "title": "The dump block records simulated signal history",
+    "layout": "code",
+    "body": [
+      "$dumpfile names the recorded file tb.fst.",
+      "$dumpvars selects signals to record under tb.",
+      "initial runs once in simulation; it is not the counter’s reset circuit.",
+      "#1 advances simulated time; it does not create a hardware delay."
+    ],
+    "notes": "This initial block sets up recording for the simulation rather than changing the counter's functional update rule. It runs once, selects the filename tb.fst and asks the simulator to dump signal activity in the tb hierarchy. FST is the waveform format used by the current test configuration. The small #1 delay uses tb's simulation timescale; it is not a manufactured delay element or a source of the repeating clock. The clock comes from the Python Clock task. The resulting file records observed simulation activity and can later be opened with a waveform viewer. Keep that genuine recording distinct from the native trace drawings in this lecture, which are predictions derived from the RTL. Ask whether a generated FST file by itself means every assertion passed. It does not: the recording and the checked test result are different artifacts. The workflow chapter will inspect both the real waveform and the actual result for the same saved revision.",
+    "guide_heading": "8.1 What `tb.v` does",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ],
+    "code": "initial begin\n    $dumpfile(\"tb.fst\");\n    $dumpvars(0, tb);\n    #1;\nend",
+    "check": "A waveform is evidence of simulated values; assertions judge expected behaviour."
+  },
+  {
+    "id": "C46",
+    "section": "Verification",
+    "title": "Gate-level mode adds simulation power connections",
+    "layout": "code",
+    "body": [
+      "GL_TEST adds extra netlist connections.",
+      "VPWR and VGND supply logical simulation power values.",
+      "The original RTL wrapper keeps its fixed Tiny Tapeout interface."
+    ],
+    "notes": "The conditional code allows tb to connect either the ordinary RTL wrapper or the generated gate-level netlist. When the Makefile selects gate-level mode, it defines GL_TEST and includes the power-aware cell models and generated circuit. The tb source then declares VPWR and VGND simulation wires and supplies those connections to the generated wrapper. The one and zero on these wires are logical model values, not instructions to connect a one-volt supply to a physical board. Do not add these power ports manually to the original fixed RTL interface as a response to this slide. The displayed lines are separated excerpts from tb.v, with the connection excerpt belonging inside user_project's instance. A local gate-level run also requires the generated gate_level_netlist.v and the matching PDK models; the browser workflow provides its own configured environment. Ask why top-level Python checks are helpful here. They can verify the same external behaviour without assuming internal register names survived synthesis.",
+    "guide_heading": "Gate-level reuse: why top-level checks help",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "code": "`ifdef GL_TEST\n  wire VPWR = 1'b1;\n  wire VGND = 1'b0;\n`endif\n\n// Inside the user_project instance:\n`ifdef GL_TEST\n  .VPWR(VPWR),\n  .VGND(VGND),\n`endif",
+    "check": "Logical model power values are not board-voltage specifications."
+  },
+  {
+    "id": "C47",
+    "section": "Verification",
+    "title": "The Python test imports simulation tools",
+    "layout": "code",
+    "body": [
+      "Clock generates a repeating simulated clock.",
+      "Edge triggers and Timer let the test wait for specific moments.",
+      "@cocotb.test() registers an async test with a dut handle.",
+      "async / await let this test wait while simulation continues."
+    ],
+    "notes": "Read the Python opening as setup for a simulation test, not logic intended for the manufactured chip. import cocotb provides the test framework. Clock is a helper for generating a repetitive clock signal. FallingEdge, RisingEdge and Timer are triggers that let the coroutine pause until an event or interval occurs in simulated time. The decorator @cocotb.test() makes the following function a test the framework can discover and report. async def defines a coroutine, which can suspend with await while the simulator and other tasks continue. The dut argument is the handle to tb established by the build configuration. Students do not need to master every Python language feature before using the browser example, but they should understand why waiting does not freeze the hardware model. Ask which imported trigger waits for the counter's update edge. RisingEdge identifies that edge; the later settling wait still matters before reading outputs.",
+    "guide_heading": "9.1 Imports, test declaration and initial conditions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://docs.cocotb.org/en/stable/writing_testbenches.html"
+    ],
+    "code": "import cocotb\nfrom cocotb.clock import Clock\nfrom cocotb.triggers import FallingEdge, RisingEdge, Timer\n\n@cocotb.test()\nasync def test_project(dut):",
+    "check": "This opening is an excerpt; its indented test body follows in test.py."
+  },
+  {
+    "id": "C48",
+    "section": "Verification",
+    "title": "Initial inputs establish a controlled starting condition",
+    "layout": "code",
+    "body": [
+      "Select the project, disable counting and assert reset.",
+      "start_soon runs the clock alongside the rest of the test.",
+      "model = 0 sets the expected value; real reset edges are still tested."
+    ],
+    "notes": "The test first writes known values to the shared signals. ena is one for the selected-project context. ui_in is zero so enable is low, and uio_in is zero because those input paths are unused by the example. rst_n is zero, requesting the active-low reset. A separate Clock task is started with a twenty-nanosecond period and continues while the test waits and performs checks. start_soon schedules that task instead of awaiting its never-ending clock loop directly. Finally model is set to zero in Python. That assignment does not drive the hardware count register and does not replace verification of reset. The following helper calls supply actual rising edges with reset active and then inspect the design's result. Ask what would happen if a physical or simulated counter had an unknown initial state but never received a reset edge. Writing the Python model alone would not establish the circuit's state or prove it matched zero.",
+    "guide_heading": "9.1 Imports, test declaration and initial conditions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "dut.ena.value = 1\ndut.ui_in.value = 0\ndut.uio_in.value = 0\ndut.rst_n.value = 0\nclock = Clock(\n    dut.clk, 20, unit=\"ns\"\n)\ncocotb.start_soon(clock.start())\nmodel = 0",
+    "check": "The model is Python bookkeeping; count is hardware state."
+  },
+  {
+    "id": "C49",
+    "section": "Verification",
+    "title": "step describes one controlled test cycle",
+    "layout": "code",
+    "body": [
+      "enable defaults to 0; reset defaults to False.",
+      "nonlocal model updates the enclosing test’s expected state.",
+      "Each call drives inputs, advances one edge and checks outputs."
+    ],
+    "notes": "The nested step helper packages the repeated actions needed for one checked cycle. Its defaults make await step() a hold operation with reset inactive. await step(enable=1) requests an increment, while await step(reset=True) requests reset and leaves enable at its default zero. Supplying both enable one and reset true checks reset priority. nonlocal model tells Python that assignments inside this helper refer to the model variable in the enclosing test, so the expected state persists across calls. Without that declaration, the intended state update would not behave as this test requires. This helper accepts the zero-or-one enable values used by the test; it is not a general model for arbitrary ui_in bus values. Its actual pin write uses enable as the whole bus value, deliberately selecting bit zero. Ask learners what await step() means when the previous model value is ten. It performs another clock step, checks that count remains ten, and checks the flag and direction mask too.",
+    "guide_heading": "9.2 A helper performs one controlled clock step",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "async def step(enable=0, reset=False):\n    nonlocal model",
+    "example": "step(): hold. step(enable=1): count. step(reset=True): reset.",
+    "check": "Every step is checked; repeated calls share the same expected-state model."
+  },
+  {
+    "id": "C50",
+    "section": "Verification",
+    "title": "Drive inputs at the falling edge",
+    "layout": "code",
+    "body": [
+      "Wait for FallingEdge before changing enable and reset.",
+      "int(not reset) converts the reset request to active-low rst_n.",
+      "The next rising edge is 10 ns later in this 20 ns clock."
+    ],
+    "notes": "The helper deliberately avoids changing inputs at the same instant as the rising edge used by the counter. It waits for FallingEdge, then writes the enable bus and reset signal. With the actual twenty-nanosecond clock and its ordinary half-period duty cycle, the next rising edge occurs ten nanoseconds later. This supplies a controlled lead time in simulation and reduces ambiguity about which edge samples the new inputs. It is not a replacement for timing analysis of the manufactured circuit. The expression int(not reset) maps a Python request into the wrapper polarity: reset true produces integer zero, and reset false produces integer one. The enable values used here are zero and one, so writing the whole ui_in bus sets or clears its bit zero. Ask students to evaluate the two reset cases aloud. Remind them that the active-high internal rst is created by inversion in the wrapper after this external rst_n write.",
+    "guide_heading": "9.2 A helper performs one controlled clock step",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "code": "await FallingEdge(dut.clk)\ndut.ui_in.value = enable\ndut.rst_n.value = int(not reset)",
+    "example": "reset = True → not reset = False → rst_n = 0.",
+    "check": "Drive before the sampling edge; do not infer hardware timing sign-off from this wait."
+  },
+  {
+    "id": "C51",
+    "section": "Verification",
+    "title": "Observe the edge, then allow outputs to settle",
+    "layout": "code",
+    "body": [
+      "RisingEdge reaches the counter’s update event.",
+      "The simulator still has scheduled HDL updates to process.",
+      "This helper samples after Timer(8 ns), before the next falling edge."
+    ],
+    "notes": "Receiving the rising-edge trigger means the clock transitioned; it does not automatically mean every downstream HDL assignment and output has already finished updating. The actual helper first waits for RisingEdge, calculates the expected model result, and then waits eight nanoseconds before its assertions read outputs. At the twenty-nanosecond test period, the following falling edge is ten nanoseconds after the rising edge, so the sample is two nanoseconds before it. The comment in the source states that this wait allows gate-level outputs to settle. It is a testbench sampling choice, not a proof that the circuit's physical worst-case delay is eight nanoseconds or that it can run at any arbitrary frequency. The excerpt marks where the independently calculated model update occurs; that update is shown fully on the next slide. Ask students why reading immediately after an edge could see a stale value even with correct RTL. Simulator scheduling can precede the register's scheduled update.",
+    "guide_heading": "9.2 A helper performs one controlled clock step",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://docs.cocotb.org/en/stable/timing_model.html"
+    ],
+    "code": "await RisingEdge(dut.clk)\nmodel = 0 if reset else ((model + enable) & 0xFF)\nawait Timer(8, unit=\"ns\")",
+    "example": "Relative timing: drive at −10 ns; rising edge at 0; sample at +8 ns.",
+    "check": "These timings explain this test; they do not establish maximum silicon frequency."
+  },
+  {
+    "id": "C52",
+    "section": "Verification",
+    "title": "The model predicts; it does not copy count",
+    "layout": "code",
+    "body": [
+      "If reset is True, predict 0 regardless of enable.",
+      "Otherwise add the 0-or-1 enable to the previous model.",
+      "Mask with 0xFF to keep only eight bits."
+    ],
+    "notes": "An independent model computes the expected answer from the specification and previous expected state. It must not simply read the design output and call that the expectation. This expression first gives reset priority, selecting zero when reset is true. Otherwise it adds enable, which is deliberately zero or one in this test. Adding zero models hold; adding one models an increment. Python integers are not automatically limited to eight bits, so the bitwise AND with hexadecimal 0xFF retains the lowest eight positions. For a binary sum of 256, masking with 255 yields zero, reproducing unsigned modulo-256 storage. The Python ampersand here is a two-operand bitwise operation, unlike the unary reduction AND in Verilog &count. Ask students to calculate a previous model of 255 with enable one and reset false. They should show the intermediate 256 and masked result zero, then separately explain reset true producing zero without any increment.",
+    "guide_heading": "9.3 Calculate the expected answer independently",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "model = 0 if reset else ((model + enable) & 0xFF)",
+    "example": "(255 + 1) & 0xFF = 256 & 255 = 0.",
+    "check": "Do not replace the model calculation with model = int(dut.uo_out.value)."
+  },
+  {
+    "id": "C53",
+    "section": "Verification",
+    "title": "An assertion compares observed and expected values",
+    "layout": "code",
+    "body": [
+      "Read uo_out after the settling wait.",
+      "Convert the bus to an integer and compare it with model.",
+      "A mismatch fails the test instead of silently continuing."
+    ],
+    "notes": "The assertion is where the predicted model meets the observed design. int(dut.uo_out.value) converts the simulated output bus into an integer that can be compared with the expected unsigned count. Equality must hold after every helper step. If it does not, the assertion reports failure, with the message providing the expected count. This is different from printing the observed value and asking a human to notice a mistake. A meaningful test has a reasoned expectation and makes mismatches visible. The comparison checks the fixed external bus, so it can be reused when synthesis changes the internal implementation. Unknown or unresolved values can also prevent an ordinary integer observation, exposing an issue that should not be ignored. Use a hypothetical mismatch only as an exercise: expected two but observed one would warrant checking reset, enable, timing and connections. The verified worked-example test passed; no genuine failing counter assertion is invented for this lesson.",
+    "guide_heading": "9.3 Calculate the expected answer independently",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "assert int(dut.uo_out.value) == model, f\"count: expected {model}\"",
+    "example": "Hypothetical: expected 2, observed 1 → investigate the first mismatching step.",
+    "check": "The real worked-example test passed; this mismatch is a teaching scenario."
+  },
+  {
+    "id": "C54",
+    "section": "Verification",
+    "title": "Check the flag, unused data and direction too",
+    "layout": "code",
+    "body": [
+      "Expected wrap is 1 only if enable is nonzero and the updated model is 255.",
+      "The whole uio_out bus must equal 0 or 1.",
+      "The whole uio_oe bus must equal 1: only bit 0 drives.",
+      "Return the flag only after its observed value passes the check."
+    ],
+    "notes": "The test checks more than the numerical count. expected_wrap is one only when enable is truthy and the updated model is 255. Because the checks occur after the rising edge, it predicts the settled flag for the new current count, not a flag attached to the previous count. Comparing the whole uio_out bus with zero or one also verifies that the seven unused output-data bits remain zero. The direction assertion compares the whole uio_oe bus with one, catching an accidentally enabled extra output driver. The helper returns expected_wrap only after the observed flag has matched it. Later, summing those returns is meaningful because every returned value has already been verified against the design. The displayed assertion messages are wrapped across lines for readability without changing their meaning. Ask why checking only uio_out[0] would be weaker. It could miss unintended nonzero data on the other seven output paths.",
+    "guide_heading": "9.4 Check wrap and pin direction as well",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "code": "expected_wrap = int(bool(enable) and model == 255)\nassert int(dut.uio_out.value) == expected_wrap, (\n    \"wrap or unused output\"\n)\nassert int(dut.uio_oe.value) == 1, (\n    \"only uio[0] should drive an output\"\n)\nreturn expected_wrap",
+    "check": "The flag is checked after the edge; wrap at newly reached 255 is 1 if enabled."
+  },
+  {
+    "id": "C55",
+    "section": "Verification",
+    "title": "Phase 1 checks reset, then hold at zero",
+    "layout": "code",
+    "body": [
+      "Three steps keep reset active and check count = 0.",
+      "Five default steps release reset and hold count = 0.",
+      "Every step also checks wrap = 0 and the direction mask.",
+      "range(3) repeats three times; _ ignores the loop index."
+    ],
+    "notes": "The first loops establish and verify a known state before longer counting sequences. Calling step with reset true keeps rst_n low through the rising edge and predicts zero, regardless of the unknown initial state the design might otherwise have had. Repeating that operation three times checks sustained reset operation. The next five calls use the helper's defaults: enable zero and reset false. The helper releases reset at the falling edge, then checks that the following rising edge retains zero. This distinction matters because holding a signal low in initial setup alone is not the same as verifying the counter received an active reset edge. Each helper call includes all assertions, so these loops also confirm the flag is low and uio_oe has the expected direction pattern. Ask students whether the five default steps stop the simulated clock. They do not; each waits through another ordinary rising edge while the count remains zero.",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "for _ in range(3):\n    await step(reset=True)\nfor _ in range(5):\n    await step()",
+    "example": "After this phase: known count 0, wrap 0, reset released, enable low.",
+    "check": "A default step is an actively checked hold cycle, not an omitted test."
+  },
+  {
+    "id": "C56",
+    "section": "Verification",
+    "title": "Phase 2 crosses overflow, holds, then resumes",
+    "layout": "code",
+    "body": [
+      "266 increments from 0 end at 10 and check one high flag sample.",
+      "20 disabled steps hold 10 while the clock runs.",
+      "7 more enabled steps end at 17.",
+      "wraps += adds each checked flag sample; its total must be 1."
+    ],
+    "notes": "The long enabled sequence goes beyond one full eight-bit cycle rather than stopping at a small count. Starting from zero, 266 increments equal one cycle of 256 plus ten, so the final count is ten. Among the settled post-edge samples, count reaches 255 once with enable high, so exactly one checked terminal-flag sample is summed into wraps. Every returned flag was already compared with the observed uio_out bus inside step. This is not a separate registered pulse after overflow. The following twenty disabled steps leave the count at ten and suppress the flag, confirming hold while clock activity continues. Seven more enabled steps then reach seventeen, confirming that counting resumes from the retained value rather than restarting. Ask students to calculate the endpoint before reading the answer. Using modulo arithmetic is clearer than manually listing 266 values. The code shown is a contiguous actual phase excerpt; the opening reset and hold loops were taught on the previous slide.",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "code": "wraps = 0\nfor _ in range(266):\n    wraps += await step(enable=1)\nassert wraps == 1, f\"expected one wrap indication, saw {wraps}\"\nfor _ in range(20):\n    await step()\nfor _ in range(7):\n    await step(enable=1)",
+    "example": "0 + 266 modulo 256 = 10; hold 10; 10 + 7 = 17.",
+    "check": "A single reported test can include hundreds of checked cycles."
+  },
+  {
+    "id": "C57",
+    "section": "Verification",
+    "title": "Phase 3 resets a running nonzero counter",
+    "layout": "code",
+    "body": [
+      "Starting at 17, request reset and enable together.",
+      "The next count must be 0: reset has priority.",
+      "Hold once, then five enabled steps must reach 5."
+    ],
+    "notes": "Testing reset only at startup would leave an important behaviour less clearly exercised. This phase starts from the nonzero value seventeen reached by the previous sequence and requests both enable and reset. The helper drives those inputs before the next rising edge, and the independent model chooses zero because reset has priority. The count assertion then verifies the design agrees. A following default step releases reset and holds the count at zero. Five enabled steps produce one through five, confirming that normal counting resumes after the reset. All those values are below terminal count, so the flag checks remain zero. Ask learners what result would reveal an incorrect increment-after-reset interpretation at the simultaneous-control edge. One would contradict the specified priority, while eighteen would show reset was ignored. These are hypothetical diagnoses, not actual failures in the green worked-example run. The meaningful outcome is a checked transition from a running nonzero state back to zero and onward.",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "await step(enable=1, reset=True)\nawait step()\nfor _ in range(5):\n    await step(enable=1)",
+    "example": "Phase entry 17 → reset + enable: 0 → hold: 0 → five counts: 5.",
+    "check": "Reset should work after counting, not only before the first increment."
+  },
+  {
+    "id": "C58",
+    "section": "Verification",
+    "title": "Phase 4 holds at terminal count and suppresses wrap",
+    "layout": "code",
+    "body": [
+      "Reset, then 255 enabled steps reach count 255 with wrap high.",
+      "Three disabled steps retain 255 but require wrap = 0.",
+      "The next enabled step overflows to 0; model must finish at 0."
+    ],
+    "notes": "This phase targets the subtle enable mask at terminal count. It first resets the model and design, then performs 255 enabled increments to reach 255. The last enabled step checks the high terminal flag. Three default helper calls then set enable low, retain 255 at each rising edge and require the flag to be low. These calls distinguish the actual expression en AND all-count-bits from an incorrect flag that ignores enable. The final enabled step makes the flag high before the edge while count is still 255, then overflows to zero; the helper checks the settled post-edge flag as zero. The final assertion confirms the model ended at zero, but the per-step count assertions already checked the observed design throughout. Ask students why the three disabled steps are useful even though the count never changes. They verify a combinational output requirement and the persistence of stored state under the same controlled conditions.",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "code": "await step(reset=True)\nfor _ in range(255):\n    await step(enable=1)\nfor _ in range(3):\n    await step()\nawait step(enable=1)\nassert model == 0",
+    "check": "Do not call wrap an after-overflow pulse; the final settled wrap is 0."
+  },
+  {
+    "id": "C59",
+    "section": "Verification",
+    "title": "One test function checks many phases",
+    "layout": "compare",
+    "body": [
+      "One reported test includes reset, hold, count, overflow and flag masking.",
+      "A passing result supports the behaviours actually driven and asserted.",
+      "It does not prove every possible input timing or physical behaviour."
+    ],
+    "notes": "The test runner reports one test because test_project is one decorated function, not because the circuit was checked only once. Inside that function, many helper calls drive different conditions and compare all three output buses with expectations. The loops and boundary phases therefore matter more than the test-count number alone. A pass supports the reset, counting, hold, overflow, flag and direction behaviours exercised by this exact source and configuration. It does not exhaust all possible input combinations or arrival times, prove safe handling of raw physical switches, measure silicon frequency, or replace geometric and timing checks. It also does not directly test every reset-at-terminal-count timing nuance discussed earlier. The next workflow chapter checks the real result for the saved commit and opens the genuine recorded waveform. Ask students what evidence would justify claiming an untested feature works. They would need an explicit requirement, suitable stimulus and an observation checked against a reasoned expectation, followed by the relevant implementation checks.",
+    "guide_heading": "9.6 What the test does not claim",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/.github/workflows/test.yaml"
+    ],
+    "example": "1 test function ≠ 1 input case. Read the loops and assertions.",
+    "check": "Inspect the reported result for the intended commit, not just a green icon."
+  },
+  {
+    "id": "C60",
+    "section": "Verification",
+    "title": "Final exercise: predict count, wrap and direction",
+    "layout": "exercise",
+    "body": [
+      "Start at count 254, with reset released.",
+      "Take edges: enabled, disabled, re-enabled."
+    ],
+    "notes": "Use this exercise as the bridge to the browser practical work. Starting at 254, an enabled rising edge stores 255 and leaves the settled terminal flag high. The disabled edge retains 255 but makes wrap low because enable is part of the expression. Re-enabling makes wrap high before the next edge; that edge stores zero, so the settled flag is low again. The direction mask remains one throughout because it is a constant wrapper assignment, independent of count and enable. Encourage students to state which values are observed after an edge and which change between edges, rather than blending those moments. All answers are predictions derived from the verified source, not a fabricated waveform capture. Students are ready to continue when they can explain these results, find both source lists, identify the wrapper name in three locations, and describe what the test checks. They do not need to install local simulation tools first; the practical guide begins with browser-based workflows.",
+    "guide_heading": "13. A readiness check before the workflow chapters",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "question": "Predict count, wrap and uio_oe after each edge.",
+    "answer": "Count/wrap: 255/1, 255/0, 0/0. uio_oe stays 00000001 throughout."
+  }
+]

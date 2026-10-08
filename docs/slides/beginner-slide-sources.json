@@ -1,0 +1,2806 @@
+[
+  {
+    "slide": 1,
+    "id": "F01",
+    "title": "Your first Tiny Tapeout chip",
+    "section": "Start here",
+    "guide_heading": "What you will learn and produce",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "cover"
+  },
+  {
+    "slide": 2,
+    "id": "F02",
+    "title": "What you will understand and produce",
+    "section": "Start here",
+    "guide_heading": "What you will learn and produce",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 3,
+    "id": "F03",
+    "title": "Your route through the course",
+    "section": "Start here",
+    "guide_heading": "What you will learn and produce",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 4,
+    "id": "F04",
+    "title": "Get your learning workspace ready",
+    "section": "Start here",
+    "guide_heading": "Keep these companion files together",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 5,
+    "id": "F05",
+    "title": "Understand the free stopping point",
+    "section": "Start here",
+    "guide_heading": "Where the free route ends",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 6,
+    "id": "F06",
+    "title": "Read each step as a small experiment",
+    "section": "Start here",
+    "guide_heading": "Read these conventions once",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 7,
+    "id": "F07",
+    "title": "Keep the example and your version distinct",
+    "section": "Start here",
+    "guide_heading": "Read these conventions once",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 8,
+    "id": "F08",
+    "title": "Use the seven-file starter correctly",
+    "section": "Start here",
+    "guide_heading": "Keep these companion files together",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 9,
+    "id": "C01",
+    "title": "Our first chip circuit counts from 0 to 255",
+    "section": "Foundations",
+    "guide_heading": "1. What are we making?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 10,
+    "id": "C02",
+    "title": "Verilog describes connected hardware",
+    "section": "Foundations",
+    "guide_heading": "Hardware descriptions differ from software instructions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 11,
+    "id": "C03",
+    "title": "Logic calculates. A register remembers.",
+    "section": "Foundations",
+    "guide_heading": "Logic calculates; stored state remembers",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 12,
+    "id": "C04",
+    "title": "One bit has two logical values",
+    "section": "Foundations",
+    "guide_heading": "2. Start with bits and pins",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "bits"
+  },
+  {
+    "slide": 13,
+    "id": "C05",
+    "title": "Eight bits give 256 patterns",
+    "section": "Foundations",
+    "guide_heading": "2. Start with bits and pins",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "bits"
+  },
+  {
+    "slide": 14,
+    "id": "C06",
+    "title": "Each position has a binary weight",
+    "section": "Foundations",
+    "guide_heading": "Why does `00000101` mean 5?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "bits"
+  },
+  {
+    "slide": 15,
+    "id": "C07",
+    "title": "Count 5 appears on two output bits",
+    "section": "Foundations",
+    "guide_heading": "Pin examples that catch common mistakes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "bits"
+  },
+  {
+    "slide": 16,
+    "id": "C08",
+    "title": "Try it: which pins represent 10?",
+    "section": "Foundations",
+    "guide_heading": "Mini exercise",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "exercise"
+  },
+  {
+    "slide": 17,
+    "id": "C09",
+    "title": "Three notations can describe the same value",
+    "section": "Foundations",
+    "guide_heading": "Recognising Verilog number notation",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 18,
+    "id": "C10",
+    "title": "Keep the Tiny Tapeout interface intact",
+    "section": "Foundations",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 19,
+    "id": "C11",
+    "title": "Only input bit 0 enables this counter",
+    "section": "Foundations",
+    "guide_heading": "Pin examples that catch common mistakes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "bits"
+  },
+  {
+    "slide": 20,
+    "id": "C12",
+    "title": "ena selects the project; en controls counting",
+    "section": "Foundations",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 21,
+    "id": "C13",
+    "title": "A bidirectional pin needs a direction",
+    "section": "Foundations",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 22,
+    "id": "C14",
+    "title": "00000001 makes only uio[0] an output",
+    "section": "Foundations",
+    "guide_heading": "7.3 Drive the remaining output paths",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "bits"
+  },
+  {
+    "slide": 23,
+    "id": "C15",
+    "title": "Write the next-state rule before the code",
+    "section": "Foundations",
+    "guide_heading": "The next-state rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 24,
+    "id": "C16",
+    "title": "A clock edge is the update event",
+    "section": "Foundations",
+    "guide_heading": "What is a clock edge?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "trace"
+  },
+  {
+    "slide": 25,
+    "id": "C17",
+    "title": "Follow six rising edges",
+    "section": "Foundations",
+    "guide_heading": "Follow six rising edges",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "trace"
+  },
+  {
+    "slide": 26,
+    "id": "C18",
+    "title": "rst_n is active low; rst is active high",
+    "section": "Foundations",
+    "guide_heading": "Active-low reset is a naming convention",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 27,
+    "id": "C19",
+    "title": "This reset waits for the next rising edge",
+    "section": "Foundations",
+    "guide_heading": "Exercise 4: Reset between edges",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "trace"
+  },
+  {
+    "slide": 28,
+    "id": "C20",
+    "title": "Reset has priority over enable",
+    "section": "Foundations",
+    "guide_heading": "Exercise 3: Reset priority",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "trace"
+  },
+  {
+    "slide": 29,
+    "id": "C21",
+    "title": "Hold the value while the clock continues",
+    "section": "Foundations",
+    "guide_heading": "Why hold is different from stopping the clock",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "trace"
+  },
+  {
+    "slide": 30,
+    "id": "C22",
+    "title": "255 + 1 becomes 0 in eight stored bits",
+    "section": "Foundations",
+    "guide_heading": "Why does 255 become 0?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "bits"
+  },
+  {
+    "slide": 31,
+    "id": "C23",
+    "title": "wrap is high at 255, before overflow",
+    "section": "Foundations",
+    "guide_heading": "Watch the flag at the same time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "trace"
+  },
+  {
+    "slide": 32,
+    "id": "C24",
+    "title": "Disabling at 255 suppresses wrap",
+    "section": "Foundations",
+    "guide_heading": "What happens if you disable at 255?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "trace"
+  },
+  {
+    "slide": 33,
+    "id": "C25",
+    "title": "Reset does not directly mask the flag",
+    "section": "Foundations",
+    "guide_heading": "Watch the flag at the same time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 34,
+    "id": "C26",
+    "title": "A file, a module and an instance are different",
+    "section": "Counter RTL",
+    "guide_heading": "A module, an instance and a file are different things",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 35,
+    "id": "C27",
+    "title": "The top-module name must agree in three places",
+    "section": "Counter RTL",
+    "guide_heading": "Check the three places that must agree",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 36,
+    "id": "C28",
+    "title": "Both build routes need both source files",
+    "section": "Counter RTL",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 37,
+    "id": "C29",
+    "title": "File directives prevent hidden assumptions",
+    "section": "Counter RTL",
+    "guide_heading": "6.1 File directives and module declaration",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 38,
+    "id": "C30",
+    "title": "WIDTH makes the counter reusable",
+    "section": "Counter RTL",
+    "guide_heading": "6.1 File directives and module declaration",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 39,
+    "id": "C31",
+    "title": "Read each counter port by direction and width",
+    "section": "Counter RTL",
+    "guide_heading": "6.2 Inputs and outputs",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 40,
+    "id": "C32",
+    "title": "posedge clk tells us when to update",
+    "section": "Counter RTL",
+    "guide_heading": "6.3 The update rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 41,
+    "id": "C33",
+    "title": "Reset writes WIDTH zeros into the register",
+    "section": "Counter RTL",
+    "guide_heading": "6.3 The update rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 42,
+    "id": "C34",
+    "title": "Enable adds one; no assignment means hold",
+    "section": "Counter RTL",
+    "guide_heading": "6.3 The update rule",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 43,
+    "id": "C35",
+    "title": "Predict the branch before running anything",
+    "section": "Counter RTL",
+    "guide_heading": "Check before moving on",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "exercise"
+  },
+  {
+    "slide": 44,
+    "id": "C36",
+    "title": "Reduction AND detects all count bits high",
+    "section": "Counter RTL",
+    "guide_heading": "6.4 The terminal-count flag",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 45,
+    "id": "C37",
+    "title": "The wrapper declares the fixed external ports",
+    "section": "Counter RTL",
+    "guide_heading": "7.1 Understand the interface before using it",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 46,
+    "id": "C38",
+    "title": "Named connections make the adapter readable",
+    "section": "Counter RTL",
+    "guide_heading": "7.2 The actual instance and connections",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 47,
+    "id": "C39",
+    "title": "Route eight count bits and one flag outward",
+    "section": "Counter RTL",
+    "guide_heading": "7.2 The actual instance and connections",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 48,
+    "id": "C40",
+    "title": "Make every remaining output intentional",
+    "section": "Counter RTL",
+    "guide_heading": "7.3 Drive the remaining output paths",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 49,
+    "id": "C41",
+    "title": "The unused-input line does not add behaviour",
+    "section": "Counter RTL",
+    "guide_heading": "7.3 Drive the remaining output paths",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 50,
+    "id": "C42",
+    "title": "A physical switch needs more than a wire",
+    "section": "Counter RTL",
+    "guide_heading": "Why physical switches need more care than simulator values",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 51,
+    "id": "C43",
+    "title": "The simulator surrounds our circuit with tb",
+    "section": "Verification",
+    "guide_heading": "8.1 What `tb.v` does",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 52,
+    "id": "C44",
+    "title": "tb connects the signals Python will drive",
+    "section": "Verification",
+    "guide_heading": "8.1 What `tb.v` does",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 53,
+    "id": "C45",
+    "title": "The dump block records simulated signal history",
+    "section": "Verification",
+    "guide_heading": "8.1 What `tb.v` does",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 54,
+    "id": "C46",
+    "title": "Gate-level mode adds simulation power connections",
+    "section": "Verification",
+    "guide_heading": "Gate-level reuse: why top-level checks help",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 55,
+    "id": "C47",
+    "title": "The Python test imports simulation tools",
+    "section": "Verification",
+    "guide_heading": "9.1 Imports, test declaration and initial conditions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://docs.cocotb.org/en/stable/writing_testbenches.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 56,
+    "id": "C48",
+    "title": "Initial inputs establish a controlled starting condition",
+    "section": "Verification",
+    "guide_heading": "9.1 Imports, test declaration and initial conditions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 57,
+    "id": "C49",
+    "title": "step describes one controlled test cycle",
+    "section": "Verification",
+    "guide_heading": "9.2 A helper performs one controlled clock step",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 58,
+    "id": "C50",
+    "title": "Drive inputs at the falling edge",
+    "section": "Verification",
+    "guide_heading": "9.2 A helper performs one controlled clock step",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 59,
+    "id": "C51",
+    "title": "Observe the edge, then allow outputs to settle",
+    "section": "Verification",
+    "guide_heading": "9.2 A helper performs one controlled clock step",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://docs.cocotb.org/en/stable/timing_model.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 60,
+    "id": "C52",
+    "title": "The model predicts; it does not copy count",
+    "section": "Verification",
+    "guide_heading": "9.3 Calculate the expected answer independently",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 61,
+    "id": "C53",
+    "title": "An assertion compares observed and expected values",
+    "section": "Verification",
+    "guide_heading": "9.3 Calculate the expected answer independently",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 62,
+    "id": "C54",
+    "title": "Check the flag, unused data and direction too",
+    "section": "Verification",
+    "guide_heading": "9.4 Check wrap and pin direction as well",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 63,
+    "id": "C55",
+    "title": "Phase 1 checks reset, then hold at zero",
+    "section": "Verification",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 64,
+    "id": "C56",
+    "title": "Phase 2 crosses overflow, holds, then resumes",
+    "section": "Verification",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 65,
+    "id": "C57",
+    "title": "Phase 3 resets a running nonzero counter",
+    "section": "Verification",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 66,
+    "id": "C58",
+    "title": "Phase 4 holds at terminal count and suppresses wrap",
+    "section": "Verification",
+    "guide_heading": "9.5 Understand every tested phase",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 67,
+    "id": "C59",
+    "title": "One test function checks many phases",
+    "section": "Verification",
+    "guide_heading": "9.6 What the test does not claim",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/.github/workflows/test.yaml"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 68,
+    "id": "C60",
+    "title": "Final exercise: predict count, wrap and direction",
+    "section": "Verification",
+    "guide_heading": "13. A readiness check before the workflow chapters",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "exercise"
+  },
+  {
+    "slide": 69,
+    "id": "B01",
+    "title": "Your browser lab: from files to checked layout",
+    "section": "Browser lab",
+    "guide_heading": "Part 2 — Build and test your first counter, step by step",
+    "sources": [
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 70,
+    "id": "B02",
+    "title": "Step 0: sign in to your own GitHub account",
+    "section": "Browser lab",
+    "guide_heading": "Step 0 — Get your free GitHub account ready",
+    "sources": [
+      "https://github.com/signup",
+      "https://github.com/login"
+    ],
+    "image": "12-signin.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 71,
+    "id": "B03",
+    "title": "Step 1: predict the counter at a clock edge",
+    "section": "Browser lab",
+    "guide_heading": "Step 1 — Understand the circuit before editing files",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 72,
+    "id": "B04",
+    "title": "Step 1: watch the flag before overflow",
+    "section": "Browser lab",
+    "guide_heading": "Step 1 — Understand the circuit before editing files",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 73,
+    "id": "B05",
+    "title": "Step 2: open the official SKY template",
+    "section": "Browser lab",
+    "guide_heading": "Step 2 — Open the official SKY template",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"
+    ],
+    "image": "01-template.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 74,
+    "id": "B06",
+    "title": "Step 3: create a repository from the template",
+    "section": "Browser lab",
+    "guide_heading": "Step 3 — Make your own repository",
+    "sources": [
+      "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+      "https://github.com/TinyTapeout/ttsky-verilog-template",
+      "https://docs.github.com/assets/images/help/repository/use-this-template-button.png"
+    ],
+    "image": "official-template-menu.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 75,
+    "id": "B07",
+    "title": "Step 3: choose your owner, name and Public",
+    "section": "Browser lab",
+    "guide_heading": "Step 3 — Make your own repository",
+    "sources": [
+      "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "https://docs.github.com/assets/images/help/repository/create-repository-name.png"
+    ],
+    "image": "official-repository-name.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 76,
+    "id": "B08",
+    "title": "Step 4: make sure Actions is enabled",
+    "section": "Browser lab",
+    "guide_heading": "Step 4 — Enable Actions and the layout results page",
+    "sources": [
+      "https://tinytapeout.com/faq/#when-i-commit-my-change-the-gds-action-isnt-running",
+      "https://tinytapeout.com/images/faq/enable_action.png"
+    ],
+    "image": "official-enable-actions.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 77,
+    "id": "B09",
+    "title": "Step 4: set Pages Source to GitHub Actions",
+    "section": "Browser lab",
+    "guide_heading": "Step 4 — Enable Actions and the layout results page",
+    "sources": [
+      "https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part",
+      "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site",
+      "https://tinytapeout.com/images/faq/action_pages.png"
+    ],
+    "image": "official-pages-actions.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 78,
+    "id": "B10",
+    "title": "Step 5: extract the starter, then open its contents",
+    "section": "Browser lab",
+    "guide_heading": "Step 5 — Extract the seven-file starter pack",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 79,
+    "id": "B11",
+    "title": "Step 5: count the seven files",
+    "section": "Browser lab",
+    "guide_heading": "Step 5 — Extract the seven-file starter pack",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 80,
+    "id": "B12",
+    "title": "Step 6: open the browser upload page",
+    "section": "Browser lab",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository",
+      "https://docs.github.com/assets/images/help/repository/upload-files-button.png"
+    ],
+    "image": "official-upload-files.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 81,
+    "id": "B13",
+    "title": "Step 6: drag the contents, preserving folders",
+    "section": "Browser lab",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 82,
+    "id": "B14",
+    "title": "Step 6: save one complete counter commit",
+    "section": "Browser lab",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files",
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository",
+      "https://docs.github.com/assets/images/help/repository/choose-commit-branch.png"
+    ],
+    "image": "official-commit-branch.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 83,
+    "id": "B15",
+    "title": "Alternative: replace an existing file in the editor",
+    "section": "Browser lab",
+    "guide_heading": "Alternative: enter or replace each file in the browser editor",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files",
+      "https://docs.github.com/assets/images/help/repository/edit-file-edit-button.png"
+    ],
+    "image": "official-edit-pencil.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 84,
+    "id": "B16",
+    "title": "Alternative: add the new counter module",
+    "section": "Browser lab",
+    "guide_heading": "Alternative: enter or replace each file in the browser editor",
+    "sources": [
+      "https://docs.github.com/en/repositories/working-with-files/managing-files/creating-new-files",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://docs.github.com/assets/images/help/repository/start-commit-commit-new-file.png"
+    ],
+    "image": "official-commit-dialog.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 85,
+    "id": "B17",
+    "title": "Step 6 checkpoint: inspect your final tree and version",
+    "section": "Browser lab",
+    "guide_heading": "Step 6 — Upload the complete example in one browser commit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/worked-example"
+    ],
+    "image": "02-example-tree.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 86,
+    "id": "B18T",
+    "title": "Step 7: read title, author and description",
+    "section": "Browser lab",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/config.json"
+    ],
+    "image": "05-metadata.png",
+    "crop": [
+      0.44,
+      0.264,
+      0.012,
+      0.59
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 87,
+    "id": "B18",
+    "title": "Step 7: confirm the clock target and tile size",
+    "section": "Browser lab",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/config.json"
+    ],
+    "image": "05-metadata.png",
+    "crop": [
+      0.44,
+      0.41,
+      0.012,
+      0.465
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 88,
+    "id": "B19",
+    "title": "Step 7: check both source-file lists",
+    "section": "Browser lab",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 89,
+    "id": "B20",
+    "title": "Step 7: match the top name in three places",
+    "section": "Browser lab",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/tb.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 90,
+    "id": "B21",
+    "title": "Step 7: confirm the wrapper's pin mapping",
+    "section": "Browser lab",
+    "guide_heading": "Step 7 — Check the two source lists and the three module-name locations",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": "04-wrapper-code.png",
+    "crop": [
+      0.452,
+      0.773,
+      0.215,
+      0.046
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 91,
+    "id": "B22",
+    "title": "Step 7: write a datasheet someone can use",
+    "section": "Browser lab",
+    "guide_heading": "Give the datasheet enough information to use the circuit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 92,
+    "id": "B23",
+    "title": "Step 8: read how the test drives and samples",
+    "section": "Browser lab",
+    "guide_heading": "Step 8 — Read the test before relying on a green icon",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": "23-real-test-code.png",
+    "crop": [
+      0.497,
+      0.542,
+      0.13,
+      0.285
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 93,
+    "id": "B24",
+    "title": "Step 8: know what the assertions cover",
+    "section": "Browser lab",
+    "guide_heading": "Step 8 — Read the test before relying on a green icon",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 94,
+    "id": "B25",
+    "title": "Step 9: open the test run for your final commit",
+    "section": "Browser lab",
+    "guide_heading": "Step 9 — Check the `test` workflow for your final commit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml"
+    ],
+    "image": "07-rtl-run.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 95,
+    "id": "B26",
+    "title": "Step 9: read the job log, not only the icon",
+    "section": "Browser lab",
+    "guide_heading": "Step 9 — Check the `test` workflow for your final commit",
+    "sources": [
+      "https://docs.github.com/en/actions/get-started/quickstart",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml",
+      "https://docs.github.com/assets/images/help/repository/actions-quickstart-log-detail.png"
+    ],
+    "image": "official-actions-log.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 96,
+    "id": "B27",
+    "title": "Step 9: keep and read results.xml",
+    "section": "Browser lab",
+    "guide_heading": "Step 9 — Check the `test` workflow for your final commit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts"
+    ],
+    "image": "21-real-test-results.png",
+    "crop": [
+      0,
+      0.252,
+      0.21,
+      0.511
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 97,
+    "id": "B28",
+    "title": "Waveform: download and extract test-results",
+    "section": "Browser lab",
+    "guide_heading": "Practical step: open and read your real waveform",
+    "sources": [
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://docs.github.com/assets/images/help/repository/artifact-drop-down-updated.png"
+    ],
+    "image": "official-artifact-list.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 98,
+    "id": "B29",
+    "title": "Waveform: open Surfer and drop the FST",
+    "section": "Browser lab",
+    "guide_heading": "Practical step: open and read your real waveform",
+    "sources": [
+      "https://app.surfer-project.org/",
+      "https://surfer-project.org/",
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 99,
+    "id": "B30",
+    "title": "Waveform: add tb signals and fit the whole test",
+    "section": "Browser lab",
+    "guide_heading": "Practical step: open and read your real waveform",
+    "sources": [
+      "https://app.surfer-project.org/",
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "image": "13-real-waveform-full.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 100,
+    "id": "B31",
+    "title": "Waveform: inspect reset and first increments",
+    "section": "Browser lab",
+    "guide_heading": "Observe reset and the first increments",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://app.surfer-project.org/"
+    ],
+    "image": "14-real-waveform-reset.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 101,
+    "id": "B32",
+    "title": "Waveform: inspect 254 → 255 → 0",
+    "section": "Browser lab",
+    "guide_heading": "Observe 254 → 255 → 0",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://app.surfer-project.org/"
+    ],
+    "image": "15-real-waveform-wrap.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 102,
+    "id": "B33",
+    "title": "Waveform: inspect hold while the clock runs",
+    "section": "Browser lab",
+    "guide_heading": "Observe hold while the clock continues",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://app.surfer-project.org/"
+    ],
+    "image": "16-real-waveform-hold.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 103,
+    "id": "B34",
+    "title": "Waveform: recover an empty or confusing view",
+    "section": "Browser lab",
+    "guide_heading": "If the waveform does not appear",
+    "sources": [
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://app.surfer-project.org/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 104,
+    "id": "B35",
+    "title": "Step 10: build and download the datasheet",
+    "section": "Browser lab",
+    "guide_heading": "Step 10 — Check the documentation and download the datasheet",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md"
+    ],
+    "image": "09-docs-run.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 105,
+    "id": "B36",
+    "title": "Step 10: read reset and enable in the datasheet",
+    "section": "Browser lab",
+    "guide_heading": "Step 10 — Check the documentation and download the datasheet",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": "24-real-datasheet.png",
+    "crop": [
+      0.1,
+      0.245,
+      0.1,
+      0.64
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 106,
+    "id": "B36W",
+    "title": "Step 10: check the flag description against the code",
+    "section": "Browser lab",
+    "guide_heading": "Step 10 — Check the documentation and download the datasheet",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ],
+    "image": "24-real-datasheet.png",
+    "crop": [
+      0.1,
+      0.36,
+      0.1,
+      0.556
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 107,
+    "id": "B37",
+    "title": "Step 11: wait for all four GDS jobs",
+    "section": "Browser lab",
+    "guide_heading": "Step 11 — Wait for all four jobs in the `gds` workflow",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"
+    ],
+    "image": "08-gds-run.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 108,
+    "id": "B38",
+    "title": "Step 11: four jobs, four different questions",
+    "section": "Browser lab",
+    "guide_heading": "Step 11 — Wait for all four jobs in the `gds` workflow",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://tinytapeout.com/guides/precheck/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 109,
+    "id": "B39",
+    "title": "Step 12: open your published layout site",
+    "section": "Browser lab",
+    "guide_heading": "Step 12 — Open and explore the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://docs.github.com/assets/images/help/repository/repo-actions-settings.png"
+    ],
+    "image": "official-repository-settings.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 110,
+    "id": "B40",
+    "title": "Step 12: explore layers and hide filler cells",
+    "section": "Browser lab",
+    "guide_heading": "Step 12 — Open and explore the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas"
+    ],
+    "image": "18-real-layout.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 111,
+    "id": "B40K",
+    "title": "Step 12: read the viewer’s keyboard controls",
+    "section": "Browser lab",
+    "guide_heading": "Step 12 — Open and explore the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas"
+    ],
+    "image": "18-real-layout.png",
+    "crop": [
+      0,
+      0.031,
+      0.825,
+      0.9
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 112,
+    "id": "B40V",
+    "title": "Step 12: find the Filler cells checkbox",
+    "section": "Browser lab",
+    "guide_heading": "Step 12 — Open and explore the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas"
+    ],
+    "image": "18-real-layout.png",
+    "crop": [
+      0.799,
+      0,
+      0.009,
+      0.855
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 113,
+    "id": "B41",
+    "title": "Step 13: download layout, image and build logs",
+    "section": "Browser lab",
+    "guide_heading": "Step 13 — Download the evidence, not just a screenshot",
+    "sources": [
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://docs.github.com/assets/images/help/repository/artifact-drop-down-updated.png"
+    ],
+    "image": "official-artifact-list.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 114,
+    "id": "B42",
+    "title": "Step 13: keep the verification artifacts too",
+    "section": "Browser lab",
+    "guide_heading": "Step 13 — Download the evidence, not just a screenshot",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 115,
+    "id": "B43",
+    "title": "Step 13: inspect the submission bundle's identity",
+    "section": "Browser lab",
+    "guide_heading": "Step 13 — Download the evidence, not just a screenshot",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 116,
+    "id": "B44",
+    "title": "Step 14: read counts with their stage and category",
+    "section": "Browser lab",
+    "guide_heading": "Step 14 — Interpret the real counter's measurements",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": "17-real-metrics.png",
+    "crop": [
+      0.025,
+      0.301,
+      0.26,
+      0.56
+    ],
+    "layout": "screenshot"
+  },
+  {
+    "slide": 117,
+    "id": "B45",
+    "title": "Step 14: read timing, geometry and warnings",
+    "section": "Browser lab",
+    "guide_heading": "Step 14 — Interpret the real counter's measurements",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 118,
+    "id": "B46",
+    "title": "Step 15: start with the first useful error",
+    "section": "Browser lab",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693066241",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693066333",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 119,
+    "id": "B47",
+    "title": "Step 15: match the symptom to its cause",
+    "section": "Browser lab",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 120,
+    "id": "B48",
+    "title": "Step 15: fix Pages or a blank viewer",
+    "section": "Browser lab",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part",
+      "https://tinytapeout.com/faq/#my-viewer-job-fails-after-enabling-github-pages-and-rerunning-it-on-an-existing-gds-action",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 121,
+    "id": "B49",
+    "title": "Step 15: deliberately start a fresh complete run",
+    "section": "Browser lab",
+    "guide_heading": "Step 15 — Troubleshoot one cause at a time",
+    "sources": [
+      "https://tinytapeout.com/faq/#i-updated-and-saved-my-wokwi-design-how-do-i-re-run-the-github-action-to-update-the-gds-files",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-running-a-workflow",
+      "https://tinytapeout.com/images/faq/rerun_actions.png"
+    ],
+    "image": "official-run-workflow.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 122,
+    "id": "B50",
+    "title": "Step 16: optional local setup in Ubuntu or WSL",
+    "section": "Browser lab",
+    "guide_heading": "Step 16 — Choose whether you need local simulation",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 123,
+    "id": "B51",
+    "title": "Step 16: run RTL, then explicitly check XML",
+    "section": "Browser lab",
+    "guide_heading": "Step 16 — Choose whether you need local simulation",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/requirements.txt",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 124,
+    "id": "B52",
+    "title": "Step 17: specify one small extension first",
+    "section": "Browser lab",
+    "guide_heading": "Step 17 — Make a small extension after the example passes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 125,
+    "id": "B53",
+    "title": "Step 17: update, commit and recheck the extension",
+    "section": "Browser lab",
+    "guide_heading": "Step 17 — Make a small extension after the example passes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 126,
+    "id": "B54",
+    "title": "Step 18: archive one checked revision",
+    "section": "Browser lab",
+    "guide_heading": "Step 18 — Finish the free exercise here",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 127,
+    "id": "B55",
+    "title": "Step 18: stop before fabrication actions",
+    "section": "Browser lab",
+    "guide_heading": "Step 18 — Finish the free exercise here",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 128,
+    "id": "P01",
+    "title": "Follow one design through changing representations",
+    "section": "Physical design",
+    "guide_heading": "Part 3 — Understand what the layout build actually did",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 129,
+    "id": "P02",
+    "title": "Synthesis starts from a precise update rule",
+    "section": "Physical design",
+    "guide_heading": "3.1 From behaviour to actual gates: synthesis",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 130,
+    "id": "P03",
+    "title": "The synthesis result reports 47 cells",
+    "section": "Physical design",
+    "guide_heading": "3.1 From behaviour to actual gates: synthesis",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html#classic"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 131,
+    "id": "P04",
+    "title": "The PDK connects the tools to a manufacturing process",
+    "section": "Physical design",
+    "guide_heading": "3.2 The PDK: the rules for a particular manufacturing process",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/tree/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a",
+      "https://skywater-pdk.readthedocs.io/en/main/",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 132,
+    "id": "P05",
+    "title": "Floorplanning establishes the space and interfaces",
+    "section": "Physical design",
+    "guide_heading": "3.3 Floorplanning: choose the usable space and place the interfaces",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://tinytapeout.com/hdl/templates/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 133,
+    "id": "P06",
+    "title": "Placement must leave room for connections",
+    "section": "Physical design",
+    "guide_heading": "3.4 Placement: put the cells in legal positions",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html#classic"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 134,
+    "id": "P07",
+    "title": "Calculate what 4.96131% utilisation means",
+    "section": "Physical design",
+    "guide_heading": "3.4 Placement: put the cells in legal positions",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://skywater-pdk.readthedocs.io/en/main/contents/libraries/sky130_fd_sc_hd/cells/tapvpwrvgnd/README.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 135,
+    "id": "P08",
+    "title": "A clock tree distributes the sampling event",
+    "section": "Physical design",
+    "guide_heading": "3.5 Clock-tree synthesis: distribute the clock",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html#classic"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 136,
+    "id": "P09",
+    "title": "Routing turns netlist connections into wires",
+    "section": "Physical design",
+    "guide_heading": "3.6 Routing and extraction: connect the placed cells",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 137,
+    "id": "P10",
+    "title": "Extraction estimates the electrical effects of wires",
+    "section": "Physical design",
+    "guide_heading": "3.6 Routing and extraction: connect the placed cells",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://skywater-pdk.readthedocs.io/en/main/glossary.html#antenna-rule-violations",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 138,
+    "id": "P11",
+    "title": "A 50 MHz target means a 20 ns clock period",
+    "section": "Physical design",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/config.json",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 139,
+    "id": "P12",
+    "title": "Setup and hold protect opposite sides of an edge",
+    "section": "Physical design",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 140,
+    "id": "P13",
+    "title": "Read the real timing result with its conditions",
+    "section": "Physical design",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 141,
+    "id": "P14",
+    "title": "Practise interpreting a timing failure",
+    "section": "Physical design",
+    "guide_heading": "3.7 Static timing analysis: will data arrive in time?",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://librelane.readthedocs.io/en/latest/usage/timing_corners.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "exercise"
+  },
+  {
+    "slide": 142,
+    "id": "P15",
+    "title": "DRC checks geometry against process rules",
+    "section": "Physical design",
+    "guide_heading": "3.8 DRC: is the geometry manufacturable under the checked rules?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 143,
+    "id": "P16",
+    "title": "LVS checks whether the geometry represents the circuit",
+    "section": "Physical design",
+    "guide_heading": "3.9 LVS: does the geometry represent the intended circuit?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://librelane.readthedocs.io/en/latest/glossary.html"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 144,
+    "id": "P17",
+    "title": "Check scope: KLayout ran in precheck",
+    "section": "Physical design",
+    "guide_heading": "3.8 DRC: is the geometry manufacturable under the checked rules?",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/tt-gds-action/tree/395eedb3eeec3c2f4961c3b04ff2cf87f5525636"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 145,
+    "id": "P18",
+    "title": "Precheck verifies the package for integration",
+    "section": "Physical design",
+    "guide_heading": "3.10 Precheck and gate-level simulation: two more kinds of evidence",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/tt-gds-action/tree/395eedb3eeec3c2f4961c3b04ff2cf87f5525636"
+    ],
+    "image": "08-gds-run.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 146,
+    "id": "P19",
+    "title": "The gate-level test checks implemented behaviour",
+    "section": "Physical design",
+    "guide_heading": "3.10 Precheck and gate-level simulation: two more kinds of evidence",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 147,
+    "id": "P20",
+    "title": "Three cell counts describe different things",
+    "section": "Physical design",
+    "guide_heading": "3.11 Read the actual reports and keep the units straight",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://skywater-pdk.readthedocs.io/en/main/contents/libraries/sky130_fd_sc_hd/cells/tapvpwrvgnd/README.html"
+    ],
+    "image": "17-real-metrics.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 148,
+    "id": "P21",
+    "title": "A passing run can still contain warnings",
+    "section": "Physical design",
+    "guide_heading": "3.11 Read the actual reports and keep the units straight",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 149,
+    "id": "P22",
+    "title": "Archive files that support your conclusion",
+    "section": "Physical design",
+    "guide_heading": "3.12 Download the artifacts and inspect the layout",
+    "sources": [
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 150,
+    "id": "P23",
+    "title": "Explore the real layout without overstating the picture",
+    "section": "Physical design",
+    "guide_heading": "3.12 Download the artifacts and inspect the layout",
+    "sources": [
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/",
+      "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ],
+    "image": "18-real-layout.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 151,
+    "id": "P24",
+    "title": "Finish the free exercise with one checked revision",
+    "section": "Physical design",
+    "guide_heading": "4.1 Your free stopping point: a checked, archived revision",
+    "sources": [
+      "https://tinytapeout.com/faq/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 152,
+    "id": "P25",
+    "title": "A tile and a development kit are separate purchases",
+    "section": "Fabrication",
+    "guide_heading": "4.2 See the cost boundary without placing an order",
+    "sources": [
+      "https://app.tinytapeout.com/calculator",
+      "https://tinytapeout.com/teaching/",
+      "https://tinytapeout.com/terms/"
+    ],
+    "image": "19-cost-with-board.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 153,
+    "id": "P26",
+    "title": "A €70 tile selection includes no development kit",
+    "section": "Fabrication",
+    "guide_heading": "4.2 See the cost boundary without placing an order",
+    "sources": [
+      "https://app.tinytapeout.com/calculator",
+      "https://tinytapeout.com/teaching/",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ],
+    "image": "20-cost-tile-only.png",
+    "crop": null,
+    "layout": "screenshot"
+  },
+  {
+    "slide": 154,
+    "id": "P27",
+    "title": "Understand the later order and submission sequence",
+    "section": "Fabrication",
+    "guide_heading": "4.3 What an approved submission would do",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://app.tinytapeout.com/_build/assets/CreateProjectForm-CKe81cnQ.js",
+      "https://app.tinytapeout.com/_build/assets/CreateSubmission-krpe5UGC.js"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 155,
+    "id": "P28",
+    "title": "A new GitHub commit does not replace a submitted revision",
+    "section": "Fabrication",
+    "guide_heading": "4.3 What an approved submission would do",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://app.tinytapeout.com/_build/assets/CreateSubmission-krpe5UGC.js"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 156,
+    "id": "P29",
+    "title": "Integration creates the shared chip before tapeout",
+    "section": "Fabrication",
+    "guide_heading": "Integration and final preparation",
+    "sources": [
+      "https://tinytapeout.com/making_asics/",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 157,
+    "id": "P30",
+    "title": "Masks and repeated process steps create wafer structures",
+    "section": "Fabrication",
+    "guide_heading": "Layers, masks and the wafer",
+    "sources": [
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made",
+      "https://www.asml.com/en/technology/lithography-principles",
+      "https://tinytapeout.com/making_asics/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 158,
+    "id": "P31",
+    "title": "Transistor networks implement gates and stored state",
+    "section": "Fabrication",
+    "guide_heading": "Why transistors can implement the counter",
+    "sources": [
+      "https://skywater-pdk.readthedocs.io/en/main/contents/libraries.html",
+      "https://librelane.readthedocs.io/en/latest/glossary.html",
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 159,
+    "id": "P32",
+    "title": "Testing and assembly continue after wafer processing",
+    "section": "Fabrication",
+    "guide_heading": "Wafer testing, dicing, packaging and board testing",
+    "sources": [
+      "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made",
+      "https://tinytapeout.com/chips/",
+      "https://tinytapeout.com/faq/",
+      "https://tinytapeout.com/terms/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 160,
+    "id": "P33",
+    "title": "Read the counter as binary on a board",
+    "section": "Fabrication",
+    "guide_heading": "4.5 How this counter would be used on a board later",
+    "sources": [
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/",
+      "https://tinytapeout.com/specs/gpio/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 161,
+    "id": "P34",
+    "title": "A physical button is not an ideal testbench input",
+    "section": "Fabrication",
+    "guide_heading": "4.5 How this counter would be used on a board later",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+      "https://tinytapeout.com/specs/gpio/",
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 162,
+    "id": "P35",
+    "title": "Local simulation is an optional faster feedback loop",
+    "section": "Optional local lab",
+    "guide_heading": "B.1 Choose a supported environment",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md",
+      "https://tinytapeout.com/guides/local-hardening/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "compare"
+  },
+  {
+    "slide": 163,
+    "id": "P36",
+    "title": "Check tools and obtain your saved source",
+    "section": "Optional local lab",
+    "guide_heading": "B.2 Get your own saved project files",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 164,
+    "id": "P37",
+    "title": "Install test packages inside an isolated environment",
+    "section": "Optional local lab",
+    "guide_heading": "B.3 Install the pinned Python test packages",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/requirements.txt",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 165,
+    "id": "P38",
+    "title": "Run the test, then explicitly check its XML result",
+    "section": "Optional local lab",
+    "guide_heading": "B.4 Compile and run, then check the results explicitly",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/.github/workflows/test.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 166,
+    "id": "P39",
+    "title": "Local gate-level testing needs matching implementation files",
+    "section": "Optional local lab",
+    "guide_heading": "B.5 View the FST and understand gate-level dependencies",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md",
+      "https://tinytapeout.com/guides/local-hardening/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "code"
+  },
+  {
+    "slide": 167,
+    "id": "P40",
+    "title": "Inspect the waveform and diagnose one cause at a time",
+    "section": "Optional local lab",
+    "guide_heading": "B.5 View the FST and understand gate-level dependencies",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a/test/README.md",
+      "https://docs.surfer-project.org/book/commands/index.html",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "flow"
+  },
+  {
+    "slide": 168,
+    "id": "E01Q",
+    "title": "Exercise 1: Binary output",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 1: Binary output",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 169,
+    "id": "E01A1",
+    "title": "Answer 1: Binary output",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 1: Binary output",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 170,
+    "id": "E02Q",
+    "title": "Exercise 2: The enable bit",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 2: The enable bit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 171,
+    "id": "E02A1",
+    "title": "Answer 2: The enable bit",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 2: The enable bit",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 172,
+    "id": "E03Q",
+    "title": "Exercise 3: Reset priority",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 3: Reset priority",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 173,
+    "id": "E03A1",
+    "title": "Answer 3: Reset priority",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 3: Reset priority",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 174,
+    "id": "E04Q",
+    "title": "Exercise 4: Reset between edges",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 4: Reset between edges",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 175,
+    "id": "E04A1",
+    "title": "Answer 4: Reset between edges",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 4: Reset between edges",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 176,
+    "id": "E05Q",
+    "title": "Exercise 5: Terminal count",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 5: Terminal count",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 177,
+    "id": "E05A1",
+    "title": "Answer 5: Terminal count",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 5: Terminal count",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 178,
+    "id": "E06Q",
+    "title": "Exercise 6: Hold at terminal count",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 6: Hold at terminal count",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 179,
+    "id": "E06A1",
+    "title": "Answer 6: Hold at terminal count",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 6: Hold at terminal count",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 180,
+    "id": "E07Q",
+    "title": "Exercise 7: Width masking",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 7: Width masking",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 181,
+    "id": "E07A1",
+    "title": "Answer 7: Width masking",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 7: Width masking",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 182,
+    "id": "E08Q",
+    "title": "Exercise 8: Interpret uio direction",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 8: Interpret uio direction",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 183,
+    "id": "E08A1",
+    "title": "Answer 8: Interpret uio direction",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 8: Interpret uio direction",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 184,
+    "id": "E09Q",
+    "title": "Exercise 9: Diagnose a hypothetical mismatch",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 9: Explain a hypothetical mismatch without inventing a real failure",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 185,
+    "id": "E09A1",
+    "title": "Answer 9: Diagnose a hypothetical mismatch",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 9: Explain a hypothetical mismatch without inventing a real failure",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 186,
+    "id": "E10Q",
+    "title": "Exercise 10: Modify the counter to count down",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 10: Modify the counter to count down",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 187,
+    "id": "E10A1",
+    "title": "Answer 10: Modify the counter to count down",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 10: Modify the counter to count down",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 188,
+    "id": "E10A2",
+    "title": "Answer 10: Modify the counter to count down (continued)",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 10: Modify the counter to count down",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 189,
+    "id": "E11Q",
+    "title": "Exercise 11: Test a specification change",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 11: Test a specification change",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 190,
+    "id": "E11A1",
+    "title": "Answer 11: Test a specification change",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 11: Test a specification change",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 191,
+    "id": "E12Q",
+    "title": "Exercise 12: Judge evidence",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 12: Judge evidence",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 192,
+    "id": "E12A1",
+    "title": "Answer 12: Judge evidence",
+    "section": "Worked exercises",
+    "guide_heading": "Exercise 12: Judge evidence",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 193,
+    "id": "Z01",
+    "title": "Explain the result before calling it finished",
+    "section": "Finish and review",
+    "guide_heading": "4.6 Demonstrate understanding before extending the design",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 194,
+    "id": "Z02",
+    "title": "Choose a small next design change",
+    "section": "Finish and review",
+    "guide_heading": "Step 17 — Make a small extension after the example passes",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/important/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  },
+  {
+    "slide": 195,
+    "id": "Z03",
+    "title": "Keep the learning package together",
+    "section": "Finish and review",
+    "guide_heading": "Keep these companion files together",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6",
+      "https://tinytapeout.com/hdl/templates/"
+    ],
+    "image": null,
+    "crop": null,
+    "layout": "explain"
+  }
+]
