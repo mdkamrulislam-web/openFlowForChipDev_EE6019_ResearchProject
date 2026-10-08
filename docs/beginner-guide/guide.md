@@ -1917,4 +1917,3 @@ Reference counter commit: `61ef06bed008e76000f9ae46d65182e476d15dd6`.
 - [Surfer commands](https://docs.surfer-project.org/book/commands/index.html)
 
 Every screenshot's source page, capture category, date and checksum is recorded in the companion screenshot-sources.json. Source links beside instructions credit official documentation. Published instructional screenshots may show generic or older repositories; the current counter evidence is separately identified. No imitation account interface, simulated failure or manufactured-chip photograph is presented as evidence.
-

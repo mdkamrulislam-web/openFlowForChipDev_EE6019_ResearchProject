@@ -2,4 +2,5 @@ build/
 designs/*/runs/
 *.vcd
 *.fst
+!docs/beginner-guide/example-evidence/tb.fst
 __pycache__/
