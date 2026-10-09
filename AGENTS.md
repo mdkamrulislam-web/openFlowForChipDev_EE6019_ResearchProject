@@ -2,7 +2,11 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 8 October 2026 (project week 2, complete beginner manual and slide course prepared; worked example verified).*
+*Last updated: 9 October 2026 (project week 2; private progress tracker deployed, teaching package and worked example retained).*
+
+**Current project record:** [private Project view](https://track.whoiskamrul.com/#/project). This holds the current progress, timeline, logs, meeting records, supervisor questions and deliverable status. Sign in with the existing tracker password. Keep the teaching files, code, evidence and logbook copies in this repository. Older plans below are historical where they disagree with a later confirmed decision.
+
+**During future authorised project work:** read the tracker record before changing status, then record meaningful dated progress and update the affected deliverable, question or meeting. Use the authenticated agent interface described in the private tracker repository, preserve existing user notes, and read changes back. Do not include credentials or private calendar details here. Drafts, verified results and supervisor approval are distinct; record a meeting or sent email only when confirmed. Calendar scheduling remains in the existing calendar.
 
 ---
 
@@ -239,7 +243,7 @@ Week by week (one row per Friday log; weeks are counted from the project start, 
 | 23 Apr | 30 | Presentation and demo | Slides and demo rehearsed |
 | 30 Apr | 31 | Submit | Report, logbook, v1.0 release of the repo |
 
-The full plan doc (owner-only link) has a Status column per week: <https://claude.ai/code/artifact/a8f92d4e-ab03-4128-aa07-d5932dd6f512>. If you cannot open it, track status in this file instead (section 10).
+Current status and milestones are in the [private Project view](https://track.whoiskamrul.com/#/project). The older owner-only plan <https://claude.ai/code/artifact/a8f92d4e-ab03-4128-aa07-d5932dd6f512> is a historical reference; it does not override later recorded decisions. Retain section 10 as a repository summary and check the tracker before updating it.
 
 ---
 
