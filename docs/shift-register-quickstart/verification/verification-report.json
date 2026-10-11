@@ -1,0 +1,62 @@
+{
+  "checked_on": "2026-10-11",
+  "scope": "Local RTL simulation of the supplied seven-file shift-register overlay",
+  "template_repository": "https://github.com/TinyTapeout/ttsky-verilog-template",
+  "template_commit": "68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a",
+  "template_action_tag": "ttsky26d",
+  "template_cocotb_version": "2.1.0",
+  "host": "Windows-11-10.0.26200-SP0",
+  "host_python": "3.13.15",
+  "embedded_python": "3.13.8",
+  "cocotb": "2.1.0",
+  "iverilog": "Icarus Verilog version 12.0 (devel) (s20150603-1539-g2693dd32b)",
+  "local_runner": "cocotb_tools.runner Python API; template make/Actions not executed locally",
+  "rtl": {
+    "tests": 1,
+    "failures": 0,
+    "passed": 1,
+    "runner_exception": null
+  },
+  "mutation": {
+    "change": "Reverse shift direction in a temporary core copy",
+    "tests": 1,
+    "failures": 1,
+    "passed": 0,
+    "runner_exception": null
+  },
+  "timing": {
+    "simulation_cycle_ns": 20,
+    "declared_clock_hz": 50000000,
+    "template_clock_period_ns": 20
+  },
+  "checks": [
+    "reset clears to zero",
+    "input 10110010 yields B2 after eight enabled rising edges",
+    "shift enable low holds the stored value",
+    "ninth input bit drops the oldest bit: B2 then 1 gives 65",
+    "unused input changes do not change the function",
+    "reset wins over shifting and works with enable low",
+    "repeated ones fill and repeated zeros empty the register",
+    "uio_oe and uio_out remain zero on every sampled cycle",
+    "top-module name and source lists agree across the three configuration points"
+  ],
+  "not_run": [
+    "GitHub Actions",
+    "synthesis",
+    "place and route",
+    "timing sign-off",
+    "GDS generation",
+    "Tiny Tapeout precheck",
+    "gate-level simulation",
+    "submission"
+  ],
+  "starter_sha256": {
+    "docs/info.md": "4342b5356f4c0b66b93c6da85d479f6bf37589e95ad2984bbf31e097f592fb30",
+    "info.yaml": "7b55d5ad4f2029f9d9ce43c36263aca713ceaa8a4f3fec7b50c0c4d13f87b212",
+    "src/project.v": "572ee64e0216506258fd51b3dec84d024151e67af128e0d6718c0acb475d6167",
+    "src/shift_register.v": "89095a1d5c0c46b69156c9c90f2a3d8f2e2b28db7dbd44d4f26cc5b49b1b01de",
+    "test/Makefile": "03bf614ead05b09ae286022e1ee96abd88dcb6c164c20aad4dd3aa512ed090e5",
+    "test/tb.v": "27ba1174a7b5eac867e117495881c5bb9850ef2d579d7306a2712be034fd77ea",
+    "test/test.py": "d87eefafa3578acf1b17fb50652d1d2a63ec46e5f6e1b04ee51ccc7c3f2f94db"
+  }
+}

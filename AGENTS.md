@@ -2,7 +2,11 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 9 October 2026 (project week 2; private progress tracker deployed, teaching package and worked example retained).*
+*Last updated: 11 October 2026 (new short shift-register teaching guide; learner review pending).*
+
+**Latest teaching direction (11 October):** Kamrul said the earlier manual and slides were too long and unhelpful from a learner's perspective. He requested a completely new, short walkthrough with simple language, clear steps, diagrams/screenshots and interaction, starting from an already-developed Verilog design. The new primary review candidate is `docs/shift-register-quickstart/`: an offline interactive HTML guide, a 13-page Word/PDF guide, a 20-slide PowerPoint/PDF lesson and an exact seven-file shift-register adaptation ZIP. It starts from an existing serial-in, parallel-out register and teaches pin mapping, wrapping, metadata/source lists, cocotb tests, template upload and workflow checks. Old materials remain historical references; their technical checks do not imply learner acceptance.
+
+**New example verification:** the real shift-register RTL passes Icarus/cocotb simulation, and the test catches a deliberately reversed shift direction. Source lists and top-module names agree. No physical build, gate-level workflow, submission or fabrication has run for this new example. The HTML was checked on desktop/mobile and exports were rendered and visually checked. User/supervisor review of the new teaching approach remains pending.
 
 **Current project record:** [private Project view](https://track.whoiskamrul.com/#/project). This holds the current progress, timeline, logs, meeting records, supervisor questions and deliverable status. Sign in with the existing tracker password. Keep the teaching files, code, evidence and logbook copies in this repository. Older plans below are historical where they disagree with a later confirmed decision.
 

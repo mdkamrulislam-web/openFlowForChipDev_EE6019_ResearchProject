@@ -1,0 +1,5 @@
+warning: Some design elements have no explicit time unit and/or
+       : time precision. This may cause confusing timing results.
+       : Affected design elements are:
+       :   -- module shift_register declared here: C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-rtl-x8ziy3h5\wrong_shift_direction.v:4
+       :   -- module tt_um_student_shift_register declared here: C:\Users\THINKPAD\repos\openFlowForChipDev_EE6019_ResearchProject\docs\shift-register-quickstart\starter\src\project.v:4

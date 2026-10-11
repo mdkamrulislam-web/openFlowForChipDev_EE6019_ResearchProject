@@ -1,0 +1,59 @@
+{
+  "checked": "2026-10-11",
+  "images": [
+    {
+      "file": "images/template.png",
+      "source_url": "https://github.com/TinyTapeout/ttsky-verilog-template",
+      "caption": "Official SKY Verilog template, public browser capture on 11 October 2026. Sign in to your GitHub account to use the template. This is the official template, not a completed shift-register project.",
+      "kind": "capture",
+      "retrieved": "2026-10-11"
+    },
+    {
+      "file": "images/template-menu.png",
+      "source_url": "https://docs.github.com/assets/cb-76823/images/help/repository/use-this-template-button.png",
+      "caption": "GitHub Docs screenshot: Use this template > Create a new repository. Official UI example, retrieved 11 October 2026.",
+      "kind": "official-image",
+      "retrieved": "2026-10-11"
+    },
+    {
+      "file": "images/pages.png",
+      "source_url": "https://www.tinytapeout.com/images/faq/action_pages.png",
+      "caption": "Tiny Tapeout FAQ screenshot: Settings > Pages > Source: GitHub Actions. This official example shows an older repository and GitHub layout; apply the same setting in your own repository. Retrieved 11 October 2026.",
+      "kind": "official-image",
+      "retrieved": "2026-10-11"
+    },
+    {
+      "file": "images/upload.png",
+      "source_url": "https://docs.github.com/assets/cb-54037/images/help/repository/upload-files-button.png",
+      "caption": "GitHub Docs screenshot: Add file > Upload files. Official UI example, retrieved 11 October 2026.",
+      "kind": "official-image",
+      "retrieved": "2026-10-11"
+    },
+    {
+      "file": "images/edit.png",
+      "source_url": "https://docs.github.com/assets/cb-47646/images/help/repository/edit-file-edit-button.png",
+      "caption": "GitHub Docs screenshot: use the pencil button to edit an existing file. Official UI example, retrieved 11 October 2026.",
+      "kind": "official-image",
+      "retrieved": "2026-10-11"
+    },
+    {
+      "file": "images/actions.png",
+      "source_url": "https://github.com/TinyTapeout/ttsky-verilog-template/actions",
+      "caption": "Official template Actions tab, public browser capture on 11 October 2026. This is an interface example, not this shift register's test results. The screenshot shows both successful and failed template runs. Inspect the test, docs and gds runs for the final commit in your own repository.",
+      "kind": "capture",
+      "retrieved": "2026-10-11"
+    }
+  ],
+  "references": [
+    {"label": "Tiny Tapeout HDL templates", "url": "https://www.tinytapeout.com/hdl/templates/"},
+    {"label": "Official SKY Verilog template", "url": "https://github.com/TinyTapeout/ttsky-verilog-template"},
+    {"label": "SKY template test instructions", "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md"},
+    {"label": "SKY template GDS workflow", "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"},
+    {"label": "SKY template test workflow", "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml"},
+    {"label": "Tiny Tapeout FAQ: enable Actions and Pages", "url": "https://www.tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part"},
+    {"label": "GitHub: create a repository from a template", "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template"},
+    {"label": "GitHub: add a file", "url": "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository"},
+    {"label": "GitHub: edit files", "url": "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files"},
+    {"label": "GitHub: Pages source settings", "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"}
+  ]
+}

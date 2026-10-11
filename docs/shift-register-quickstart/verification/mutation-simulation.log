@@ -1,0 +1,24 @@
+     -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:242  in gpi_load_users                  Loaded entry library: 'C:\Users\THINKPAD\AppData\Local\Programs\Python\Python313\python313.dll'
+     -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:234  in gpi_load_users                  Running entry func 'initialize' from loaded library 'C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-verification-tools\venv\Lib\site-packages\cocotb\simulator.cp313-win_amd64.pyd'
+     -.--ns INFO     pygpi                              ..ib\pygpi\embed.cpp:115  in initialize                      Using Python 3.13.8 interpreter at C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-verification-tools\venv\Scripts\python.exe
+     -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:74   in gpi_print_registered_impl       GPI: VPI support registered
+     0.00ns INFO     cocotb.initialize                  Seeding Python random module with 1791720617
+     0.00ns INFO     cocotb.initialize                  Initialized cocotb v2.1.0 from C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-verification-tools\venv\Lib\site-packages\cocotb
+     0.00ns INFO     cocotb.initialize                  Running on Icarus Verilog version 12.0 (devel)
+     0.00ns INFO     cocotb.regression                  Running tests
+     0.00ns INFO     cocotb.regression                  running test.test_shift_register (1/1)
+     0.00ns INFO     cocotb.tb                          1. Reset clears the stored bits
+    20.00ns INFO     cocotb.tb                          2. Send 10110010; expect 0xB2 after eight shifts
+    40.00ns WARNING  cocotb.regression                  test.test_shift_register failed
+                                                        Traceback (most recent call last):
+                                                          File "C:\Users\THINKPAD\repos\openFlowForChipDev_EE6019_ResearchProject\docs\shift-register-quickstart\starter\test\test.py", line 35, in test_shift_register
+                                                            assert await cycle(bit) == expected
+                                                        AssertionError: assert 128 == 1
+    40.00ns INFO     cocotb.regression                  **************************************************************************************
+                                                        ** TEST                          STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+                                                        **************************************************************************************
+                                                        ** test.test_shift_register       FAIL          40.00           0.00      13879.73  **
+                                                        **************************************************************************************
+                                                        ** TESTS=1 PASS=0 FAIL=1 SKIP=0                 40.00           0.04        993.31  **
+                                                        **************************************************************************************
+FST info: dumpfile tb.fst opened for output.

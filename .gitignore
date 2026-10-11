@@ -3,4 +3,6 @@ designs/*/runs/
 *.vcd
 *.fst
 !docs/beginner-guide/example-evidence/tb.fst
+!docs/shift-register-quickstart/verification/rtl-waveform.fst
+!docs/shift-register-quickstart/verification/rtl-waveform.vcd
 __pycache__/

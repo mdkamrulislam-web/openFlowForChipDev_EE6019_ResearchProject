@@ -1,0 +1,72 @@
+{
+  "errors": [],
+  "pages": [
+    {
+      "page": 1,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 2,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 3,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 4,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 5,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 6,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 7,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 8,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 9,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 10,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 11,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 12,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 13,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    }
+  ],
+  "experiment": "shift sequence, hold, synchronous reset and restart passed",
+  "download": "seven exact paths and bytes passed"
+}

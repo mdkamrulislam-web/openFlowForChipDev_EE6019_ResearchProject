@@ -1,0 +1,2 @@
+# Preserve the verified starter's bytes on Windows and Linux checkouts.
+docs/shift-register-quickstart/starter/** text eol=lf
