@@ -1,0 +1,12 @@
+{
+  "reference_commit": "61ef06bed008e76000f9ae46d65182e476d15dd6",
+  "files": {
+    "info.yaml": "7c6d54282cd209ce1a4976a51bbc46e67bc321ba391fdd9e2d365e2b571ae65d",
+    "src/counter.v": "31eb2d6be47a97b26c1c9c7ec01a7336ad6ac7b491264fab77a1f0d7017f02a3",
+    "src/project.v": "98a987f6e41bc1df88024ed9d5617d2c6f94e11571dba52932a2cfcbebd125dc",
+    "test/Makefile": "c3faa5361d2359f0636e86604e438d1f168fcff6a24b7cff7a8a9ab88e11b488",
+    "test/tb.v": "b3ebfd8e2cbaaee914f613302808206f583f239132d588f02ca36580517266e7",
+    "test/test.py": "be3ad69d173a687f9ed263aa58ac2acb85ccfe4e88e27529903879238d663f21",
+    "docs/info.md": "5c9d5d6e9f4f16507836acc164e4711ea428809f1f43fdc21ec74329e0cfd2b9"
+  }
+}

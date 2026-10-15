@@ -1,0 +1,264 @@
+[
+  {
+    "slide": 1,
+    "title": "Make your own chip.",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/"
+    ]
+  },
+  {
+    "slide": 2,
+    "title": "Many designs. One shared chip.",
+    "sources": [
+      "https://tinytapeout.com/faq/",
+      "https://tinytapeout.com/"
+    ]
+  },
+  {
+    "slide": 3,
+    "title": "The path from an idea to silicon",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/"
+    ]
+  },
+  {
+    "slide": 4,
+    "title": "Choose the process with your template",
+    "sources": [
+      "https://tinytapeout.com/chips/",
+      "https://tinytapeout.com/hdl/templates/",
+      "https://tinytapeout.com/news/"
+    ]
+  },
+  {
+    "slide": 5,
+    "title": "Eight bits become eight output pins",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttgf-verilog-template/blob/main/info.yaml",
+      "https://tinytapeout.com/specs/gpio/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ]
+  },
+  {
+    "slide": 6,
+    "title": "Our counter: 4.96% reported core utilisation",
+    "sources": [
+      "https://tinytapeout.com/chips/ttihp26b/tt_um_nuatlabs_uart/",
+      "https://tinytapeout.com/chips/ttsky26c/tt_um_WaiMingLee888_nanov_1tile/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml"
+    ]
+  },
+  {
+    "slide": 7,
+    "title": "Draw gates, or write their behaviour",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://tinytapeout.com/digital_design/"
+    ]
+  },
+  {
+    "slide": 8,
+    "title": "Copy the template for your class shuttle",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttgf-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part",
+      "https://raw.githubusercontent.com/TinyTapeout/tt-gds-action/ttsky26d/action.yml",
+      "https://raw.githubusercontent.com/TinyTapeout/tt-gds-action/ttihp26b/action.yml"
+    ]
+  },
+  {
+    "slide": 9,
+    "title": "Know which file you are changing",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/docs/info.md",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/61ef06bed008e76000f9ae46d65182e476d15dd6"
+    ]
+  },
+  {
+    "slide": 10,
+    "title": "Connect the counter to the shared pins",
+    "sources": [
+      "https://tinytapeout.com/hdl/important/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v"
+    ]
+  },
+  {
+    "slide": 11,
+    "title": "Describe what happens on a clock edge",
+    "sources": [
+      "https://tinytapeout.com/hdl/important/",
+      "https://tinytapeout.com/specs/clock/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/project.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v"
+    ]
+  },
+  {
+    "slide": 12,
+    "title": "A test says what should happen",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.devcontainer/devcontainer.json",
+      "https://tinytapeout.com/hdl/testing/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ]
+  },
+  {
+    "slide": 13,
+    "title": "Push once. Check three green workflows.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/docs.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/fpga.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions?query=branch%3Aworked-example"
+    ]
+  },
+  {
+    "slide": 14,
+    "title": "A layout is geometry, not a photograph",
+    "sources": [
+      "https://tinytapeout.com/hdl/important/#check-the-synthesis-warnings",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas",
+      "https://mdkamrulislam-web.github.io/tt-sky130-counter/"
+    ]
+  },
+  {
+    "slide": 15,
+    "title": "Tools turn behaviour into cells and wires",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/src/config.json",
+      "https://github.com/YosysHQ/yosys",
+      "https://github.com/The-OpenROAD-Project/OpenROAD",
+      "https://github.com/The-OpenROAD-Project/OpenSTA"
+    ]
+  },
+  {
+    "slide": 16,
+    "title": "Check the synthesised circuit too",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/Makefile",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/hdl/testing/#gate-level-testing",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/Makefile",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748"
+    ]
+  },
+  {
+    "slide": 17,
+    "title": "A real first failure: empty project information",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/config.json",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/src/config.json",
+      "https://tinytapeout.com/faq/#my-gds-action-is-taking-much-longer-than-usual",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693066241",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml"
+    ]
+  },
+  {
+    "slide": 18,
+    "title": "Choose the revision for fabrication",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://tinytapeout.com/guides/workshop/create-your-gds/",
+      "https://tinytapeout.com/faq/#which-of-my-builds-will-be-submitted-for-fabrication",
+      "https://tinytapeout.com/chips/"
+    ]
+  },
+  {
+    "slide": 19,
+    "title": "On the board, test the same behaviour",
+    "sources": [
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/",
+      "https://tinytapeout.com/specs/pcb-etr/",
+      "https://commander.tinytapeout.com/"
+    ]
+  },
+  {
+    "slide": 20,
+    "title": "Show your evidence before a submission review",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ]
+  },
+  {
+    "slide": 21,
+    "title": "Lab: make the counter count down",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/worked-example",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py"
+    ]
+  },
+  {
+    "slide": 22,
+    "title": "Learn one layer deeper",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://tinytapeout.com/hdl/important/",
+      "https://tinytapeout.com/hdl/testing/",
+      "https://tinytapeout.com/specs/",
+      "https://tinytapeout.com/chips/",
+      "https://tinytapeout.com/faq/",
+      "https://tinytapeout.com/making_asics/"
+    ]
+  },
+  {
+    "slide": 23,
+    "title": "Staff: budget projects and shared hardware",
+    "sources": [
+      "https://tinytapeout.com/teaching/",
+      "https://tinytapeout.com/terms/"
+    ]
+  },
+  {
+    "slide": 24,
+    "title": "Staff: a template pin is not an open booking",
+    "sources": [
+      "https://tinytapeout.com/chips/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttgf-verilog-template/blob/main/.github/workflows/gds.yaml"
+    ]
+  },
+  {
+    "slide": 25,
+    "title": "Staff: verify the exact IHP loan agreement",
+    "sources": [
+      "https://tinytapeout.com/terms/",
+      "https://app.tinytapeout.com/shuttles/ttihp26b",
+      "https://tinytapeout.com/chips/"
+    ]
+  },
+  {
+    "slide": 26,
+    "title": "Staff: finish the evidence pack",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://tinytapeout.com/hdl/templates/"
+    ]
+  }
+]

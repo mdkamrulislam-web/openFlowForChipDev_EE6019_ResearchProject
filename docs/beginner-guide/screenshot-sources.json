@@ -1,0 +1,385 @@
+[
+  {
+    "file": "img/official-template-menu.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/use-this-template-button.png",
+    "source_page": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+    "caption": "GitHub Docs: Use this template menu",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 76823,
+    "sha256": "02c6f81a946c6e834f8e3372aaea5a3b3b98e37a684a3c0caed6c5346ce08d02",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-repository-owner.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/create-repository-owner.png",
+    "source_page": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+    "caption": "GitHub Docs: repository owner selector",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 80933,
+    "sha256": "f0032f8004dbe7b25ffe2c2b89260044d77a27d83602599698e85938c747f91f",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-repository-name.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/create-repository-name.png",
+    "source_page": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+    "caption": "GitHub Docs: repository name field",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 89988,
+    "sha256": "7c903455267a7e9127c963cedac1ca90e2d3debaa58c0057c5bf4d2cae784a7c",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-upload-files.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/upload-files-button.png",
+    "source_page": "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository",
+    "caption": "GitHub Docs: Add file control",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 54037,
+    "sha256": "5f40b799646d8f239aa2da3b6bba6f5b2d9f628369c40501c0eebd1ed656cdc7",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-edit-pencil.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/edit-file-edit-button.png",
+    "source_page": "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files",
+    "caption": "GitHub Docs: edit file pencil",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 47646,
+    "sha256": "694ef02b7f50736e518df67b5389560bd5db92ba599697bb2b729e907b98e3bd",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-edit-dropdown.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/edit-file-edit-dropdown.png",
+    "source_page": "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files",
+    "caption": "GitHub Docs: edit file dropdown",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 18357,
+    "sha256": "ab747062de732a08e91768ccf5a7114c1e8a1930fb850c26b3d52c1346b866c3",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-commit-branch.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/choose-commit-branch.png",
+    "source_page": "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files",
+    "caption": "GitHub Docs: commit branch choice",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 27122,
+    "sha256": "b1d3fc781042da16d56395da3e57697f03bbf2a63f1484ce2d3b249d22edd99b",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-commit-dialog.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/start-commit-commit-new-file.png",
+    "source_page": "https://docs.github.com/en/repositories/working-with-files/managing-files/creating-new-files",
+    "caption": "GitHub Docs: committing a new file",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 72018,
+    "sha256": "15119704d95c0a4783ed2fea541c635e80ead68b9a2203978bbdd40d8e69d4b5",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-commit-email-dialog.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/choose-commit-email-address.png",
+    "source_page": "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files",
+    "caption": "GitHub Docs: commit dialog and author email choice",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 72047,
+    "sha256": "e8221f4a6864fa8574ee9ea66aca66ca79fe46996289b9b53d1be90c6956638c",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-commit-form.png",
+    "asset_url": "https://docs.github.com/assets/images/help/commits/commit-form-with-signoff-enabled.png",
+    "source_page": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-the-commit-signoff-policy-for-your-repository",
+    "caption": "GitHub Docs: commit form; optional signoff shown in this source example",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 14661,
+    "sha256": "d02144efd2172e2ba8b40d7e0a9f1ac6b3cc5c8094e9e17e3907bf8ae809f55a",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-commit-review.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/create-commit-review.png",
+    "source_page": "https://docs.github.com/en/get-started/start-your-journey/hello-world",
+    "caption": "GitHub Docs: commit message and branch choice",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 32482,
+    "sha256": "95d10df51a68e568c70c2808db71b7a0a0a7b4109de27fb6e5388e2eb4629b18",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-repository-settings.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/repo-actions-settings.png",
+    "source_page": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site",
+    "caption": "GitHub Docs: repository Settings tab",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 28260,
+    "sha256": "55780efaf6bbcdb662727f6d6bf8381e2bb7769937bc080570c856e0c42e7468",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-pages-actions.png",
+    "asset_url": "https://tinytapeout.com/images/faq/action_pages.png",
+    "source_page": "https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part",
+    "caption": "Tiny Tapeout FAQ: Pages Source set to GitHub Actions",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 275746,
+    "sha256": "191d072f3704a6505f9cf030e4efe581b37113283309c70b3adf07843810dab5",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-enable-actions.png",
+    "asset_url": "https://tinytapeout.com/images/faq/enable_action.png",
+    "source_page": "https://tinytapeout.com/faq/#when-i-commit-my-change-the-gds-action-isnt-running",
+    "caption": "Tiny Tapeout FAQ: enabling Actions",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 117250,
+    "sha256": "a63cf1abe62d45571d7095fa43e4f1789ae96cd053c41558f15f004d7d26597e",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-run-workflow.png",
+    "asset_url": "https://tinytapeout.com/images/faq/rerun_actions.png",
+    "source_page": "https://tinytapeout.com/faq/#i-updated-and-saved-my-wokwi-design-how-do-i-re-run-the-github-action-to-update-the-gds-files",
+    "caption": "Tiny Tapeout FAQ: Run workflow controls",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 212676,
+    "sha256": "f2e60311a40e6a076c2e2b1efe776fc8588c9d7b40dc85d2cda9852f8021fb42",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-actions-job.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/actions-quickstart-job.png",
+    "source_page": "https://docs.github.com/en/actions/get-started/quickstart",
+    "caption": "GitHub Docs: selecting a workflow job",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 53820,
+    "sha256": "ec2dab4aac1bbc8e1d6367b325404615659969354a06e111ef581c40eedf26a8",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-actions-log.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/actions-quickstart-log-detail.png",
+    "source_page": "https://docs.github.com/en/actions/get-started/quickstart",
+    "caption": "GitHub Docs: expanded job log",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 53977,
+    "sha256": "cb3984b91bda6f4ad95c3210b371883cbf46e543d81853420ca625cb68fb892a",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/official-artifact-list.png",
+    "asset_url": "https://docs.github.com/assets/images/help/repository/artifact-drop-down-updated.png",
+    "source_page": "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts",
+    "caption": "GitHub Docs: workflow artifact list",
+    "kind": "Official documentation screenshot; not our account capture",
+    "retrieved": "2026-10-08",
+    "bytes": 13990,
+    "sha256": "d8312994708b7b46b8d35404c2b0181100987daf095b2a90362312cd4756efef",
+    "content_type": "image/png"
+  },
+  {
+    "file": "img/01-template.png",
+    "url": "https://github.com/TinyTapeout/ttsky-verilog-template",
+    "title": "GitHub - TinyTapeout/ttsky-verilog-template: Submission template for Tiny Tapeout SKY130 (ChipFoundry) shuttles - Verilog HDL Projects · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "4a5ee6cd76b1e17464d0acb1bace4f17788174a47e77092353fff94f5cfa766d"
+  },
+  {
+    "file": "img/02-example-tree.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/worked-example",
+    "title": "GitHub - mdkamrulislam-web/tt-sky130-counter at worked-example · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "51c9f19f449035454b9b7cad1bd2a1a2dce51052596808d19be991f8dd588787"
+  },
+  {
+    "file": "img/03-core-code.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/counter.v",
+    "title": "tt-sky130-counter/src/counter.v at 61ef06bed008e76000f9ae46d65182e476d15dd6 · mdkamrulislam-web/tt-sky130-counter · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "500500969f5d8bbcc2f0ea6df75782afdc32aef40a735bfbcc09a921e667f1d1"
+  },
+  {
+    "file": "img/04-wrapper-code.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/src/project.v",
+    "title": "tt-sky130-counter/src/project.v at 61ef06bed008e76000f9ae46d65182e476d15dd6 · mdkamrulislam-web/tt-sky130-counter · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "68dbbb37583184c41faeaa51d1dc59c052d6363dee07d15e45d652b2a5ea3a8d"
+  },
+  {
+    "file": "img/05-metadata.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/info.yaml",
+    "title": "tt-sky130-counter/info.yaml at 61ef06bed008e76000f9ae46d65182e476d15dd6 · mdkamrulislam-web/tt-sky130-counter · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "3a1e1a08f09c2e4aabe5ca562b5c0564a6031ccd6f2e0a6253bfe818dbb72293"
+  },
+  {
+    "file": "img/06-actions.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions?query=branch%3Aworked-example",
+    "title": "Workflow runs · mdkamrulislam-web/tt-sky130-counter · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "8074542f62207128892c6d6e255fa4c3e48873f264cbf01275cdceb7367f5cd3"
+  },
+  {
+    "file": "img/07-rtl-run.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+    "title": "Add EE6019 counter worked example and port-level tests · mdkamrulislam-web/tt-sky130-counter@61ef06b · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "ff7585bdde5402b855d6ecd7118271cda4566ad9b7b517238f89f343d0d2c601"
+  },
+  {
+    "file": "img/08-gds-run.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+    "title": "Add EE6019 counter worked example and port-level tests · mdkamrulislam-web/tt-sky130-counter@61ef06b · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "92e0190a86b6160d71d01cbb4cfdc11b2912d9d01e547517e388ffdc5f58dc16"
+  },
+  {
+    "file": "img/09-docs-run.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+    "title": "Add EE6019 counter worked example and port-level tests · mdkamrulislam-web/tt-sky130-counter@61ef06b · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "784ccd82a705f333ae3fd47211384d57be618d621fc6538449914d53cc69f169"
+  },
+  {
+    "file": "img/10-datasheet.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/docs/info.md",
+    "title": "tt-sky130-counter/docs/info.md at 61ef06bed008e76000f9ae46d65182e476d15dd6 · mdkamrulislam-web/tt-sky130-counter · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "2f6fd5f9bc4e1c5f4b783b7e36ea922387db4462e157ab4f1a839f87971a5be1"
+  },
+  {
+    "file": "img/11-template-readme.png",
+    "url": "https://github.com/TinyTapeout/ttsky-verilog-template#readme",
+    "title": "GitHub - TinyTapeout/ttsky-verilog-template: Submission template for Tiny Tapeout SKY130 (ChipFoundry) shuttles - Verilog HDL Projects · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "0b097d7f48ab1ffcf2bbe6742a5ba547b97418e17afe9690b765d8fc7449c38e"
+  },
+  {
+    "file": "img/12-signin.png",
+    "url": "https://github.com/login",
+    "title": "Sign in to GitHub · GitHub",
+    "date": "2026-10-08",
+    "type": "Actual public browser capture",
+    "sha256": "73444bf28f9f666f22774668f28f9514f4740ddba1ee14f2dcd855e39c812480"
+  },
+  {
+    "file": "img/18-real-layout.png",
+    "url": "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas",
+    "type": "Actual native 3D layout viewer capture, fill/decap/tap hidden",
+    "date": "2026-10-08",
+    "sha256": "80d144f72e9ecd4706e13808379b7c6ac5ecff0a0087075201edb9804a550359"
+  },
+  {
+    "file": "img/19-cost-with-board.png",
+    "url": "https://app.tinytapeout.com/calculator",
+    "type": "Actual calculator: SKY130 academic/industry,1 tile,1 PCB,dated estimate",
+    "date": "2026-10-08",
+    "sha256": "f45fcfd0122f191cfb1b185c0ba72c4bbdb050a1e773674b6da047dbb73861f3"
+  },
+  {
+    "file": "img/20-cost-tile-only.png",
+    "url": "https://app.tinytapeout.com/calculator",
+    "type": "Actual calculator: SKY130 individual,1 tile,0 PCB,dated estimate",
+    "date": "2026-10-08",
+    "sha256": "1126a8bc7ca1448d295528536c6bc880681126b0d5eca189bfba7da3352df82b"
+  },
+  {
+    "file": "img/24-real-datasheet.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+    "type": "Actual rendered page1 of generated two-page datasheet",
+    "date": "2026-10-08",
+    "sha256": "a10e980eef9661e5794dce7ceb7bfa16a833f1d78807373688253e1314c9bec8"
+  },
+  {
+    "file": "img/17-real-metrics.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+    "type": "Local browser view of unchanged downloaded metrics.csv",
+    "date": "2026-10-08",
+    "sha256": "7fecf97d5c2c344e7c8c75e41ba86fd68e1254a796cb53a3d45a7a7eee556eea"
+  },
+  {
+    "file": "img/21-real-test-results.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+    "type": "Local browser view of unchanged downloaded results.xml",
+    "date": "2026-10-08",
+    "sha256": "3ab9ee863d5996c6c8855ab796233a6bea17e054756093ddbb720b23aec9650e"
+  },
+  {
+    "file": "img/23-real-test-code.png",
+    "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/blob/61ef06bed008e76000f9ae46d65182e476d15dd6/test/test.py",
+    "type": "Actual pinned source file browser capture",
+    "date": "2026-10-08",
+    "sha256": "1c1f6f1d19a80545f626ce0bfff5b52acc5f5244213a6b79761bddd82096964b"
+  },
+  {
+    "file": "img/13-real-waveform-full.png",
+    "url": "https://app.surfer-project.org/",
+    "artifact_run": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+    "artifact": "test-results/tb.fst",
+    "commit": "61ef06bed008e76000f9ae46d65182e476d15dd6",
+    "type": "Native Surfer waveform-area browser capture of actual FST; no redrawn trace",
+    "date": "2026-10-08",
+    "sha256": "f35146cc028c3d7bd47a3486080ff40cc71804ef19cac86fb3e0656c3b936ace"
+  },
+  {
+    "file": "img/14-real-waveform-reset.png",
+    "url": "https://app.surfer-project.org/",
+    "artifact_run": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+    "artifact": "test-results/tb.fst",
+    "commit": "61ef06bed008e76000f9ae46d65182e476d15dd6",
+    "type": "Native Surfer waveform-area browser capture of actual FST; no redrawn trace",
+    "date": "2026-10-08",
+    "sha256": "5a614fec742697f9d0f6ada40ebf2dc75f0d7f85e10e5981711349b7d8a7486b"
+  },
+  {
+    "file": "img/15-real-waveform-wrap.png",
+    "url": "https://app.surfer-project.org/",
+    "artifact_run": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+    "artifact": "test-results/tb.fst",
+    "commit": "61ef06bed008e76000f9ae46d65182e476d15dd6",
+    "type": "Native Surfer waveform-area browser capture of actual FST; no redrawn trace",
+    "date": "2026-10-08",
+    "sha256": "ce61428b17e03fd11d6c9cc29e44b64e64bdee447365450784dfeda8fd4581e1"
+  },
+  {
+    "file": "img/16-real-waveform-hold.png",
+    "url": "https://app.surfer-project.org/",
+    "artifact_run": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100752",
+    "artifact": "test-results/tb.fst",
+    "commit": "61ef06bed008e76000f9ae46d65182e476d15dd6",
+    "type": "Native Surfer waveform-area browser capture of actual FST; no redrawn trace",
+    "date": "2026-10-08",
+    "sha256": "6363eae3aff573db56ba7482a20b589b413c2da2644ef1248ea1f4bab0e000f5"
+  }
+]

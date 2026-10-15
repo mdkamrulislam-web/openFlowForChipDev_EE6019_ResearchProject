@@ -1,0 +1,251 @@
+[
+  {
+    "slide": 1,
+    "notes": "Introduce the outcome: students will prepare a tested digital project and understand how its layout is built. This version explains submission but performs no reservation, payment or submission. The HDL route is the teaching focus. Diagrams are editable; pending panels are instructions, not evidence of completed runs.",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/"
+    ]
+  },
+  {
+    "slide": 2,
+    "notes": "A tile is an allocated rectangle of the shared ASIC. Many projects share fabrication; a multiplexer selects which project reaches the external digital pins. A PDK is the process cell library and manufacturing rulebook. This editable diagram is conceptual, not a floorplan. Ask which cost is shared: manufacture of the chip, rather than the student's design work.",
+    "sources": [
+      "https://tinytapeout.com/faq/",
+      "https://tinytapeout.com/"
+    ]
+  },
+  {
+    "slide": 3,
+    "notes": "Walk left to right across each row. RTL means register-transfer level: Verilog describes stored state and logic. A testbench drives inputs and compares the result with the expected answer. Students write behaviour, tests and metadata. GitHub Actions perform implementation and checks. GDS describes the geometric layout used to make masks. Fabrication follows an approved submitted revision. Return from results to RTL when a check fails; iteration is expected.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/"
+    ]
+  },
+  {
+    "slide": 4,
+    "notes": "The shuttle schedule connects IHP runs to IHP MPW, SKY runs to ChipFoundry chipIgnite and GF runs to wafer.space. Process names come from the official templates. Historical videos mention Efabless, which shut down in 2025; use the current partner and template. Delivery estimates are shuttle-specific. The FAQ suggests allowing up to a year including assembly and fulfilment; use the schedule for a particular booking.",
+    "sources": [
+      "https://tinytapeout.com/chips/",
+      "https://tinytapeout.com/hdl/templates/",
+      "https://tinytapeout.com/news/"
+    ]
+  },
+  {
+    "slide": 5,
+    "notes": "Current info.yaml comments describe a 1x1 SKY and IHP tile as approximately 167 by 108 micrometres, and GF180 as approximately 340 by 160 micrometres. These are template descriptions, not a guarantee of usable routing area. The old FAQ estimate of roughly 1,000 gates belongs to TT04–TT10; do not turn it into a standard-cell-count limit for every PDK. uio has input, output and output-enable paths internally. ena is an internal selection signal, not another external pin. Internal timing and I/O speed are different limits.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttgf-verilog-template/blob/main/info.yaml",
+      "https://tinytapeout.com/specs/gpio/"
+    ]
+  },
+  {
+    "slide": 6,
+    "notes": "Start with the actual counter result, not a generic gate-capacity estimate. GDS run 37693100748 at SHA 61ef06bed008e76000f9ae46d65182e476d15dd6 used SKY130, one 1x1 tile, LibreLane 3.0.14 and a 50 MHz clock target. Reported standard-cell utilisation is 4.96131%: 818.285 / 16,493.3 square micrometres of core area, including non-fill physical cells. Synthesis produced 47 cells with area 421.6544 square micrometres. The later 279 non-fill cells include 225 taps; 4,600 total cells include 4,321 fillers. These totals are not logic-gate counts. Worst setup/hold slack is 8.64285 / 0.109636 ns, with zero violations. Timing margins do not establish measured maximum silicon frequency. All four gds jobs passed, and all 15 prechecks passed. There are 447 TIMESCALEMOD lint warnings, so do not claim zero warnings. The linked historical UART and NanoV datasheets are optional further examples, not designs shown in the visible diagram. Do not substitute the separate 150-by-150 micrometre custom-flow result.",
+    "sources": [
+      "https://tinytapeout.com/chips/ttihp26b/tt_um_nuatlabs_uart/",
+      "https://tinytapeout.com/chips/ttsky26c/tt_um_WaiMingLee888_nanov_1tile/",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml"
+    ]
+  },
+  {
+    "slide": 7,
+    "notes": "Wokwi is useful for a first gate-level exercise in a browser. The HDL route gives a version-controlled Verilog design and a Python testbench, and is the remainder of this deck. Both feed Tiny Tapeout infrastructure. The templates page also links a user-contributed IHP Chisel template. Do not introduce analogue design or an FPGA lab here; they are outside this lesson.",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://tinytapeout.com/digital_design/"
+    ]
+  },
+  {
+    "slide": 8,
+    "notes": "Open the official templates page and match the process to the class shuttle. Use this template creates a new repository. Set Settings > Pages > Build and deployment > Source to GitHub Actions. P1 requires a signed-in template menu capture; the anonymous page does not expose that button. P2 requires the actual authorised repository Pages setting. The public worked example now exists, but these settings captures remain pending. Snapshot pins: SKY ttsky26d, IHP ttihp26b, GF ttgf26c. IHP26b is closed; its current template pin does not mean it is open. The SKY workflow action currently pins LibreLane 3.0.14, whereas IHP pins 3.0.5. Re-check template and action versions before the next class.",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttgf-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part",
+      "https://raw.githubusercontent.com/TinyTapeout/tt-gds-action/ttsky26d/action.yml",
+      "https://raw.githubusercontent.com/TinyTapeout/tt-gds-action/ttihp26b/action.yml"
+    ]
+  },
+  {
+    "slide": 9,
+    "notes": "Show the class the actual template tree. src/project.v is the starting RTL file; add files under src and list every one in info.yaml source_files and test/Makefile PROJECT_SOURCES. info.yaml has project title, author, language, description, clock_hz, tiles and top_module, plus all 24 pin descriptions; retain yaml_version: 6. Preserve unused pin entries and leave their descriptions blank. test/tb.v must instantiate the same top name. docs/info.md explains behaviour, tests and external hardware. Leave automation and PDK setup alone for the first exercise. P7 captures the resulting datasheet.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/docs/info.md"
+    ]
+  },
+  {
+    "slide": 10,
+    "notes": "The visible code is an excerpt from the real working counter wrapper at 61ef06b, not a zero-output shell. It instantiates counter, connects binary count to uo_out and drives wrap through uio_out[0]. uio_oe is active high: zero selects input and one selects output. The wrapper drives unused uio_out bits low. ena is internal project selection; ui_in[0] is this counter's enable. The core reset is active high, so .rst(~rst_n) converts the shared active-low reset. Reset affects count at the next rising clock edge. Use the exact eight template ports and make the tt_um_ module name, info.yaml and test/tb.v agree. The source link supplies the complete runnable wrapper.",
+    "sources": [
+      "https://tinytapeout.com/hdl/important/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/project.v"
+    ]
+  },
+  {
+    "slide": 11,
+    "notes": "This running example uses one synchronous rising-edge clock. Count is unsigned and wraps modulo 256. rst_n=0 resets count at the next rising edge; reset wins over enable. With enable=0 the count holds. wrap is a combinational terminal-count flag: it is high only when count=255 and enable=1, before overflow to zero. Disabling while count=255 makes wrap low. The ellipsis skips many clock edges between count 2 and 255. Power-up state must not be relied upon. For physical asynchronous controls, use an appropriate synchroniser; debounce is a separate concern. The minimal teaching counter assumes synchronous enable. Avoid incomplete combinational assignments, unintended latches and derived ripple clocks.",
+    "sources": [
+      "https://tinytapeout.com/hdl/important/",
+      "https://tinytapeout.com/specs/clock/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/project.v"
+    ]
+  },
+  {
+    "slide": 12,
+    "notes": "Use a provisioned lab environment or an existing laptop environment with Python, make and Icarus Verilog. Installing only Python packages does not install the simulator. Install the requirements from this template to preserve its cocotb version. Rename the instance in tb.v and set PROJECT_SOURCES. A cocotb coroutine drives inputs and checks outputs with assertions; students should test reset, enable hold, increment and wrap. Explicitly run check_results because the workflow warns make may succeed even with failed tests. tb.fst is the current template waveform, not the older web guide tb.vcd. The dev container requests 10 GB; a standard Codespace has not been validated here.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.devcontainer/devcontainer.json",
+      "https://tinytapeout.com/hdl/testing/"
+    ]
+  },
+  {
+    "slide": 13,
+    "notes": "A commit captures a specific version. test checks behaviour, gds builds/checks the layout and docs writes the datasheet. The actual public worked-example branch has all three workflows passing at 61ef06b. The gds workflow has gds, precheck, gl_test and viewer jobs, and every one passed in run 37693100748. Native PowerPoint crop magnifies the genuine workflow rows; the original screenshot remains in img/. Match results to the commit intended for review. fpga is optional and was not run. A passing build does not reserve or submit a tile.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/docs.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/fpga.yaml"
+    ]
+  },
+  {
+    "slide": 14,
+    "notes": "The visible P5 image is a genuine loaded browser 3D viewer capture of the published counter OAS, from GDS run 37693100748 at 61ef06b. The viewer's native Filler cells checkbox is off. The useful logic is clustered near the top; horizontal power rails cross the tile. Filler cells support implementation/manufacturing and are not extra logic. The viewer refits when visibility changes, so do not compare full-filler and hidden-filler pictures by pixel area. The original full viewer and 2D gds_render images remain as assets. Read actual warnings, cell taxonomy, utilisation, timing and precheck results. The run-overview screenshot is captured; P4 still needs the metrics/cell-table view. A good-looking layout and passing functional simulation do not replace timing and manufacturing checks.",
+    "sources": [
+      "https://tinytapeout.com/hdl/important/#check-the-synthesis-warnings",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://gds-viewer.tinytapeout.com/?pdk=sky130A&model=https%3A%2F%2Fmdkamrulislam-web.github.io%2Ftt-sky130-counter%2Ftinytapeout.oas"
+    ]
+  },
+  {
+    "slide": 15,
+    "notes": "LibreLane orchestrates implementation. Synthesis maps Verilog into standard-cell instances; place and route chooses their locations and joins them with wires. These steps together are commonly called hardening. Timing asks whether signals reach registers before the next required edge and remain stable long enough. DRC checks physical rules such as minimum wire spacing; LVS checks that extracted circuit connections match the intended netlist. Tool roles describe the flow family, not a guarantee that each tool runs for every PDK: the IHP config disables KLayout DRC and XOR. Current workflow action versions differ by process. Commercial equivalents belong to the survey rather than this beginner diagram.",
+    "sources": [
+      "https://librelane.readthedocs.io/en/latest/reference/flows.html",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/src/config.json",
+      "https://github.com/YosysHQ/yosys",
+      "https://github.com/The-OpenROAD-Project/OpenROAD",
+      "https://github.com/The-OpenROAD-Project/OpenSTA"
+    ]
+  },
+  {
+    "slide": 16,
+    "notes": "Repeat the behavioural checks on the synthesised cell netlist. The actual counter RTL test and gl_test passed at 61ef06b. The gl_test job sets up cell models and power connections. To run locally, harden first, copy the matching final Verilog netlist into test/gate_level_netlist.v, set PDK_ROOT to the installed matching PDK, enter test/ and run make -B GATES=yes. Then check results.xml explicitly as with RTL simulation. This deck build does not install a PDK or run hardening locally. Functional gate-level simulation does not replace static timing analysis or SDF-based timing simulation.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/Makefile",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/hdl/testing/#gate-level-testing"
+    ]
+  },
+  {
+    "slide": 17,
+    "notes": "The genuine initial-template GDS run 37693066241 failed validation because project title, author and description were empty. The visible before/after YAML snippets are excerpts: the fields belong inside the parent project: mapping. The worked-example commit filled the metadata and all workflows passed. This is a setup/metadata failure, not a failed counter assertion. No counter assertion failed. P6 is optional future evidence if a real assertion fails during teaching; no failing run is required to review this deck. When debugging, read the first useful error, change one cause and rerun. For area or timing changes, seek staff guidance and compare the new reports; density and hold-margin changes are not general fixes.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/src/config.json",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/src/config.json",
+      "https://tinytapeout.com/faq/#my-gds-action-is-taking-much-longer-than-usual",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml"
+    ]
+  },
+  {
+    "slide": 18,
+    "notes": "Demonstrate the sequence verbally without making a submission: sign in at the app with GitHub, select the intended shuttle, supply the public repository URL, review price or class coupon, then explicitly submit a revision. A passing build does not by itself reserve a place or select a fabrication revision. A later GitHub push does not automatically update the submitted revision; submit the updated revision before the shuttle deadline. Only the course lead or supervisor should authorise the paid reservation and submission. No app action, payment or reservation was performed while building this material.",
+    "sources": [
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/",
+      "https://tinytapeout.com/guides/workshop/create-your-gds/",
+      "https://tinytapeout.com/faq/#which-of-my-builds-will-be-submitted-for-fabrication",
+      "https://tinytapeout.com/chips/"
+    ]
+  },
+  {
+    "slide": 19,
+    "notes": "This editable diagram is conceptual, not a board photograph or connector pinout. Latest ETR boards use RP2350B; older boards use RP2040. Follow the board-revision guide and configure one driver per input. The controller selects the project and supplies a slow clock or single-step clock. Assert rst_n low until a rising edge, then release it. Enable causes 0, 1, 2; disable holds count. Counter output is eight binary bits, readable with a controller or suitable bit indicators. No seven-segment decoder is included. A physical enable switch needs synchronisation and debounce; the minimal RTL assumes stable synchronous enable. Do not connect a raw bouncing button as a clock.",
+    "sources": [
+      "https://tinytapeout.com/guides/get-started-demoboard-etr/",
+      "https://tinytapeout.com/specs/pcb-etr/",
+      "https://commander.tinytapeout.com/"
+    ]
+  },
+  {
+    "slide": 20,
+    "notes": "Ask students to attach evidence to each line: specification, file review, local results, commit-specific workflow URLs, metrics and datasheet. The FPGA workflow is optional. Students should be able to explain one failure and the fix; a green badge without that explanation is insufficient. Submission approval is an explicit staff checkpoint, not an invitation to pay during the lab.",
+    "sources": [
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://tinytapeout.com/guides/advanced-workshop/submit-your-design/"
+    ]
+  },
+  {
+    "slide": 21,
+    "notes": "Students can start from the public worked-example branch, define count-down behaviour and write expected tests before editing RTL. Unsigned 8-bit subtraction is modulo 256: 0-1 gives 255, then 254. Define the terminal-count/underflow flag afresh: existing wrap detects count=255 while enabled for count-up; a count-down underflow flag would commonly detect count=0 while enabled. Specify and test that choice. Keep the fixed top interface. Produce test, gds and docs passes at one commit; compare synthesis cell count and reported utilisation. FPGA is optional. No class booking or paid submission occurs in this exercise.",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/tree/worked-example",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"
+    ]
+  },
+  {
+    "slide": 22,
+    "notes": "Use these links in order: the template, interface rules, test setup, process and I/O constraints, schedule and help. All cards are hyperlinks. Older videos remain useful for the concepts but their store, fabrication partner, config.tcl and waveform names can differ from current templates. Prefer the actual current repo file when a guide is outdated. Suggested videos: idea-to-chip https://www.youtube.com/watch?v=qVWq_XZko-M ; HDL https://www.youtube.com/watch?v=KbWb6xd9jFE ; submission https://www.youtube.com/watch?v=fCGPKdmM3Dc ; physical design and manufacturing videos are embedded at making_asics. Watching them remains a lecturer preparation task, not a completed claim.",
+    "sources": [
+      "https://tinytapeout.com/hdl/templates/",
+      "https://tinytapeout.com/hdl/important/",
+      "https://tinytapeout.com/hdl/testing/",
+      "https://tinytapeout.com/specs/",
+      "https://tinytapeout.com/chips/",
+      "https://tinytapeout.com/faq/",
+      "https://tinytapeout.com/making_asics/"
+    ]
+  },
+  {
+    "slide": 23,
+    "notes": "The official teaching page lists starting prices, not a quotation: up to 5 one-tile projects and one PCB kit for EUR565; up to 25 and three kits for EUR2195; up to 75 and five kits for EUR5325. A kit has a chip with all shuttle projects. A 75-project bundle could cover roughly 70 one-tile student projects, but not one board per student. Larger or analogue projects reduce project count. Obtain an institutional quote and confirm current taxes, shipping, ownership terms and availability before a commitment.",
+    "sources": [
+      "https://tinytapeout.com/teaching/",
+      "https://tinytapeout.com/terms/"
+    ]
+  },
+  {
+    "slide": 24,
+    "notes": "The SKY template pins ttsky26d and the schedule closes that shuttle on 30 November 2026. The GF template pins ttgf26c, closing on 7 December 2026. The IHP template still pins ttihp26b, which closed on 21 September 2026. TTIHP27a is planned for March 2027; no day is listed, and estimated shipping is Q1 2028. Other future schedule rows are estimates: GF27a April 2027 and SKY27a May 2027. Never interpret an action tag as evidence of currently open space. Refresh tags, deadlines, availability and shipping estimates before using this appendix for a course.",
+    "sources": [
+      "https://tinytapeout.com/chips/",
+      "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/.github/workflows/gds.yaml",
+      "https://github.com/TinyTapeout/ttgf-verilog-template/blob/main/.github/workflows/gds.yaml"
+    ]
+  },
+  {
+    "slide": 25,
+    "notes": "The supplied project background reports two-year loans of IHP-owned chips, no resale and shipping only to the EU and Switzerland, referring to the IHP25b programme. The general Tiny Tapeout terms and current static schedule were read, but a current official shuttle-specific loan agreement could not be retrieved from the JavaScript submission app. Therefore this slide deliberately identifies the reported restrictions as requiring confirmation, not as verified 2027 terms. Before procurement, the course lead must read the exact agreement shown for the chosen shuttle and record ownership, permitted transfer, loan duration, geography and return obligations. Do not assume a student can keep the chip forever or that SKY/GF have identical terms.",
+    "sources": [
+      "https://tinytapeout.com/terms/",
+      "https://app.tinytapeout.com/shuttles/ttihp26b",
+      "https://tinytapeout.com/chips/"
+    ]
+  },
+  {
+    "slide": 26,
+    "notes": "Captured evidence: P3 actual Actions list, P5 genuine loaded 3D viewer and P7 generated datasheet. A real GDS render and all-four-jobs overview are also retained. Remaining captures are P1 signed-in template menu; P2 Pages source setting; P4 metrics/cell table from run 37693100748; P6 an optional future assertion failure and its correction; P8 the actual tb.fst waveform showing reset, count, hold and terminal-count/wrap. The old 150-by-150 micrometre custom LibreLane layout is retained only as provenance and is not Tiny Tapeout evidence. The README contains exact routes, run/commit identity, dependencies and reproduction instructions. No paid submission was performed.",
+    "sources": [
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748",
+      "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100755",
+      "https://tinytapeout.com/hdl/templates/"
+    ]
+  }
+]

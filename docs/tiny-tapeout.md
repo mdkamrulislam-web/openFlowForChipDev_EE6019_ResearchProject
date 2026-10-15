@@ -1,6 +1,6 @@
 # Tiny Tapeout: how it works, and what it means for this flow
 
-Notes from the Tiny Tapeout videos, checked against the current IHP Verilog template ([TinyTapeout/ttihp-verilog-template](https://github.com/TinyTapeout/ttihp-verilog-template), as of 30 Sep 2026). The videos date from Tiny Tapeout 4 to 6 (2023–24), and several details have changed since; those are listed in [What has changed since the videos](#what-has-changed-since-the-videos).
+Earlier video notes, plus website-based notes added on 7 October 2026. Current details were checked against the official [templates](https://tinytapeout.com/hdl/templates/), [SKY130 template](https://github.com/TinyTapeout/ttsky-verilog-template) and [IHP template](https://github.com/TinyTapeout/ttihp-verilog-template). The earlier videos date from Tiny Tapeout 4 to 6 (2023–24); changes are listed in [What has changed since the videos](#what-has-changed-since-the-videos). The two remaining videos have not been watched or transcribed for these notes.
 
 ## The videos, and how to watch them
 
@@ -12,7 +12,7 @@ Notes from the Tiny Tapeout videos, checked against the current IHP Verilog temp
 | [Getting your design ready to submit](https://www.youtube.com/watch?v=fCGPKdmM3Dc) | 6 min | The GitHub template, its actions, and submitting | In full |
 | [Webinar: Build your first chip with Tiny Tapeout](https://www.youtube.com/watch?v=UVZK-kmN7wc) | 57 min | All of the above, plus design tips | 26:00–52:00 closely (GitHub, submission, Verilog, design tips); skim 6:00–25:00 (logic-gate basics in Wokwi) |
 
-Still to watch from the study path: *Making ASICs* and *Manufacturing ASICs*. These are the most relevant to physical design.
+Still to watch from the study path: [Making ASICs](https://www.youtube.com/watch?v=dckPKyO2nSo) and [Manufacturing ASICs](https://www.youtube.com/watch?v=aBDJQ9NYTEU). These are the most relevant to physical design. Their transcripts have not been supplied; the website notes below do not count as watching them.
 
 If you read the auto-generated transcripts, some names are misheard: "tiny PayPal" is Tiny Tapeout, "walkway" or "WWE" is Wokwi, "e-fabulous" or "EAB" is Efabless, "Coco DB" is cocotb, "ttk wave" is GTKWave, "icus" is Icarus.
 
@@ -47,13 +47,22 @@ If you read the auto-generated transcripts, some names are misheard: "tiny PayPa
 - **Design tips:** reset every register, synchronise or debounce external inputs, avoid ripple counters, mind setup and hold timing and clock-domain crossings, and test with Icarus, Verilator, cocotb and a gate-level simulation.
 - **Q&A:** compares Tiny Tapeout (a shared die, open source, one demo board) with a full-chip shuttle (the whole die, any tools, many copies of your chip).
 
+### Website notes for the two remaining videos
+
+**Making ASICs — website-based notes, checked 7 October 2026.** The [official page](https://tinytapeout.com/making_asics/) describes converting a Verilog netlist to GDS, the layout files used for manufacture, and running the tools on GitHub's servers. It introduces the flow logs as evidence to inspect. The page still names OpenLane; the current template actions use LibreLane. For the slides, explain synthesis and physical design, then show where the template publishes logs and layout results. This is a teaching outline from the website and template, not a summary of an unseen video.
+
+**Manufacturing ASICs — website-based notes, checked 7 October 2026.** The [same page](https://tinytapeout.com/making_asics/) links a factory tour showing the move from GDS to a physical chip, but does not provide a transcript. The [FAQ](https://tinytapeout.com/faq/#when-will-the-chips-get-manufactured) gives a general 6–9-month manufacturing estimate, with board assembly, testing and fulfilment afterwards; delivery can take up to a year. Use the [chips page](https://tinytapeout.com/chips/) for the chosen shuttle's estimate. The [devkit FAQ](https://tinytapeout.com/faq/#what-is-a-devkit) distinguishes the ASIC breakout board from the demo board. Detailed factory steps remain for the video review.
+
+**Avoid carrying old specifications into the slides.** The FAQ's tile/gate figures are under “Chip Specs for TT04 to TT10”, so they are a historical guide. Current SKY130 and IHP template `info.yaml` files describe a tile as about **167 × 108 µm** and list the available tile sizes. A gate estimate does not guarantee that a design will route. Sources: [SKY130 metadata](https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/info.yaml), [IHP metadata](https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/info.yaml).
+
 ## How Tiny Tapeout works
 
 - **Shared die.** Hundreds of small projects are combined into one chip. Each project gets one or more **tiles**, and an on-chip multiplexer connects the selected project to the pins. That is why it is cheap: everyone shares one mask set.
 - **Everyone gets everything.** Every chip carries every project from that shuttle, so all designs must be open source.
-- **One tile** is about 0.1 mm tall and holds roughly 1,000 standard cells. Larger designs buy more tiles (up to 16).
-- **Pins per project:** `clk`, `rst_n` (active low), 8 inputs `ui_in`, 8 outputs `uo_out`, 8 bidirectional `uio_*` with an output-enable `uio_oe`. Expect I/O up to about 50 MHz; see the [specs](https://tinytapeout.com/specs/) for the current figure.
-- **Demo board:** DIP switches on the inputs, a seven-segment display on the outputs, PMOD headers, and a Raspberry Pi RP2040 running MicroPython that selects the project and can drive tests from a PC.
+- **One tile:** the current SKY130 and IHP templates describe about 167 × 108 µm. The older FAQ's roughly 1,000 logic gates is only a guide; cell mix and routing decide what fits. Larger designs can use the tile sizes allowed by their template.
+- **Fixed interface:** `clk`, `rst_n` (active low), `ena`, 8 inputs `ui_in`, 8 outputs `uo_out`, and 8 bidirectional `uio_*` with output-enable `uio_oe`. Copy the template's complete port declaration.
+- **Timing limits differ.** The [GPIO specs](https://tinytapeout.com/specs/gpio/) give SKY130 pad ratings of 66 MHz input and 33 MHz output. The [clock page](https://tinytapeout.com/specs/clock/) bases its roughly 66 MHz clock estimate on SKY130 pads. These are separate from the design's internal timing limit and do not establish IHP or GF180 limits.
+- **Demo board:** switches, displays and connectors expose the project signals; an onboard microcontroller selects the project and can drive tests from a PC. Hardware differs by board generation: follow the [quickstart for the current ETR board](https://tinytapeout.com/guides/get-started-demoboard-etr/) or the guide for the board supplied with the shuttle.
 - **Ways to design:** Wokwi (gates in a browser, for beginners), Verilog or another HDL (what this project uses), and analogue (out of scope here).
 
 ## The Verilog route, step by step
@@ -108,7 +117,9 @@ As a verification engineer you know most of these. The new part is why they matt
 | Tile about 160 × 100 µm | About 167 × 108 µm on IHP; tile options `1x1` up to `8x2` |
 | Three actions: docs, test, gds | Four workflows; `gds` now includes precheck, gate-level test and viewer |
 
-The template's actions are pinned to a shuttle tag (`ttihp26b` in the current template). Check that the tag matches the shuttle you aim for before relying on it.
+The templates' actions are pinned to shuttle tags: `ttsky26d` for SKY130 and `ttihp26b` for IHP, checked 7 October 2026 ([SKY130 workflow](https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml), [IHP workflow](https://github.com/TinyTapeout/ttihp-verilog-template/blob/main/.github/workflows/gds.yaml)). Check the tag and PDK again before choosing a shuttle.
+
+**LibreLane versions differ by action tag.** The current [SKY130 action](https://github.com/TinyTapeout/tt-gds-action/blob/ttsky26d/action.yml) defaults to **3.0.14**; the [IHP action](https://github.com/TinyTapeout/tt-gds-action/blob/ttihp26b/action.yml) defaults to **3.0.5**. Earlier notes saying 3.0.3 are stale. Both actions fetch `tt-support-tools` from `main` by default, so keep the actual run logs and revisions with the example; a shuttle tag alone does not freeze every dependency.
 
 ### Who makes the chips now
 
@@ -122,15 +133,19 @@ Since Efabless closed, each Tiny Tapeout shuttle goes to one of three fabs throu
 
 All three are mature nodes: cheap, with open PDKs, and far from the advanced nodes that commercial Cadence and Synopsys flows usually target. IHP SG13G2 also has fast SiGe bipolar transistors (HBTs) for RF and high-speed analogue; a digital Tiny Tapeout design uses only its CMOS standard cells.
 
-## What this means for our flow
+## What this means for the project
 
-1. **Same core tool.** The Tiny Tapeout `gds` action runs LibreLane, like `make harden` here. The differences are Tiny Tapeout's fixed die (the tile), fixed pin positions and power grid, and some checks it turns off to save time (KLayout DRC and XOR). It then adds its own precheck. Running one design both ways and comparing the results is a natural "two flows" comparison.
-2. **Gate-level simulation is missing from our flow.** Tiny Tapeout runs it in CI; we should add a `make gl-sim` target that re-runs the testbench on `final/nl/` (and later with SDF timing).
-3. **cocotb.** Tiny Tapeout tests are cocotb (`cocotb==2.0.1` in the template). Our flow should accept a design's `test/` folder as it stands.
-4. **Putting the counter on the template** (planned for week 3) needs these changes:
+The supervisor confirmed on 2 October that the teaching task uses and documents Tiny Tapeout's existing flow. The repo's separate LibreLane counter flow is background material; building another flow or adding targets to it is not a teaching deliverable.
+
+1. **Teach the template's flow.** Follow its RTL tests, LibreLane hardening, precheck, gate-level test, viewer and documentation. Explain the tile and fixed interface as physical constraints.
+2. **Use gate-level simulation already provided.** Adapt the counter's cocotb test so the template can exercise both RTL and its generated netlist. Keep an explicit gate-level pass as evidence; a layout picture alone is not verification.
+3. **Keep versions with the example.** Use the selected template's own requirements and workflow tags. Any local comparison with this repo's LibreLane flow is optional background work.
+4. **Putting the counter on the template — completed in week 2:** the genuine [SKY130 counter example](https://github.com/mdkamrulislam-web/tt-sky130-counter/pull/1) passes RTL, docs, GDS, precheck and gate-level tests at commit `61ef06b` ([GDS run](https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748)). It uses 4.96% of one tile and 47 synthesis cells; [the viewer](https://mdkamrulislam-web.github.io/tt-sky130-counter/) is live. The PR awaits review/merge; no shuttle submission was made. The earlier counter GDS was from this repo's separate flow. The template changes were:
    - a wrapper `tt_um_mdkamrulislam_counter` with the fixed ports;
    - reset from `rst_n`, inverted (our counter's `rst` is active high);
    - `en` from `ui_in[0]`, `count` on `uo_out`, `wrap` on `uio_out[0]` with `uio_oe = 8'b0000_0001`, all other outputs tied to 0;
    - `info.yaml` (`top_module`, `source_files`, `clock_hz: 50000000`, pin names), `docs/info.md`, and `PROJECT_SOURCES` in `test/Makefile`;
    - our self-checking testbench ported to `test/test.py`;
    - GitHub Pages set to GitHub Actions.
+
+The counter example assumes `ui_in[0]` is synchronous to `clk`. A real switch or button is asynchronous: synchronise it, and debounce it if its mechanical transitions matter, before using it as the enable.
