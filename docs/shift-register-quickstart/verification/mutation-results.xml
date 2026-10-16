@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="cocotb tests"><testsuite name="test" errors="0" failures="1" skipped="0" tests="1" time="0.003" timestamp="2026-10-11T12:10:17.965219+00:00" hostname="DESKTOP-HODVNLJ"><testcase classname="test" name="test_shift_register" time="0.003"><failure message="assert 128 == 1" type="AssertionError">Traceback (most recent call last):
+  File "C:\Users\THINKPAD\repos\openFlowForChipDev_EE6019_ResearchProject\docs\shift-register-quickstart\starter\test\test.py", line 35, in test_shift_register
+    assert await cycle(bit) == expected
+AssertionError: assert 128 == 1
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1791720617" /><property name="file" value="C:\Users\THINKPAD\repos\openFlowForChipDev_EE6019_ResearchProject\docs\shift-register-quickstart\starter\test\test.py" /><property name="line" value="5" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="0.0" /><property name="sim_time_stop" value="40.0" /><property name="sim_time_duration" value="40.0" /><property name="sim_time_ratio" value="13879.732121554012" /><property name="attachment" value="C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-rtl-x8ziy3h5\mutation\tb.fst" /><property name="attachment" value="C:\Users\THINKPAD\repos\openFlowForChipDev_EE6019_ResearchProject\docs\shift-register-quickstart\verification\mutation-simulation.log" /></properties><system-out>[[ATTACHMENT|C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-rtl-x8ziy3h5\mutation\tb.fst]]
+[[ATTACHMENT|C:\Users\THINKPAD\repos\openFlowForChipDev_EE6019_ResearchProject\docs\shift-register-quickstart\verification\mutation-simulation.log]]
+</system-out><system-err>Test failed with COCOTB_RANDOM_SEED=1791720617
+</system-err></testcase></testsuite></testsuites>

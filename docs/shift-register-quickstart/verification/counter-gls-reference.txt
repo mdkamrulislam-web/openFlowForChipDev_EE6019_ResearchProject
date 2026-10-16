@@ -1,0 +1,16 @@
+Counter GLS reference, retrieved 16 October 2026
+Source: https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748/job/113039438023
+Commit: 61ef06b
+This is the earlier counter, not the shift register.
+
+gl_test	GL test	2026-10-07T22:03:09.4375652Z  11368.00ns INFO     cocotb.tb                          PASS: reset, counting, overflow, hold and wrap masking
+gl_test	GL test	2026-10-07T22:03:09.4377034Z  11368.00ns INFO     cocotb.regression                  test.test_project passed
+gl_test	GL test	2026-10-07T22:03:09.4378567Z  11368.00ns INFO     cocotb.regression                  **************************************************************************************
+gl_test	GL test	2026-10-07T22:03:09.4380386Z                                                         ** TEST                          STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+gl_test	GL test	2026-10-07T22:03:09.4381695Z                                                         **************************************************************************************
+gl_test	GL test	2026-10-07T22:03:09.4383464Z                                                         ** test.test_project              PASS       11368.00           0.07     161651.54  **
+gl_test	GL test	2026-10-07T22:03:09.4384338Z                                                         **************************************************************************************
+gl_test	GL test	2026-10-07T22:03:09.4385101Z                                                         ** TESTS=1 PASS=1 FAIL=0 SKIP=0              11368.00           0.07     160697.83  **
+gl_test	GL test	2026-10-07T22:03:09.4385771Z                                                         **************************************************************************************
+gl_test	GL test	2026-10-07T22:03:09.4632800Z FST info: dumpfile tb.fst opened for output.
+gl_test	GL test	2026-10-07T22:03:09.5078971Z ##[end-action id=__TinyTapeout_tt-gds-action.__run_5;outcome=success;conclusion=success;duration_ms=2153]

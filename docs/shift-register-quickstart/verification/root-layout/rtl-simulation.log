@@ -1,0 +1,27 @@
+     -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:242  in gpi_load_users                  Loaded entry library: 'C:\Users\THINKPAD\AppData\Local\Programs\Python\Python313\python313.dll'
+     -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:234  in gpi_load_users                  Running entry func 'initialize' from loaded library 'C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-verification-tools\venv\Lib\site-packages\cocotb\simulator.cp313-win_amd64.pyd'
+     -.--ns INFO     pygpi                              ..ib\pygpi\embed.cpp:115  in initialize                      Using Python 3.13.8 interpreter at C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-verification-tools\venv\Scripts\python.exe
+     -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:74   in gpi_print_registered_impl       GPI: VPI support registered
+     0.00ns INFO     cocotb.initialize                  Seeding Python random module with 1792147338
+     0.00ns INFO     cocotb.initialize                  Initialized cocotb v2.1.0 from C:\Users\THINKPAD\AppData\Local\Temp\tt-shift-verification-tools\venv\Lib\site-packages\cocotb
+     0.00ns INFO     cocotb.initialize                  Running on Icarus Verilog version 12.0 (devel)
+     0.00ns INFO     cocotb.regression                  Running tests
+     0.00ns INFO     cocotb.regression                  running test.test_shift_register (1/1)
+     0.00ns INFO     cocotb.tb                          1. Reset clears the stored bits
+    20.00ns INFO     cocotb.tb                          2. Send 10110010; expect 0xB2 after eight shifts
+   180.00ns INFO     cocotb.tb                          3. Disabled clock cycles hold 0xB2
+   240.00ns INFO     cocotb.tb                          4. A ninth shift drops the oldest bit: B2 -> 65
+   260.00ns INFO     cocotb.tb                          5. Unused input pins do not change the function
+   280.00ns INFO     cocotb.tb                          6. Reset wins even when shifting is enabled
+   300.00ns INFO     cocotb.tb                          7. Reset also clears when shifting is disabled
+   340.00ns INFO     cocotb.tb                          8. Repeated bits fill, then empty, all eight positions
+   740.00ns INFO     cocotb.tb                          PASS: reset, shift direction, hold, overflow and pin directions
+   740.00ns INFO     cocotb.regression                  test.test_shift_register passed
+   740.00ns INFO     cocotb.regression                  **************************************************************************************
+                                                        ** TEST                          STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+                                                        **************************************************************************************
+                                                        ** test.test_shift_register       PASS         740.00           0.01     124709.29  **
+                                                        **************************************************************************************
+                                                        ** TESTS=1 PASS=1 FAIL=0 SKIP=0                740.00           0.05      13781.11  **
+                                                        **************************************************************************************
+FST info: dumpfile tb.fst opened for output.

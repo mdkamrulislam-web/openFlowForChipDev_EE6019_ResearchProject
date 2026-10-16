@@ -1,0 +1,23 @@
+{
+  "checked": "2026-10-16",
+  "root_files": [
+    "info.yaml",
+    "src/shift_register.v",
+    "src/project.v",
+    "test/Makefile",
+    "test/tb.v",
+    "test/test.py",
+    "docs/info.md"
+  ],
+  "canonical_root_matches_starter": true,
+  "upstream_infrastructure_files_unchanged": 12,
+  "original_archive_files_preserved": 14,
+  "root_rtl": {
+    "tests": 1,
+    "failures": 0,
+    "passed": 1,
+    "runner_exception": null
+  },
+  "wrong_direction_detected": true,
+  "physical_and_gls_run": false
+}

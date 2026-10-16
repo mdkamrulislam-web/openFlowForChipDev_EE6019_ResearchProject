@@ -3,4 +3,17 @@ designs/*/runs/
 *.vcd
 *.fst
 !docs/beginner-guide/example-evidence/tb.fst
+!docs/shift-register-quickstart/verification/rtl-waveform.fst
+!docs/shift-register-quickstart/verification/rtl-waveform.vcd
 __pycache__/
+~$*
+.DS_Store
+.idea
+*.fst.hier
+runs/
+tt_submission/
+src/user_config.json
+src/config_merged.json
+test/sim_build/
+test/results.xml
+test/gate_level_netlist.v
