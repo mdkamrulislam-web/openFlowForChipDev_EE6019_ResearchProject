@@ -48,13 +48,18 @@ LINE = 'D8E0E1'
 WHITE = 'FFFFFF'
 FONT = 'Calibri'
 REVIEW = WORK / 'shift-register-review'
+OUTPUT_SUFFIX = ''
+
+def output_file(name):
+    p=Path(name)
+    return BASE/(p.stem+OUTPUT_SUFFIX+p.suffix)
 
 # Slide wording is deliberately shorter than the self-study guide. Full instructions
 # are retained in the matching guide page and in editable presenter notes.
 SLIDE_SUMMARIES = {
     'start': ('Bring your working Verilog design. Leave with a tested Tiny Tapeout layout.', [
         'Open the HTML guide and the starter ZIP beside GitHub.',
-        'Follow guide pages 2–12. Tick each checkpoint before continuing.']),
+        'Follow guide pages 2–14, including GLS. Tick each checkpoint.']),
     'design': ('Eight stored bits. One input bit. One clock edge at a time.', [
         'Extract the starter ZIP. Open src/shift_register.v.',
         'Reset clears; enable shifts; otherwise hold.',
@@ -99,6 +104,14 @@ SLIDE_SUMMARIES = {
         'docs: download PDF/datasheet and check the pin table.',
         'gds: check build, precheck, gate-level test and viewer.',
         'Open the layout. Download tt_submission and GDS_logs.']),
+    'gls-prepare': ('GLS runs your test against generated logic cells and their connections.', [
+        'Keep the same test/test.py and external port checks.',
+        'Keep the GL_TEST fixture’s VPWR and VGND connections.',
+        'The cloud job supplies the netlist and cell models; GATES=yes selects them.']),
+    'gls-run': ('Open the gate-level job for the same commit as your RTL test.', [
+        'Actions → gds → your run → gl_test → GL test → Run tests.',
+        'Read TESTS=1 PASS=1 FAIL=0 and confirm the whole job succeeds.',
+        'Summary → Artifacts → gatelevel_test_results: save results.xml and waveform.']),
     'finish': ('Save one identifiable result: circuit, checks, layout and evidence.', [
         'Keep repository, commit and workflow links together.',
         'Save the GDS, reports and datasheet for that same commit.',
@@ -132,7 +145,7 @@ def diagram_items(kind):
 
 def draw_diagram(kind, dest):
     """High resolution guide diagram. Slides use separate editable shapes."""
-    w, h = 1800, 420
+    w, h = 1800, (740 if kind=='checks' else 420)
     im = Image.new('RGB', (w, h), '#' + PAPER)
     d = ImageDraw.Draw(im)
     def centred(box, lines):
@@ -166,16 +179,22 @@ def draw_diagram(kind, dest):
         d.text((45,253),'ONE TOP NAME:  tt_um_student_shift_register',font=font(34,True),fill='#'+TEAL)
         d.text((45,320),'TWO SOURCE LISTS:  info.yaml + test/Makefile → project.v + shift_register.v',font=font(31),fill='#'+INK)
     elif kind == 'checks':
-        for x,title in [(35,'RTL test'),(460,'docs')]:
-            d.rounded_rectangle((x,18,x+385,130),radius=19,fill='#'+WHITE,outline='#'+LINE,width=3)
-            d.text((x+35,52),title,font=font(34,True),fill='#'+NAVY)
-        d.text((935,52),'Separate workflows • same commit',font=font(31),fill='#'+MUTED)
-        nodes=[(35,'GDS build','physical layout'),(640,'Precheck + gate-level test','rules + built behaviour'),(1300,'Viewer + artifacts','inspect + download')]
-        for x,title,sub in nodes:
-            bw=550 if x<1300 else 465
-            d.rounded_rectangle((x,186,x+bw,369),radius=22,fill='#'+WHITE,outline='#'+LINE,width=3)
-            centred((x,186,x+bw,369),[(title,32,NAVY,True),(sub,27,MUTED,False)])
-            if x<1300: arrow(x+bw+10,278,x+bw+51)
+        nodes=[(15,265,350,125,'Commit / push','same saved version'),
+               (500,20,450,125,'RTL test','source behaviour'),
+               (500,220,450,125,'docs','build the datasheet'),
+               (500,420,450,125,'GDS build','place gates + route wires'),
+               (1220,250,550,115,'Precheck','integration rules'),
+               (1220,410,550,115,'Gate-level test (GLS)','same checks on logic cells'),
+               (1220,570,550,115,'Viewer','publish the layout view')]
+        for xx,yy,bw,bh,title,sub in nodes:
+            d.rounded_rectangle((xx,yy,xx+bw,yy+bh),radius=18,fill='#'+WHITE,outline='#'+LINE,width=3)
+            ft=font(32,True); tw=d.textbbox((0,0),title,font=ft)[2];d.text((xx+(bw-tw)/2,yy+22),title,font=ft,fill='#'+NAVY)
+            ft=font(27);tw=d.textbbox((0,0),sub,font=ft)[2];d.text((xx+(bw-tw)/2,yy+69),sub,font=ft,fill='#'+MUTED)
+        d.line((365,327,425,327),fill='#'+TEAL,width=5);d.line((425,82,425,482),fill='#'+TEAL,width=5)
+        for yy in [82,282,482]:arrow(425,yy,490)
+        d.line((950,482,1080,482),fill='#'+TEAL,width=5);d.line((1080,307,1080,627),fill='#'+TEAL,width=5)
+        for yy in [307,467,627]:arrow(1080,yy,1210)
+        d.text((35,705),'Three independent workflows; precheck, GLS and viewer wait for the GDS build.',font=font(27),fill='#'+MUTED)
     elif kind == 'shift':
         d.text((40, 70), 'serial input', font=font(34, True), fill='#'+NAVY)
         d.text((40, 120), 'one new bit', font=font(29), fill='#'+MUTED)
@@ -362,7 +381,7 @@ def write_doc(lesson, assets):
     doc.core_properties.title=lesson['title']
     doc.core_properties.subject='Short, practical route from an existing Verilog design to a checked Tiny Tapeout layout'
     doc.core_properties.author='EE6019 Research Project'
-    doc.save(BASE/'quickstart.docx')
+    doc.save(output_file('quickstart.docx'))
 
 
 def ppt_text(slide,x,y,w,h,text,size=20,colour=INK,bold=False,name=None):
@@ -411,16 +430,23 @@ def ppt_diagram(slide,kind,x,y,w,h):
             if n<2: ppt_arrow(slide,xx+bw+.03,y+h*.36,gap-.06)
         ppt_text(slide,x,y+h*.77,w,.45,'Both source lists: project.v + shift_register.v',18,TEAL,True)
     elif kind=='checks':
-        ppt_rect(slide,x,y,w*.23,.43,WHITE); ppt_text(slide,x+.1,y+.08,w*.2,.32,'RTL test',16,NAVY,True)
-        ppt_rect(slide,x+w*.26,y,w*.19,.43,WHITE); ppt_text(slide,x+w*.27,y+.08,w*.17,.32,'docs',16,NAVY,True)
-        ppt_text(slide,x+w*.48,y+.08,w*.5,.32,'Separate workflows • same commit',16,MUTED)
-        items=[('GDS build','physical layout'),('Precheck + gate-level','rules + built behaviour'),('Viewer + artifacts','inspect + download')]
-        gap=.3; bw=(w-2*gap)/3; yy=y+.63
-        for n,(title,sub) in enumerate(items):
-            xx=x+n*(bw+gap); ppt_rect(slide,xx,yy,bw,h-.63,WHITE)
-            ppt_text(slide,xx+.1,yy+.1,bw-.2,.32,title,17,NAVY,True)
-            ppt_text(slide,xx+.1,yy+.44,bw-.2,.33,sub,15,MUTED)
-            if n<2: ppt_arrow(slide,xx+bw+.03,yy+.39,gap-.06)
+        # Common trigger branches into independent workflows. GDS fans out again.
+        def node(xx,yy,ww,title,sub):
+            ppt_rect(slide,xx,yy,ww,.62,WHITE)
+            ppt_text(slide,xx+.08,yy+.06,ww-.16,.29,title,17,NAVY,True)
+            ppt_text(slide,xx+.08,yy+.34,ww-.16,.23,sub,12,MUTED)
+        startx=x; midx=x+w*.28; endx=x+w*.67
+        node(startx,y+1.0,w*.20,'Commit / push','same saved version')
+        for yy,title,sub in [(y,'RTL test','source behaviour'),(y+.85,'docs','build the datasheet'),(y+1.70,'GDS build','gates + wires')]:node(midx,yy,w*.25,title,sub)
+        for yy,title,sub in [(y+.65,'Precheck','integration rules'),(y+1.5,'Gate-level test (GLS)','same test on logic cells'),(y+2.35,'Viewer','publish layout')]:node(endx,yy,w*.32,title,sub)
+        def line(x1,y1,x2,y2):
+            c=slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT,PI(x1),PI(y1),PI(x2),PI(y2));c.line.color.rgb=PC.from_string(TEAL);c.line.width=PP(1.5)
+        spine=x+w*.235
+        line(startx+w*.20,y+1.31,spine,y+1.31);line(spine,y+.31,spine,y+2.01)
+        for yy in [y+.31,y+1.16,y+2.01]:ppt_arrow(slide,spine,yy,midx-spine-.03)
+        spine2=x+w*.60
+        line(midx+w*.25,y+2.01,spine2,y+2.01);line(spine2,y+.96,spine2,y+2.66)
+        for yy in [y+.96,y+1.81,y+2.66]:ppt_arrow(slide,spine2,yy,endx-spine2-.03)
     elif kind=='shift':
         ppt_text(slide,x,y+.06,w,.4,'serial input → eight stored bits',19,TEAL,True)
         gap=.12; bw=(w-.65-gap*7)/8; xx=x+.65
@@ -551,11 +577,14 @@ def write_slides(lesson):
         hasvisual=page.get('code') or page.get('image') or page.get('table') or page.get('diagram')
         if intro: ppt_text(slide,.58,1.89,12.03,.78,intro,19,MUTED)
         y=2.85
-        if page.get('diagram') and page['diagram'] in ('route','checks','files'):
+        if page.get('diagram')=='checks':
+            ppt_diagram(slide,'checks',.58,2.70,12.1,3.0)
+            ppt_text(slide,.65,5.85,12.0,.42,'Check every required job for one commit. The GLS walkthrough follows.',19,TEAL,True)
+        elif page.get('diagram') and page['diagram'] in ('route','files'):
             ppt_diagram(slide,page['diagram'],.58,y,12.1,1.43)
             if actions: ppt_actions(slide,actions[:2],.62,4.54,11.98,19,1.4)
         elif hasvisual:
-            ppt_actions(slide,actions[:3],.60,y,5.4,20,2.97)
+            ppt_actions(slide,actions[:3],.60,y,5.4,19 if page.get('id')=='gls-run' else 20,2.97)
             if page.get('code'): ppt_code(slide,page['code'],6.3,y,6.43,3.04)
             elif page.get('image'): ppt_picture(slide,page['image'],6.3,y,6.4,3.04)
             elif page.get('diagram'): ppt_diagram(slide,page['diagram'],6.12,y,6.45,2.98)
@@ -581,7 +610,7 @@ def write_slides(lesson):
                 short=[('Unknown module / missing file','Check the three names and both source lists. Guide page 7.'),
                        ('Reset / shift assertion fails','Check pin bits, reset polarity and expected values. Pages 5 and 9.'),
                        ('Documentation fails','Complete metadata, sections and pin keys. Keep YAML indentation. Page 8.'),
-                       ('Layout / viewer / gate test fails','Open the first failing job. Fix its cause; check Pages settings. Page 13.')]
+                       ('Layout / viewer / gate test fails','Open the first failing job. See GLS on pages 13–14 and help on page 15.')]
                 for n,(problem,fix) in enumerate(short):
                     xx=.7+(n%2)*6.05; yy=2.06+(n//2)*1.84
                     ppt_rect(detail,xx,yy,5.72,1.58,WHITE)
@@ -597,7 +626,7 @@ def write_slides(lesson):
     prs.core_properties.title=lesson['title']
     prs.core_properties.subject='Compact practical lesson, with editable flowcharts and guide references'
     prs.core_properties.author='EE6019 Research Project'
-    prs.save(BASE/'lesson.pptx')
+    prs.save(output_file('lesson.pptx'))
     return len(prs.slides)
 
 
@@ -607,8 +636,8 @@ def powershell_literal(path):
 
 def export_pdf():
     REVIEW.mkdir(parents=True,exist_ok=True)
-    docpath=powershell_literal(BASE/'quickstart.docx'); pdfpath=powershell_literal(BASE/'quickstart.pdf')
-    deckpath=powershell_literal(BASE/'lesson.pptx'); deckpdf=powershell_literal(BASE/'lesson.pdf')
+    docpath=powershell_literal(output_file('quickstart.docx')); pdfpath=powershell_literal(output_file('quickstart.pdf'))
+    deckpath=powershell_literal(output_file('lesson.pptx')); deckpdf=powershell_literal(output_file('lesson.pdf'))
     renderpath=powershell_literal(REVIEW/'slides'); warningpath=powershell_literal(REVIEW/'slide-fit.json')
     script=f"""
 $ErrorActionPreference = 'Stop'
@@ -668,7 +697,7 @@ def review_pdfs(lesson):
     import pymupdf as fitz
     report={}
     for fname,prefix in [('quickstart.pdf','guide'),('lesson.pdf','deck')]:
-        path=BASE/fname
+        path=output_file(fname)
         if not path.exists(): continue
         pdf=fitz.open(path); dest=REVIEW/prefix; dest.mkdir(parents=True,exist_ok=True)
         entries=[]
@@ -692,8 +721,10 @@ def review_pdfs(lesson):
 
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--export-pdf',action='store_true'); parser.add_argument('--qa',action='store_true')
+    global OUTPUT_SUFFIX
+    parser=argparse.ArgumentParser(); parser.add_argument('--export-pdf',action='store_true'); parser.add_argument('--qa',action='store_true'); parser.add_argument('--suffix',default='')
     args=parser.parse_args(); lesson=json.loads((BASE/'lesson.json').read_text(encoding='utf-8-sig'))
+    OUTPUT_SUFFIX=args.suffix
     REVIEW.mkdir(parents=True,exist_ok=True); assets={}
     for kind in ('route','shift','mapping','files','checks'):
         path=REVIEW/f'diagram-{kind}.png'; draw_diagram(kind,path); assets[kind]=path

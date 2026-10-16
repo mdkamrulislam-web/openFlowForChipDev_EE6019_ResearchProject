@@ -6,3 +6,4 @@ designs/*/runs/
 !docs/shift-register-quickstart/verification/rtl-waveform.fst
 !docs/shift-register-quickstart/verification/rtl-waveform.vcd
 __pycache__/
+~$*

@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-11",
+  "checked": "2026-10-16",
   "images": [
     {
       "file": "images/template.png",
@@ -42,18 +42,63 @@
       "caption": "Official template Actions tab, public browser capture on 11 October 2026. This is an interface example, not this shift register's test results. The screenshot shows both successful and failed template runs. Inspect the test, docs and gds runs for the final commit in your own repository.",
       "kind": "capture",
       "retrieved": "2026-10-11"
+    },
+    {
+      "file": "images/gls-job.png",
+      "source_url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748/job/113039438023",
+      "caption": "Genuine successful counter gl_test job at 61ef06b; not a shift-register result. Logs require GitHub sign-in.",
+      "kind": "capture",
+      "retrieved": "2026-10-16"
     }
   ],
   "references": [
-    {"label": "Tiny Tapeout HDL templates", "url": "https://www.tinytapeout.com/hdl/templates/"},
-    {"label": "Official SKY Verilog template", "url": "https://github.com/TinyTapeout/ttsky-verilog-template"},
-    {"label": "SKY template test instructions", "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md"},
-    {"label": "SKY template GDS workflow", "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"},
-    {"label": "SKY template test workflow", "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml"},
-    {"label": "Tiny Tapeout FAQ: enable Actions and Pages", "url": "https://www.tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part"},
-    {"label": "GitHub: create a repository from a template", "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template"},
-    {"label": "GitHub: add a file", "url": "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository"},
-    {"label": "GitHub: edit files", "url": "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files"},
-    {"label": "GitHub: Pages source settings", "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"}
+    {
+      "label": "Tiny Tapeout HDL templates",
+      "url": "https://www.tinytapeout.com/hdl/templates/"
+    },
+    {
+      "label": "Official SKY Verilog template",
+      "url": "https://github.com/TinyTapeout/ttsky-verilog-template"
+    },
+    {
+      "label": "SKY template test instructions",
+      "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/test/README.md"
+    },
+    {
+      "label": "SKY template GDS workflow",
+      "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"
+    },
+    {
+      "label": "SKY template test workflow",
+      "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/test.yaml"
+    },
+    {
+      "label": "Tiny Tapeout FAQ: enable Actions and Pages",
+      "url": "https://www.tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part"
+    },
+    {
+      "label": "GitHub: create a repository from a template",
+      "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template"
+    },
+    {
+      "label": "GitHub: add a file",
+      "url": "https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository"
+    },
+    {
+      "label": "GitHub: edit files",
+      "url": "https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files"
+    },
+    {
+      "label": "GitHub: Pages source settings",
+      "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+    },
+    {
+      "label": "Current official SKY GDS workflow",
+      "url": "https://github.com/TinyTapeout/ttsky-verilog-template/blob/main/.github/workflows/gds.yaml"
+    },
+    {
+      "label": "Official gate-level action and gatelevel_test_results artifact",
+      "url": "https://github.com/TinyTapeout/tt-gds-action/blob/ttsky26d/gl_test/action.yml"
+    }
   ]
 }

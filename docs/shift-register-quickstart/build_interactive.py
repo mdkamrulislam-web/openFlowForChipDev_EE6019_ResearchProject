@@ -33,10 +33,19 @@ def diagram(kind):
             body+=box(30+i*287,35,250,75,title,sub)
         body+='<text x="440" y="140" text-anchor="middle" font-weight="700">Same top name: tt_um_student_shift_register</text><text x="440" y="178" text-anchor="middle">Both source lists: project.v + shift_register.v</text>'
     elif kind=='checks':
-        body+=box(5,25,200,65,'RTL test','Does the behaviour match?')+box(5,115,200,65,'docs','Is the datasheet complete?')
-        body+=box(290,65,200,65,'gds build','Place gates + route wires')+box(560,15,260,65,'precheck','Integration rules')+box(560,115,260,65,'gate-level test','Same checks on cells')
-        body+=arrow(490,80,550,50)+arrow(490,115,550,145)
-        body+='<text x="450" y="200" text-anchor="middle">RTL, docs and gds start independently for the same commit; check all three.</text>'
+        start=start.replace('880 210','880 390')
+        body+=box(5,135,170,65,'Commit / push','Same saved version')
+        body+=box(240,10,230,65,'RTL test','Check source behaviour')
+        body+=box(240,110,230,65,'docs','Build the datasheet')
+        body+=box(240,210,230,65,'gds build','Place gates + route wires')
+        body+=box(600,130,275,60,'precheck','Integration rules')
+        body+=box(600,210,275,60,'gate-level test (GLS)','Same checks on logic cells')
+        body+=box(600,290,275,60,'viewer','Publish the layout view')
+        body+='<path d="M175,167 L205,167 M205,42 L205,242" stroke="#147d70" stroke-width="2" fill="none"/>'
+        for yy in [42,142,242]:body+=arrow(205,yy,235,yy)
+        body+='<path d="M470,242 L540,242 M540,160 L540,320" stroke="#147d70" stroke-width="2" fill="none"/>'
+        for yy in [160,240,320]:body+=arrow(540,yy,595,yy)
+        body+='<text x="440" y="380" text-anchor="middle" font-size="13">Three workflows start independently; precheck, GLS and viewer wait for the GDS build.</text>'
     graphic=(start+body+'</g></svg>').replace('id="arr"',f'id="arr-{kind}"').replace('url(#arr)',f'url(#arr-{kind})')
     return '<div class="diagram"><div class="diagramhint">Scroll sideways to explore the diagram ↔</div>'+graphic+'</div>'
 
@@ -85,7 +94,7 @@ def main():
     nav=''.join(f'<button type="button">{i+1:02d} · {esc(p["title"].split(". ",1)[-1])}</button>' for i,p in enumerate(d['pages']))
     zipped=base64.b64encode((ROOT/'shift-register-starter.zip').read_bytes()).decode()
     output='<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d['title'])+'</title><style>'+CSS+'</style></head><body><noscript><div class="nojs">Enable JavaScript for the step navigation and experiment. All lesson text remains available below.</div></noscript><div class="app"><aside><div class="brand">Your Verilog<br>to Tiny Tapeout</div><p>Short practical guide · Shift register<br>11 October 2026</p><nav aria-label="Lesson pages">'+nav+f'</nav><a class="download" href="data:application/zip;base64,{zipped}" download="shift-register-starter.zip">↓ Download the seven files</a><p>Checkpoints stay in this browser.<br><button id="clearchecks">Clear checkpoints</button></p></aside><main><div class="topbar"><span id="pagecount"></span><span><span id="progresslabel"></span> <progress max="{len(d["pages"])}" value="0" aria-label="Completed checkpoints"></progress></span></div>'+''.join(sections)+'<div class="footnav"><button id="prev">← Previous</button><button id="next" class="primary">Next step →</button></div><footer>Fresh lesson written for an existing Verilog design. Diagram/clock experiment is a learning model; verification details are in verification/report.md. Genuine screenshot sources: sources.json. Open the supplied PDF or Word document for printing.</footer></main></div><script>'+JS+'</script></body></html>'
-    output=output.replace('verification/report.md','verification/README.md')
+    output=output.replace('verification/report.md','verification/README.md').replace('11 October 2026',d['date'])
     (ROOT/'START-HERE.html').write_text(output,encoding='utf-8')
     print(f'Built offline interactive guide: {len(sections)} steps; starter ZIP contains seven adaptation files.')
 

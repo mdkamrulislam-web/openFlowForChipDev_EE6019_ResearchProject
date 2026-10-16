@@ -1,7 +1,7 @@
 {
   "title": "Your Verilog to Tiny Tapeout",
   "subtitle": "A short practical guide using an existing eight-bit shift register",
-  "date": "11 October 2026",
+  "date": "16 October 2026",
   "pages": [
     {
       "id": "start",
@@ -11,7 +11,7 @@
       "actions": [
         "Keep this guide beside your browser. Use the interactive HTML version for the clock experiment and tick each checkpoint as you finish.",
         "Sign in to a free GitHub account. Download shift-register-starter.zip and extract it: on Windows, right-click → Extract All. Open the extracted folder containing info.yaml, src, test and docs. GitHub stores your project and runs the tools.",
-        "Follow pages 2–12 in order. Page 13 is your final checklist and help sheet. You need no chip board or local tool installation for this browser route."
+        "Follow pages 2–14 in order. Pages 13–14 cover gate-level simulation (GLS); page 15 is your final checklist and help sheet. You need no chip board or local tool installation for this browser route."
       ],
       "diagram": "route",
       "checkpoint": "I have opened the guide, signed in to GitHub and found the starter ZIP.",
@@ -347,7 +347,7 @@
       "actions": [
         "Select Actions → test → the run for your final commit. Confirm its branch and commit identifier.",
         "Open the test job and expand Run tests. Read the final test summary: there must be no failures or errors. A green run from before your edit proves nothing about your new design.",
-        "If it fails, open the first assertion or compilation error. Fix that cause and save a new commit. The help sheet on page 13 covers common causes."
+        "If it fails, open the first assertion or compilation error. Fix that cause and save a new commit. The help sheet on page 15 covers common causes."
       ],
       "image": {
         "src": "images/actions.png",
@@ -413,13 +413,97 @@
       ]
     },
     {
+      "id": "gls-prepare",
+      "title": "12. See what changes for gate-level simulation",
+      "kicker": "GLS • SAME TEST, GENERATED CIRCUIT",
+      "intro": "Gate-Level Simulation (GLS) checks the circuit after the tools have converted your Verilog into logic cells. We run the same test at the same external pins.",
+      "actions": [
+        "Keep test/test.py checking ui_in, rst_n and uo_out, as supplied. Internal names such as core.q can disappear when the circuit is built; the chip’s external ports remain the test interface.",
+        "Keep the GL_TEST sections in the supplied test/tb.v. Gate-level cells need power connections: VPWR is tied to 1 and VGND to 0 in the simulation fixture.",
+        "The gds workflow’s gl_test job downloads the generated netlist and matching SKY130 cell models. It selects the Makefile’s gate-level branch with GATES=yes. The cloud job supplies these dependencies; no local setup is needed."
+      ],
+      "table": {
+        "headers": [
+          "RTL simulation",
+          "Gate-level simulation"
+        ],
+        "rows": [
+          [
+            "Your source Verilog",
+            "Generated gate_level_netlist.v"
+          ],
+          [
+            "Behaviour described in your code",
+            "Logic cells connected by the build"
+          ],
+          [
+            "Same test/test.py",
+            "Same test/test.py"
+          ],
+          [
+            "No extra cell power pins",
+            "GL_TEST fixture connects VPWR and VGND"
+          ]
+        ]
+      },
+      "code": {
+        "file": "test/tb.v — preserve this conditional connection",
+        "text": "`ifdef GL_TEST\n    .VPWR(VPWR),\n    .VGND(VGND),\n`endif"
+      },
+      "checkpoint": "My test uses the wrapper ports, and the supplied fixture and gate-level Makefile branch are intact.",
+      "terms": [
+        {
+          "word": "Netlist",
+          "meaning": "A generated description of logic cells and the wires joining them."
+        }
+      ],
+      "links": [
+        {
+          "label": "Official SKY gate-level test action",
+          "url": "https://github.com/TinyTapeout/tt-gds-action/blob/ttsky26d/gl_test/action.yml"
+        }
+      ]
+    },
+    {
+      "id": "gls-run",
+      "title": "13. Open the GLS job and check its evidence",
+      "kicker": "BROWSER • ACTIONS → gds → gl_test",
+      "intro": "The template starts GLS automatically after the GDS build succeeds. A successful RTL test and a successful GDS build do not replace this separate test.",
+      "actions": [
+        "Open Actions → gds → the run for your complete commit. Select gl_test in Jobs. If it is waiting, let gds finish; if it was skipped, inspect the failed build first.",
+        "Expand GL test, then Run tests. Read the cocotb summary. Expect PASS with zero failed tests. For this supplied test, the summary should report TESTS=1, PASS=1, FAIL=0. The whole gl_test job must also finish successfully.",
+        "Return to the run’s Summary page. Under Artifacts, download gatelevel_test_results. Extract it and open results.xml with a text editor: check for test results with no failure or error entries. Keep the supplied tb.fst or tb.vcd waveform too."
+      ],
+      "image": {
+        "src": "images/gls-job.png",
+        "caption": "Genuine successful gl_test job from the earlier COUNTER example at commit 61ef06b. It shows where to open GL test; it is not a shift-register result."
+      },
+      "help": [
+        {
+          "problem": "RTL passes, but GLS fails",
+          "fix": "Read the first failed assertion. Check reset, the three top-module names and GL_TEST power connections. If necessary inspect the downloaded waveform at the failing time. Compare the same external pins and expected values used by the RTL test."
+        }
+      ],
+      "predict": {
+        "question": "Does this GLS result prove that every timing requirement is met?",
+        "answer": "No. This is a functional gate-level test. Inspect the build’s separate timing reports as well; this walkthrough does not run an SDF timing-annotated simulation."
+      },
+      "checkpoint": "The gl_test job passed for the same commit; I saved its results XML and waveform.",
+      "links": [
+        {
+          "label": "Open the genuine counter GLS example",
+          "url": "https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748/job/113039438023"
+        }
+      ]
+    },
+    {
       "id": "finish",
-      "title": "12. Keep your result and use the guide again",
+      "title": "14. Keep your result and use the guide again",
       "kicker": "FINISH • CHECKLIST AND HELP",
       "intro": "You have finished this exercise when your adapted circuit is tested and its checked layout is archived. Fabrication is a separate later step.",
       "actions": [
         "Save the repository URL, commit identifier, test/gds/docs run links, downloaded GDS/reports and datasheet together. Match every item to the same commit.",
-        "Use the checklist: pin map agrees; three names agree; two source lists agree; tests pass; docs pass; all required gds jobs pass; layout and evidence are saved.",
+        "Use the checklist: pin map agrees; three names agree; two source lists agree; RTL and GLS pass; docs pass; all required gds jobs pass; layout and evidence are saved.",
         "For another existing Verilog design, reuse this route: describe its behaviour, map its pins, wrap it, list its sources and write its tests. For an approved fabrication submission, choose the matching shuttle and follow the submission app’s current checks."
       ],
       "help": [

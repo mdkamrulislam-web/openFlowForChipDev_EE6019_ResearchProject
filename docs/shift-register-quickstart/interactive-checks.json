@@ -65,6 +65,16 @@
       "page": 13,
       "desktop_width": 1440,
       "mobile_width": 390
+    },
+    {
+      "page": 14,
+      "desktop_width": 1440,
+      "mobile_width": 390
+    },
+    {
+      "page": 15,
+      "desktop_width": 1440,
+      "mobile_width": 390
     }
   ],
   "experiment": "shift sequence, hold, synchronous reset and restart passed",
