@@ -2,17 +2,28 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 16 October 2026 (project root aligned with the Tiny Tapeout guide and slides).*
+*Last updated: 16 October 2026, evening (supervisor meeting recorded; research options note added).*
 
-**Root layout correction, 16 October:** Kamrul explicitly requested that this checkout use the directory structure shown in the short lesson. The canonical project files now live at the repository root: `src/project.v`, `src/shift_register.v`, `src/config.json`, `test/{Makefile,tb.v,test.py,requirements.txt}`, `docs/info.md`, `info.yaml`, and four official Tiny Tapeout workflows. `.devcontainer`, `.vscode` and the upstream template licence are retained. The old standalone counter flow and its original CI/README/docs/images were preserved together in `archive/legacy-flow`; 14 original files were byte-checked after moving. Do not restore the old root layout. The starter ZIP is now generated from the canonical seven root design files. Current guide/slide copies use `*-root-layout.*`, leaving open Office documents undisturbed. Root RTL simulation passed and the deliberate wrong-shift mutation was caught; no physical build or shift-register GLS is claimed.
+**Supervisor meeting, 16 October (15:00):**
+- **Teaching:** the shift-register tutorial is "exactly what I need". About 70 third-year students will use it from January 2027, each taking a small design through the full flow to tape-out. Send him the tutorial.
+- **Research:** a larger, multi-tile design that follows the Tiny Tapeout flow, based on RISC-V and contributing something new rather than re-implementing an open core. Use what Tiny Tapeout offers as an SoC backbone.
+- **Angles he suggested:**
+  - ultra-low power
+  - instruction extensions for machine learning or for (post-quantum) cryptography
+  - constant power whatever the instruction
+  - earlier group work: a small stochastic-computing RISC-V
+- **Reports:** about one checked reference per page; presentations with at most two lines per bullet.
+- **Records:** notes in `logbook/week-03-meeting.md`. The options and recommendation (an ML instruction extension for TinyQV, Tiny Tapeout's RISC-V SoC, compared with its existing NPU peripheral) are in `docs/research/riscv-research-angles.md`, pending his agreement.
 
-**Teaching revision, 16 October:** following Kamrul's review, the short guide now has a common commit/push node with arrows to independent RTL, docs and GDS workflows, then GDS arrows to precheck, GLS and viewer. Two dedicated GLS pages explain the netlist, shared port-level test, `GL_TEST` power-pin fixture, exact `gl_test` job/log/result/artifact route, failure checks and the distinction from timing sign-off. Current review editions are `docs/shift-register-quickstart/quickstart-revised.{docx,pdf}` (15 pages), `lesson-revised.{pptx,pdf}` (24 slides), the updated HTML and learning-pack ZIP. Earlier open Office files are retained. A genuine successful COUNTER GLS screenshot/log excerpt is explicitly labelled; the new shift register still has no physical or GLS run. Learner/supervisor approval remains pending.
+**Root layout correction, 16 October:** Kamrul explicitly requested that this checkout use the directory structure shown in the short lesson. The canonical project files now live at the repository root: `src/project.v`, `src/shift_register.v`, `src/config.json`, `test/{Makefile,tb.v,test.py,requirements.txt}`, `docs/info.md`, `info.yaml`, and four official Tiny Tapeout workflows. `.devcontainer`, `.vscode` and the upstream template licence are retained. The old standalone counter flow and its original CI/README/docs/images were preserved together in `archive/legacy-flow`; 14 original files were byte-checked after moving. Do not restore the old root layout. The starter ZIP is now generated from the canonical seven root design files. Current guide/slide copies use `*-root-layout.*`, leaving open Office documents undisturbed. Root RTL simulation passed and the deliberate wrong-shift mutation was caught. Later on 16 October, once GitHub Pages was enabled, the full Tiny Tapeout run passed at `66475c7`: GDS, precheck, gate-level test and viewer ([run 38924144510](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/actions/runs/38924144510)).
 
-**Supervisor email, 12 October:** first become familiar with Tiny Tapeout's existing flow and chips/submissions, then take a simple circuit through the full design flow; he suggests an adder or a sequential circuit such as a counter. He aims for some submissions towards the end of the master's, with no particular shuttle, count, budget or exact date approved. He calls the former SoC backbone "carousel" and says he needs to check whether it is still available; do not treat this as confirmation of Caravel or Croc. The earlier accelerator direction is not cancelled or newly specified. The existing counter's full template run is relevant evidence; the newer shift register has only been verified at RTL. Its suitability as a sequential example is an inference, pending his acceptance. The source PDF is retained in the private project's Drive Emails folder, titled `12th October 2026.pdf`; the detailed record is in the private tracker.
+**Teaching revision, 16 October:** following Kamrul's review, the short guide now has a common commit/push node with arrows to independent RTL, docs and GDS workflows, then GDS arrows to precheck, GLS and viewer. Two dedicated GLS pages explain the netlist, shared port-level test, `GL_TEST` power-pin fixture, exact `gl_test` job/log/result/artifact route, failure checks and the distinction from timing sign-off. Current review editions are `docs/shift-register-quickstart/quickstart-revised.{docx,pdf}` (15 pages), `lesson-revised.{pptx,pdf}` (24 slides), the updated HTML and learning-pack ZIP. Earlier open Office files are retained. A genuine successful COUNTER GLS screenshot/log excerpt is explicitly labelled; the shift register's own physical and GLS run passed later on 16 October (see above). Learner/supervisor approval remains pending.
+
+**Supervisor email, 12 October:** first become familiar with Tiny Tapeout's existing flow and chips/submissions, then take a simple circuit through the full design flow; he suggests an adder or a sequential circuit such as a counter. He aims for some submissions towards the end of the master's, with no particular shuttle, count, budget or exact date approved. He calls the former SoC backbone "carousel" and says he needs to check whether it is still available; do not treat this as confirmation of Caravel or Croc. The earlier accelerator direction is not cancelled or newly specified. The existing counter's full template run is relevant evidence; the newer shift register has since passed the full template run (16 October). Its suitability as a sequential example is an inference, pending his acceptance. The source PDF is retained in the private project's Drive Emails folder, titled `12th October 2026.pdf`; the detailed record is in the private tracker.
 
 **Latest teaching direction (11 October):** Kamrul said the earlier manual and slides were too long and unhelpful from a learner's perspective. He requested a completely new, short walkthrough with simple language, clear steps, diagrams/screenshots and interaction, starting from an already-developed Verilog design. The new primary review candidate is `docs/shift-register-quickstart/`: an offline interactive HTML guide, a 13-page Word/PDF guide, a 20-slide PowerPoint/PDF lesson and an exact seven-file shift-register adaptation ZIP. It starts from an existing serial-in, parallel-out register and teaches pin mapping, wrapping, metadata/source lists, cocotb tests, template upload and workflow checks. Old materials remain historical references; their technical checks do not imply learner acceptance.
 
-**New example verification:** the real shift-register RTL passes Icarus/cocotb simulation, and the test catches a deliberately reversed shift direction. Source lists and top-module names agree. No physical build, gate-level workflow, submission or fabrication has run for this new example. The HTML was checked on desktop/mobile and exports were rendered and visually checked. User/supervisor review of the new teaching approach remains pending.
+**New example verification:** the real shift-register RTL passes Icarus/cocotb simulation, and the test catches a deliberately reversed shift direction. Source lists and top-module names agree. On 16 October it also passed the physical build and gate-level test, here and in [tt-shift-register](https://github.com/mdkamrulislam-web/tt-shift-register); nothing has been submitted or fabricated. The HTML was checked on desktop/mobile and exports were rendered and visually checked. User/supervisor review of the new teaching approach remains pending.
 
 **Current project record:** [private Project view](https://track.whoiskamrul.com/#/project). This holds the current progress, timeline, logs, meeting records, supervisor questions and deliverable status. Sign in with the existing tracker password. Keep the teaching files, code, evidence and logbook copies in this repository. Older plans below are historical where they disagree with a later confirmed decision.
 
@@ -124,7 +135,7 @@ Before 2 Oct the plan was to compare LibreLane with **OpenROAD-flow-scripts (ORF
 
 ## 5. PDK and shuttle
 
-**Teaching example:** the root uses the official SKY130 template. The research process choice is still open.
+**Teaching example:** the root uses the official SKY130 template. The research process choice is still open. On 16 October the research was set as a multi-tile Tiny Tapeout design. The options note proposes TinyQV, which has been taped out on SKY130, IHP and GF180.
 
 **Decided 2 Oct 2026:** the technology is whichever is available at that point, SkyWater 130 nm (SKY130) or IHP 130 nm (SG13G2); no preference. The research template may fix it (Caravel runs on SKY130; Croc targets IHP). Whether the accelerator is actually submitted to a shuttle is not decided; the deliverable is a submission-ready layout.
 
@@ -177,7 +188,7 @@ A comparison with this repository's local flow is optional background work; conf
 
 ## 7. Timeline
 
-**Needs re-planning.** The tables below were written before the 2 Oct meeting changed the scope (section 1). Weeks 2 and 3 are updated; from week 4 on, re-plan around the research template once Prof. Popovici confirms which one he meant.
+**Needs re-planning.** A provisional plan to April 2027 is in `docs/research/riscv-research-angles.md` (section 4), pending agreement on 23 October. The tables below were written before the 2 Oct meeting changed the scope (section 1). Weeks 2 and 3 are updated; from week 4 on, re-plan around the research template once Prof. Popovici confirms which one he meant.
 
 Month-level milestones (pre-2 Oct):
 
@@ -261,12 +272,19 @@ Template:
 
 **Answered on 2 Oct 2026:** build a new flow? No, use and document Tiny Tapeout's. Main deliverables? Section 2. Accelerator scope? Full flow to a submission-ready layout. Technology? Whichever is available (SKY130 or IHP). Slides? Any format and length. Website link? Tiny Tapeout. Report dates? To be given later.
 
-**Still open (email sent 2 Oct):**
+**Answered on 16 Oct 2026 (meeting):**
+- **When:** the class uses the flow from January 2027 (about 70 designs).
+- **Research platform:** what Tiny Tapeout offers, on RISC-V, using several tiles.
+- **Angle:** to be chosen by Kamrul from the suggested list.
 
-1. Which RISC-V template did he mean ("carousel" as heard): Caravel (ChipFoundry, SKY130), Croc (ETH Zurich, IHP), or another?
-2. Is there a type of neural network, or a paper, to start from?
+**Still open:**
 
-Also open: whether the open-tool survey (section 4) is still wanted as a report chapter; whether the accelerator is actually submitted to a shuttle; licence for this repository.
+1. Does he agree with the recommended angle and with TinyQV as the backbone? (Caravel, the likely "carousel", now sits outside the Tiny Tapeout flow.)
+2. Which shuttle for the January class, and what tile budget for this design?
+3. The exact interim-report, seminar and dissertation dates. He referred these to the module coordinator.
+4. Should the summer research project (EE6008) continue this design?
+
+Also open: whether the open-tool survey (section 4) is still wanted as a report chapter; licence for this (now public) repository and the student material.
 
 ---
 
@@ -278,8 +296,12 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 - [x] Add GLS pages, connected workflow arrows and visible screenshot step 2; refresh review copies and downloads.
 - [ ] Kamrul completes his hands-on template adaptation and checks RTL/docs/GDS/GLS for the same final commit.
 - [ ] User/supervisor review and a beginner trial of the short lesson.
-- [ ] Prof. Popovici confirms the identity and availability of the SoC backbone he calls carousel.
-- [ ] Agree the accelerator application and research template, then revise the research timeline.
+- [x] Record the 16 October meeting (`logbook/week-03-meeting.md`) and draft the week 3 log (sent together with week 2).
+- [x] Compare research angles; recommendation in `docs/research/riscv-research-angles.md`.
+- [ ] Send Prof. Popovici the tutorial (he asked for it on 16 October).
+- [ ] Agree the research angle and backbone on 23 October, then revise the research timeline (section 7).
+- [ ] Start the literature survey: about 30 checked references for the interim report.
+- [ ] Confirm the interim-report, seminar and dissertation dates with the module coordinator.
 - [ ] Finish the remaining ASIC videos and review the risk assessment.
 
 The 12 October email confirms a full simple-design flow as the immediate task
