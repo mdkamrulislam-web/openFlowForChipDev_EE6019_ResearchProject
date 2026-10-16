@@ -40,7 +40,7 @@ page('settings', '3. Turn on the build and results page', kicker='BROWSER • SE
  actions=['In your new repository, open Actions. If you see an enable-workflows banner, enable it; otherwise continue.',
           'Open Settings → Pages. Under Build and deployment, change Source to GitHub Actions.',
           'Return to Code. Keep the template’s .github folder, src/config.json and test/requirements.txt. The starter changes your design files, while these files supply the tools.'],
- image={'src':'images/pages.png','caption':'Official Tiny Tapeout FAQ image: Source is set to GitHub Actions. Its example repository name may differ from yours.'},
+ image={'src':'images/pages-numbered.png','caption':'1 Settings → 2 Pages → 3 GitHub Actions. Official FAQ screenshot; step 2 annotation added.'},
  checkpoint='Actions is available and Pages → Source says GitHub Actions.',
  terms=[{'word':'Workflow','meaning':'A saved recipe of jobs that GitHub runs, such as test or gds.'}],
  links=[{'label':'Pages troubleshooting','url':'https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part'}]),

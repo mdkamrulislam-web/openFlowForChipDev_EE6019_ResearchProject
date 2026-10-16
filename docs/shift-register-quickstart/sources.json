@@ -49,6 +49,16 @@
       "caption": "Genuine successful counter gl_test job at 61ef06b; not a shift-register result. Logs require GitHub sign-in.",
       "kind": "capture",
       "retrieved": "2026-10-16"
+    },
+    {
+      "file": "images/pages-numbered.png",
+      "editable_source": "images/pages-numbered.svg",
+      "original_file": "images/pages.png",
+      "source_url": "https://www.tinytapeout.com/images/faq/action_pages.png",
+      "caption": "Official screenshot retained unchanged within an SVG; margin, complete Pages outline and missing red step 2 added as editorial annotations.",
+      "kind": "annotated-official-image",
+      "retrieved": "2026-10-11",
+      "annotated": "2026-10-16"
     }
   ],
   "references": [

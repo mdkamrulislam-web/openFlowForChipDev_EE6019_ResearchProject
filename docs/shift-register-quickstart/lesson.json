@@ -97,8 +97,8 @@
         "Return to Code. Keep the template’s .github folder, src/config.json and test/requirements.txt. The starter changes your design files, while these files supply the tools."
       ],
       "image": {
-        "src": "images/pages.png",
-        "caption": "Official Tiny Tapeout FAQ image: Source is set to GitHub Actions. Its example repository name may differ from yours."
+        "src": "images/pages-numbered.png",
+        "caption": "1 Settings → 2 Pages → 3 GitHub Actions. Official FAQ screenshot; step 2 annotation added."
       },
       "checkpoint": "Actions is available and Pages → Source says GitHub Actions.",
       "terms": [

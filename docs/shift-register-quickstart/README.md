@@ -27,6 +27,10 @@ shift register's GLS has not been run.
 The connected chart starts with a commit/push, branches to RTL/docs/GDS, then
 branches from GDS to precheck/GLS/viewer. All required checks use the same commit.
 
+The Pages screenshot now shows all three red callout numbers. The missing **2**
+was added as an editable SVG annotation, with a PNG rendering for the guide and
+slides; the original official screenshot remains in `images/pages.png`.
+
 The PDF/Word guide gives the full core and wrapper. Longer test and configuration
 files are supplied in the starter rather than spread over more teaching pages.
 The slides contain the essential actions, diagrams and code excerpts; presenter
@@ -76,6 +80,7 @@ infrastructure, process settings, requirements and licence.
 New lesson text lives in `author_lesson.py`, producing `lesson.json`. Rebuild:
 
 ```text
+python docs/shift-register-quickstart/number_pages_screenshot.py
 python docs/shift-register-quickstart/author_lesson.py
 python docs/shift-register-quickstart/build_interactive.py
 python docs/shift-register-quickstart/build_exports.py --suffix=-revised --export-pdf --qa
