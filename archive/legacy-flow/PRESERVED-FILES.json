@@ -1,0 +1,72 @@
+[
+  {
+    "original": "scripts/run-in-container.sh",
+    "archived": "archive/legacy-flow/scripts/run-in-container.sh",
+    "sha256": "c1ab5e0ef0e777e7c5e39af9bc0be25173eb171e797799d4e6cc8c825892b28b"
+  },
+  {
+    "original": "scripts/summary.py",
+    "archived": "archive/legacy-flow/scripts/summary.py",
+    "sha256": "b44a5dec064c3bcd2fd5042d303c0ba7c8e507ff2c32ed639643779116dc4a1f"
+  },
+  {
+    "original": "Makefile",
+    "archived": "archive/legacy-flow/Makefile",
+    "sha256": "503302a1fb34ffa5040677dcfd55d885ed5c241b7782e95e7ba3c9da3cb7d492"
+  },
+  {
+    "original": ".github/workflows/flow.yml",
+    "archived": "archive/legacy-flow/.github/workflows/flow.yml",
+    "sha256": "06747f6234472e57ba97348c8d8c757f68e07662f6146d857c41a5bb981ba84c"
+  },
+  {
+    "original": "docs/learning-path.md",
+    "archived": "archive/legacy-flow/docs/learning-path.md",
+    "sha256": "4925ba1f8006864c718378734c965cf2c3211f64381dc075943788a9afcda061"
+  },
+  {
+    "original": "docs/counter-sky130A.png",
+    "archived": "archive/legacy-flow/docs/counter-sky130A.png",
+    "sha256": "b67c18d0e451cd077939b5e06e87f66632f8ef6917d3f59202e6724b86bb0c5a"
+  },
+  {
+    "original": "docs/flow.md",
+    "archived": "archive/legacy-flow/docs/flow.md",
+    "sha256": "64c02f35397df64b717c6799b13a53d4b8a0b6241ea2865d4ec82ba43b6fe745"
+  },
+  {
+    "original": "designs/counter/config.json",
+    "archived": "archive/legacy-flow/designs/counter/config.json",
+    "sha256": "349320624fa72d0ba4c624537062a41fab645c2eefa32f039779a86fe5f83ffa"
+  },
+  {
+    "original": "designs/counter/src/counter.v",
+    "archived": "archive/legacy-flow/designs/counter/src/counter.v",
+    "sha256": "3a13b542c7a10351d5eefface3bec8a4373937fe4b5e602ef2e49b06231db112"
+  },
+  {
+    "original": "designs/counter/tb/counter_tb.v",
+    "archived": "archive/legacy-flow/designs/counter/tb/counter_tb.v",
+    "sha256": "4779fcbf7cabd91fe2adecb2d7aa07dab754bfe0774cda26c082bcdd9d965d50"
+  },
+  {
+    "original": "env/tools.env",
+    "archived": "archive/legacy-flow/env/tools.env",
+    "sha256": "62d5fce971d24214581a4866d276801e88cd06b7d9e25fcb1f5335ed8266056a"
+  },
+  {
+    "original": "docs/counter-ihp-sg13g2.png",
+    "archived": "archive/legacy-flow/docs/counter-ihp-sg13g2.png",
+    "sha256": "dbf8bd6cafc75a50fc659d9743318c66f22b36dcd9cb29ffb3ee86d37e693704"
+  },
+  {
+    "original": "docs/setup.md",
+    "archived": "archive/legacy-flow/docs/setup.md",
+    "sha256": "57d5c97911edf25b73a1118fbf6a3bea7cc74288c2e07f154c345d4376018c55"
+  },
+  {
+    "original": "README.md",
+    "archived": "archive/legacy-flow/README.md",
+    "sha256": "6f2fbbe5e6e6e7a6eb05c30400dba1a8809633918d2eaa9b97db3e1a686a2553"
+  }
+]

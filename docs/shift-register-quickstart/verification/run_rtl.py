@@ -7,6 +7,7 @@ Does not change the starter. Build products stay in a temporary directory.
 from __future__ import annotations
 
 import hashlib
+import argparse
 import json
 import os
 from pathlib import Path
@@ -26,7 +27,6 @@ import yaml
 HERE = Path(__file__).resolve().parent
 STARTER = HERE.parent / "starter"
 TEMPLATE_COMMIT = "68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a"
-sys.path.insert(0, str(STARTER / "test"))
 
 
 def results(path: Path) -> dict:
@@ -69,6 +69,16 @@ def simulate(sources: list[Path], build: Path, name: str) -> dict:
 
 
 def main() -> int:
+    global STARTER, HERE
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--project-dir', type=Path, default=STARTER)
+    parser.add_argument('--output-dir', type=Path, default=HERE)
+    parser.add_argument('--checked-on', default='2026-10-11')
+    args = parser.parse_args()
+    STARTER = args.project_dir.resolve()
+    HERE = args.output_dir.resolve()
+    HERE.mkdir(parents=True, exist_ok=True)
+    sys.path.insert(0, str(STARTER / 'test'))
     metadata = yaml.safe_load((STARTER / "info.yaml").read_text(encoding="utf-8"))
     project = metadata["project"]
     assert metadata["yaml_version"] == 6
@@ -99,8 +109,8 @@ def main() -> int:
         mutated = simulate([sources[0], mutant, sources[2]], build, "mutation")
 
     report = {
-        "checked_on": "2026-10-11",
-        "scope": "Local RTL simulation of the supplied seven-file shift-register overlay",
+        "checked_on": args.checked_on,
+        "scope": "Local RTL simulation of the seven shift-register project files",
         "template_repository": "https://github.com/TinyTapeout/ttsky-verilog-template",
         "template_commit": TEMPLATE_COMMIT,
         "template_action_tag": "ttsky26d",
@@ -127,8 +137,9 @@ def main() -> int:
         ],
         "not_run": ["GitHub Actions", "synthesis", "place and route", "timing sign-off", "GDS generation", "Tiny Tapeout precheck", "gate-level simulation", "submission"],
         "starter_sha256": {
-            path.relative_to(STARTER).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted(STARTER.rglob("*")) if path.is_file() and "__pycache__" not in path.parts
+            name: hashlib.sha256((STARTER / name).read_bytes()).hexdigest()
+            for name in sorted(['info.yaml', 'src/project.v', 'src/shift_register.v',
+                                'test/Makefile', 'test/tb.v', 'test/test.py', 'docs/info.md'])
         },
     }
     (HERE / "verification-report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

@@ -7,7 +7,7 @@
       "id": "start",
       "title": "Your Verilog → a checked chip layout",
       "kicker": "START HERE",
-      "intro": "You already have a working Verilog design. This guide shows how to put it inside Tiny Tapeout, test the connections and build its layout. We use an eight-bit shift register throughout.",
+      "intro": "You already have a working Verilog design. This guide shows how to put it inside Tiny Tapeout, test the connections and build its layout. In the local research checkout, src, test and info.yaml are directly at the project root. We use an eight-bit shift register throughout.",
       "actions": [
         "Keep this guide beside your browser. Use the interactive HTML version for the clock experiment and tick each checkpoint as you finish.",
         "Sign in to a free GitHub account. Download shift-register-starter.zip and extract it: on Windows, right-click → Extract All. Open the extracted folder containing info.yaml, src, test and docs. GitHub stores your project and runs the tools.",

@@ -7,6 +7,14 @@ licence. There is no new chip flow.
 
 ## Result
 
+**Root layout rechecked on 16 October:** the same real simulation was run against
+the canonical `src/` and `test/` files at the research repository root. It passed
+one test with zero failures; the deliberately reversed shift still failed.
+See [root-layout evidence](root-layout/verification-report.json) and
+[layout checks](../root-layout-checks.json). All seven root files match the
+portable starter; the official workflow/config/requirement files are unchanged.
+No physical build or GLS result is inferred from this move.
+
 The starter's real Verilog and Python test passed in local RTL simulation:
 **1 test, 1 pass, 0 failures, 740 ns simulated**. Icarus Verilog 12.0 (devel)
 compiled and simulated the design, with cocotb 2.1.0 on Windows.
@@ -56,6 +64,12 @@ in a Python environment, then run from the research repository root:
 
 ```text
 python docs/shift-register-quickstart/verification/run_rtl.py
+```
+
+To check the actual project root and keep its evidence separate:
+
+```text
+python docs/shift-register-quickstart/verification/run_rtl.py --project-dir . --output-dir docs/shift-register-quickstart/verification/root-layout --checked-on 2026-10-16
 ```
 
 The script exits 0 only if the original test passes and the deliberately wrong

@@ -1,6 +1,7 @@
 """Build a self-contained, offline interactive learner document."""
 from pathlib import Path
 import base64, html, json, zipfile
+from project_files import sync_starter
 ROOT = Path(__file__).resolve().parent
 def esc(s): return html.escape(str(s))
 def diagram(kind):
@@ -64,6 +65,7 @@ let q=0,edges=0;function renderLab(){document.querySelectorAll('.bit').forEach((
 '''
 
 def main():
+    sync_starter()
     d=json.loads((ROOT/'lesson.json').read_text(encoding='utf-8'))
     with zipfile.ZipFile(ROOT/'shift-register-starter.zip','w',zipfile.ZIP_DEFLATED) as z:
         for p in sorted((ROOT/'starter').rglob('*')):

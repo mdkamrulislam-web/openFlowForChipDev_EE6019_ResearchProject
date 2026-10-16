@@ -1,6 +1,7 @@
 """Author the new short lesson; no text is taken from the earlier course."""
 import json
 from pathlib import Path
+from project_files import sync_starter
 
 ROOT = Path(__file__).resolve().parent
 
@@ -9,7 +10,7 @@ def page(id, title, **kw):
 
 pages = [
 page('start', 'Your Verilog → a checked chip layout', kicker='START HERE',
- intro='You already have a working Verilog design. This guide shows how to put it inside Tiny Tapeout, test the connections and build its layout. We use an eight-bit shift register throughout.',
+ intro='You already have a working Verilog design. This guide shows how to put it inside Tiny Tapeout, test the connections and build its layout. In the local research checkout, src, test and info.yaml are directly at the project root. We use an eight-bit shift register throughout.',
  actions=['Keep this guide beside your browser. Use the interactive HTML version for the clock experiment and tick each checkpoint as you finish.',
           'Sign in to a free GitHub account. Download shift-register-starter.zip and extract it: on Windows, right-click → Extract All. Open the extracted folder containing info.yaml, src, test and docs. GitHub stores your project and runs the tools.',
           'Follow pages 2–14 in order. Pages 13–14 cover gate-level simulation (GLS); page 15 is your final checklist and help sheet. You need no chip board or local tool installation for this browser route.'],
@@ -151,6 +152,7 @@ page('finish', '14. Keep your result and use the guide again', kicker='FINISH �
 ]
 
 if __name__ == '__main__':
+    sync_starter()
     for p in pages:
         if p.get('code', {}).get('from_file'):
             source = ROOT / p['code']['from_file']

@@ -2,7 +2,9 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 16 October 2026 (connected workflow chart and dedicated GLS walkthrough added).*
+*Last updated: 16 October 2026 (project root aligned with the Tiny Tapeout guide and slides).*
+
+**Root layout correction, 16 October:** Kamrul explicitly requested that this checkout use the directory structure shown in the short lesson. The canonical project files now live at the repository root: `src/project.v`, `src/shift_register.v`, `src/config.json`, `test/{Makefile,tb.v,test.py,requirements.txt}`, `docs/info.md`, `info.yaml`, and four official Tiny Tapeout workflows. `.devcontainer`, `.vscode` and the upstream template licence are retained. The old standalone counter flow and its original CI/README/docs/images were preserved together in `archive/legacy-flow`; 14 original files were byte-checked after moving. Do not restore the old root layout. The starter ZIP is now generated from the canonical seven root design files. Current guide/slide copies use `*-root-layout.*`, leaving open Office documents undisturbed. Root RTL simulation passed and the deliberate wrong-shift mutation was caught; no physical build or shift-register GLS is claimed.
 
 **Teaching revision, 16 October:** following Kamrul's review, the short guide now has a common commit/push node with arrows to independent RTL, docs and GDS workflows, then GDS arrows to precheck, GLS and viewer. Two dedicated GLS pages explain the netlist, shared port-level test, `GL_TEST` power-pin fixture, exact `gl_test` job/log/result/artifact route, failure checks and the distinction from timing sign-off. Current review editions are `docs/shift-register-quickstart/quickstart-revised.{docx,pdf}` (15 pages), `lesson-revised.{pptx,pdf}` (24 slides), the updated HTML and learning-pack ZIP. Earlier open Office files are retained. A genuine successful COUNTER GLS screenshot/log excerpt is explicitly labelled; the new shift register still has no physical or GLS run. Learner/supervisor approval remains pending.
 
@@ -51,82 +53,51 @@ Revised after the 2 Oct 2026 meeting.
 
 ---
 
-## 3. Current state of the repository (8 Oct 2026)
+## 3. Current repository layout (16 October 2026)
 
-- Week 2 teaching material is collected on branch `week-02`, [PR #8](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/8). Primary material: [beginner DOCX](docs/beginner-guide/tiny-tapeout-beginner-guide.docx), PDF, Markdown source, builder, seven-file starter ZIP and screenshot provenance. The 85-page manual has approximately 23,000 words, 30 genuine figure placements, complete code, worked exercises, waveform interpretation and why/do/check browser steps. All pages were rendered in Word and reviewed; the exact ZIP bytes match counter commit `61ef06b`. [Beginner-guide README](docs/beginner-guide/README.md) records evidence and rebuild instructions.
-- The [complete beginner PowerPoint course](docs/slides/tiny-tapeout-beginner-course.pptx) and PDF have 195 slides, 39 genuine screenshot placements and approximately 26,500 words of teaching notes. They cover foundations, statement-by-statement RTL/test explanations, browser steps 0–18, physical design, fabrication concepts, optional local setup and twelve longer worked exercises. Native diagrams are editable; enlarged screenshot details preserve original image bytes. All slides were rendered and reviewed, with native text/geometry checks and per-slide sources. [Slide README](docs/slides/README.md) gives chapter ranges and rebuild instructions. The earlier `tiny-tapeout-flow-v1.pptx` is preserved as a 26-slide overview; its historical capture markers do not represent gaps in the full course or manual. The RISC-V comparison, risk draft, weekly log and meeting preparation are also on this branch.
-- The genuine Tiny Tapeout worked example is [tt-sky130-counter, PR #1](https://github.com/mdkamrulislam-web/tt-sky130-counter/pull/1), ready for review. RTL, docs, GDS, precheck, gate-level test and viewer all passed at commit `61ef06b`; [GDS run](https://github.com/mdkamrulislam-web/tt-sky130-counter/actions/runs/37693100748), [live viewer](https://mdkamrulislam-web.github.io/tt-sky130-counter/). The SKY130 counter uses 4.96% of a tile and 47 synthesis cells. It has not been submitted to a shuttle.
-- The earlier counter layout below comes from this repository's separate 150 × 150 µm LibreLane flow. It is background evidence, not a Tiny Tapeout tile result.
+This checkout itself is now a Tiny Tapeout SKY Verilog project. Open its root,
+not the documentation's portable starter folder, when following the lesson.
 
-- `main` holds the working flow. [PR #1](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/1) (the flow) and [PR #2](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/2) (this file) were merged on 1 Oct 2026, and CI is green on `main` for both PDKs. `README.md`, `docs/setup.md` and `docs/flow.md` are the user-facing documentation.
-- Kamrul is new to physical design. `docs/learning-path.md` is his hands-on route through the flow (install, read the reports, break it on purpose, a small design of his own), and is also the start of the student guide.
-- Friday logs live in `logbook/`; `logbook/week-01.md` is the first.
-
-### What the flow contains
-
-```
-Makefile                     entry points (below)
-env/tools.env                pinned container image (tag + digest)
-scripts/run-in-container.sh  runs each command inside the container as the host user
-scripts/summary.py           prints the DRC / LVS / timing sign-off table of a run
-designs/counter/src/counter.v      8-bit counter with enable and wrap flag
-designs/counter/tb/counter_tb.v    self-checking testbench, prints "PASS" on success
-designs/counter/config.json        LibreLane config (50 MHz, 150 x 150 um die)
-docs/setup.md, docs/flow.md        install guide (Linux, macOS, WSL2, Podman), stage-by-stage walkthrough
-docs/counter-*.png                 layout renders
-docs/learning-path.md              hands-on exercises for someone new to physical design
-docs/tiny-tapeout.md               Tiny Tapeout notes: how it works, changes since the videos, what it means for the flow
-logbook/week-<nn>.md               Friday logs (project week number)
-logbook/week-01-meeting-prep.md    checklist, summary and likely questions for the 2 Oct meeting; meeting notes go at its end
-.github/workflows/flow.yml         CI: lint + Icarus + Verilator sim, then harden on sky130A and ihp-sg13g2
+```text
+.github/workflows/{test,docs,gds,fpga}.yaml   official template workflows
+src/shift_register.v                       reusable eight-bit circuit
+src/project.v                              fixed-port wrapper
+src/config.json                            upstream physical-build settings
+test/Makefile                              RTL/GLS source selection
+test/tb.v                                  fixture, including GL_TEST power pins
+test/test.py                               shared cocotb checks
+test/requirements.txt                      upstream Python requirements
+docs/info.md                               shift-register datasheet
+info.yaml                                  metadata, pin map, module and sources
+docs/shift-register-quickstart/             current lesson, exports and evidence
+logbook/                                   weekly project records
+archive/legacy-flow/                       preserved earlier standalone flow
 ```
 
-### Tool environment
+The canonical seven adaptation files match the portable starter. The documentation
+builders synchronise the portable copy from the root. Keep the three top-module
+names and two source lists consistent. The wrapper is
+`tt_um_student_shift_register`; serial data uses `ui_in[0]`, shift enable uses
+`ui_in[1]`, and the output is `uo_out`. All bidirectional pins remain inputs.
 
-Every tool and PDK comes from one Docker image, **IIC-OSIC-TOOLS `hpretl/iic-osic-tools:2026.09`**, pinned by digest in `env/tools.env` (about 3.9 GB download, 17 GB on disk, amd64 and arm64). Nothing but Docker (or Podman), `make`, `python3` and `git` is installed on the host.
+The official template baseline is `68c3fd3f3ec640e5edcb6a5f74f360ebc016bb2a`.
+Root infrastructure is copied from this baseline, including the 20 ns configuration
+and cocotb 2.1.0 requirements. Project and documentation licensing beyond the
+upstream template remains a supervisor question.
 
-| Tool | Version in the image |
-|---|---|
-| LibreLane (successor to OpenLane 2, FOSSi Foundation) | 3.1.0.dev3 |
-| Yosys | 0.69 |
-| OpenROAD | 26Q3-2443 |
-| Magic | 8.3.684 |
-| KLayout | 0.30.5 |
-| Icarus Verilog | 14.0 (devel) |
-| Verilator | 5.052 |
-| PDKs | `sky130A`, `ihp-sg13g2`, `gf180mcuD` |
+Local root RTL simulation has passed (one test, zero failures), and a reversed
+shift direction fails as expected. Physical layout, precheck, timing and GLS
+have not run for this shift register. The successful counter GLS screenshot
+and earlier counter results remain clearly identified reference evidence.
 
-### How to run it
+Current review copies: `quickstart-root-layout.{docx,pdf}` (15 pages),
+`lesson-root-layout.{pptx,pdf}` (24 slides), offline HTML and starter/learning ZIPs
+under `docs/shift-register-quickstart`. User/supervisor acceptance remains pending.
 
-```bash
-make sim                             # Icarus simulation of DESIGN (default: counter)
-make sim-verilator                   # same testbench, Verilator
-make lint                            # Verilator lint
-make harden                          # RTL to GDS with LibreLane, PDK=sky130A by default
-make summary                         # sign-off table for the last harden
-make harden summary PDK=ihp-sg13g2   # same design on IHP
-make shell                           # shell inside the tool container
-# knobs: DESIGN=<name>  PDK=sky130A | ihp-sg13g2 | gf180mcuD
-```
-
-New designs go in `designs/<name>/{src,tb,config.json}`; outputs land in `designs/<name>/runs/<pdk>/` (not committed). The Makefile passes `--pdk/--scl` explicitly because the image defaults to IHP.
-
-### First result (30 Sep 2026): the counter is sign-off clean on both PDKs
-
-| Check | SKY130 (`sky130_fd_sc_hd`) | IHP SG13G2 (`sg13g2_stdcell`) |
-|---|---|---|
-| Simulation (Icarus, Verilator) | pass | pass |
-| DRC (Magic, KLayout) / LVS / antenna | 0 / 0 / 0 | 0 / 0 / 0 |
-| Setup / hold violations | 0 / 0 | 0 / 0 |
-| Worst setup / hold slack | 9.17 ns / 0.11 ns | 10.34 ns / 0.13 ns |
-| Standard cells (incl. fill, taps) | 298 | 68 |
-
-### Notes for cloud or sandboxed AI sessions
-
-- Start `dockerd` yourself if no daemon is running.
-- Docker Hub works but rate-limits anonymous pulls; ghcr.io blob downloads (the official OpenLane 2 image) and cachix may be blocked by proxies. The pinned IIC-OSIC-TOOLS image from Docker Hub is the route that worked.
-- You need about 20 GB of free disk for the image.
-- YouTube pages generally cannot be fetched from cloud sessions.
+The old `make sim`, `make harden`, two-PDK container and counter live together
+under `archive/legacy-flow`. Their working directory is that archive folder.
+Historical setup, flow notes, results and the previous handover are preserved
+there. The archived CI definition is not an active root workflow.
 
 ---
 
@@ -152,6 +123,8 @@ Before 2 Oct the plan was to compare LibreLane with **OpenROAD-flow-scripts (ORF
 ---
 
 ## 5. PDK and shuttle
+
+**Teaching example:** the root uses the official SKY130 template. The research process choice is still open.
 
 **Decided 2 Oct 2026:** the technology is whichever is available at that point, SkyWater 130 nm (SKY130) or IHP 130 nm (SG13G2); no preference. The research template may fix it (Caravel runs on SKY130; Croc targets IHP). Whether the accelerator is actually submitted to a shuttle is not decided; the deliverable is a submission-ready layout.
 
@@ -297,17 +270,23 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 
 ---
 
-## 10. Next steps (as of 8 Oct 2026)
+## 10. Next steps (16 October 2026)
 
-- [x] Send the week 1 log and scope questions; 2 Oct meeting held; notes in `logbook/week-01-meeting-prep.md`.
-- [x] Follow-up email on the research template sent (2 Oct).
-- [x] **Week 2 teaching draft:** comprehensive Tiny Tapeout beginner DOCX/PDF manual in `docs/beginner-guide/` and complete 195-slide PowerPoint/PDF course in `docs/slides/`, with complete counter files and genuine screenshots. Practical work stops at the free checked-layout package; later submission and fabrication are explained. Kamrul/supervisor review and a new-student trial remain.
-- [ ] Watch *Making ASICs* and *Manufacturing ASICs*. Website-based notes are added; the videos remain pending.
-- [x] Draft the one-page risk assessment in `docs/risk-assessment.md`; supervisor/local-controls review remains.
-- [x] Draft the research-template comparison in `docs/research/riscv-template-first-look.md`; template choice remains open.
-- [x] Complete the genuine Tiny Tapeout counter run and collect its cell count/utilisation, layout, XML and actual FST evidence. The new manual contains real Surfer reset, increment, hold and overflow captures, plus attributed official screenshots for signed-in controls.
-- [ ] When he names the template: read its documentation, run its example, and re-plan section 7 from week 4.
-- [x] Draft `logbook/week-02.md` and `logbook/week-02-meeting-prep.md`; revise with final evidence and Kamrul's review before sending.
+- [x] Correct the local project root to match the short guide's Tiny Tapeout tree.
+- [x] Preserve the earlier standalone flow under `archive/legacy-flow` and check its original file bytes.
+- [x] Verify the real root shift register with local RTL simulation and a wrong-direction mutation.
+- [x] Add GLS pages, connected workflow arrows and visible screenshot step 2; refresh review copies and downloads.
+- [ ] Kamrul completes his hands-on template adaptation and checks RTL/docs/GDS/GLS for the same final commit.
+- [ ] User/supervisor review and a beginner trial of the short lesson.
+- [ ] Prof. Popovici confirms the identity and availability of the SoC backbone he calls carousel.
+- [ ] Agree the accelerator application and research template, then revise the research timeline.
+- [ ] Finish the remaining ASIC videos and review the risk assessment.
+
+The 12 October email confirms a full simple-design flow as the immediate task
+and an aim for submissions near the end of the master's; it sets no exact
+submission count, shuttle, budget or fabrication date.
+
+---
 
 ## 11. Risks
 
@@ -327,7 +306,7 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 
 - **British English** in all writing (optimisation, analogue, behaviour, modelling).
 - Every flow change goes through a **pull request**; CI runs the reference design so a broken flow is caught at once.
-- Tool and PDK versions are **pinned** in `env/tools.env` and listed in the README. Upgrade only on purpose and record it.
+- The current Tiny Tapeout infrastructure baseline and action tags are recorded in the root README and workflows. Keep upstream template settings intact during this lesson. The archived standalone flow pins its own image in `archive/legacy-flow/env/tools.env`.
 - Each time a step works, write the **student-guide paragraph** for it that same week.
 - When showing Kamrul code changes, show only the relevant changes and say where they go.
 - Kamrul has industry design-verification experience (UVM, SystemVerilog, gate-level sim), so verification is his strength; physical design is the new part. Explain PD steps, not testbench basics.

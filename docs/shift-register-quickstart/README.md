@@ -7,15 +7,21 @@ This lesson was written from scratch on 11 October 2026 and revised on
 
 ## Start here
 
+**Using `openFlowForChipDev_EE6019_ResearchProject` locally? Start at its root.**
+The real `src/`, `test/`, `docs/info.md` and `info.yaml` now live there, exactly
+as the paths in this lesson indicate. The `starter/` folder here is an exported
+copy for portable downloads. Earlier custom-flow files are in
+[`archive/legacy-flow/`](../../archive/legacy-flow/).
+
 Open **[START-HERE.html](START-HERE.html)** in your browser. It works offline and
 includes a clock experiment, prediction answers, copy-code buttons, a downloadable
 starter and checkpoints that stay in your browser. Internet access is needed for
 the GitHub project and its cloud builds.
 
-- [Revised PDF guide — 15 pages](quickstart-revised.pdf)
-- [Revised editable Word guide](quickstart-revised.docx)
-- [Revised PowerPoint lesson — 24 slides](lesson-revised.pptx)
-- [Revised slide PDF](lesson-revised.pdf)
+- [Current PDF guide — 15 pages](quickstart-root-layout.pdf)
+- [Current editable Word guide](quickstart-root-layout.docx)
+- [Current PowerPoint lesson — 24 slides](lesson-root-layout.pptx)
+- [Current slide PDF](lesson-root-layout.pdf)
 - [Seven-file shift-register starter](shift-register-starter.zip)
 
 **GLS is on guide pages 13–14 and slides 19–22.** It covers the generated
@@ -83,15 +89,16 @@ New lesson text lives in `author_lesson.py`, producing `lesson.json`. Rebuild:
 python docs/shift-register-quickstart/number_pages_screenshot.py
 python docs/shift-register-quickstart/author_lesson.py
 python docs/shift-register-quickstart/build_interactive.py
-python docs/shift-register-quickstart/build_exports.py --suffix=-revised --export-pdf --qa
+python docs/shift-register-quickstart/build_exports.py --suffix=-root-layout --export-pdf --qa
 ```
 
 The exports use python-docx, python-pptx, Pillow and native Word/PowerPoint for
 PDF export. The interactive check uses Playwright and Edge. These are maintainer
 tools; the student browser route requires none of them.
 
-The initial `quickstart.*` and `lesson.*` files remain as earlier editions.
-The `*-revised.*` files are the current review copies, allowing earlier documents
-that are open in Word or PowerPoint to remain undisturbed.
+The initial `quickstart.*`, `lesson.*` and `*-revised.*` files remain as earlier
+editions. The `*-root-layout.*` files are the current review copies, allowing
+documents already open in Word or PowerPoint to remain undisturbed. Rebuilding
+the lesson synchronises the seven portable starter files from the project root.
 
 Learner and supervisor review of this new lesson remains pending.

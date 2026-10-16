@@ -58,7 +58,7 @@ def output_file(name):
 # are retained in the matching guide page and in editable presenter notes.
 SLIDE_SUMMARIES = {
     'start': ('Bring your working Verilog design. Leave with a tested Tiny Tapeout layout.', [
-        'Open the HTML guide and the starter ZIP beside GitHub.',
+        'Local checkout: open root src/ and test/. For a new template repository, use the starter ZIP.',
         'Follow guide pages 2–14, including GLS. Tick each checkpoint.']),
     'design': ('Eight stored bits. One input bit. One clock edge at a time.', [
         'Extract the starter ZIP. Open src/shift_register.v.',
