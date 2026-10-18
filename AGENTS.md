@@ -2,7 +2,7 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 16 October 2026, evening (supervisor meeting recorded; research options note added).*
+*Last updated: 18 October 2026 (research direction chosen; getting-started guide and reading list added).*
 
 **Supervisor meeting, 16 October (15:00):**
 - **Teaching:** the shift-register tutorial is "exactly what I need". About 70 third-year students will use it from January 2027, each taking a small design through the full flow to tape-out. Send him the tutorial.
@@ -13,7 +13,8 @@ Read this file first. It is the full handover for the EE6019 research project, w
   - constant power whatever the instruction
   - earlier group work: a small stochastic-computing RISC-V
 - **Reports:** about one checked reference per page; presentations with at most two lines per bullet.
-- **Records:** notes in `logbook/week-03-meeting.md`. The options and recommendation (an ML instruction extension for TinyQV, Tiny Tapeout's RISC-V SoC, compared with its existing NPU peripheral) are in `docs/research/riscv-research-angles.md`, pending his agreement.
+- **Records:** notes in `logbook/week-03-meeting.md`. The options and recommendation (an ML instruction extension for TinyQV, Tiny Tapeout's RISC-V SoC, compared with its existing NPU peripheral) are in `docs/research/riscv-research-angles.md`.
+- **Chosen 18 October (Kamrul):** A then B. A is an ML instruction extension for TinyQV, by April. B is a stochastic-computing version over the summer, compared with A in one paper. To be confirmed with Prof. Popovici on 23 October. Start here: `docs/research/getting-started.md` (TinyQV in simulation) and `docs/research/reading-list.md`.
 
 **Root layout correction, 16 October:** Kamrul explicitly requested that this checkout use the directory structure shown in the short lesson. The canonical project files now live at the repository root: `src/project.v`, `src/shift_register.v`, `src/config.json`, `test/{Makefile,tb.v,test.py,requirements.txt}`, `docs/info.md`, `info.yaml`, and four official Tiny Tapeout workflows. `.devcontainer`, `.vscode` and the upstream template licence are retained. The old standalone counter flow and its original CI/README/docs/images were preserved together in `archive/legacy-flow`; 14 original files were byte-checked after moving. Do not restore the old root layout. The starter ZIP is now generated from the canonical seven root design files. Current guide/slide copies use `*-root-layout.*`, leaving open Office documents undisturbed. Root RTL simulation passed and the deliberate wrong-shift mutation was caught. Later on 16 October, once GitHub Pages was enabled, the full Tiny Tapeout run passed at `66475c7`: GDS, precheck, gate-level test and viewer ([run 38924144510](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/actions/runs/38924144510)).
 
@@ -300,7 +301,8 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 - [x] Compare research angles; recommendation in `docs/research/riscv-research-angles.md`.
 - [ ] Send Prof. Popovici the tutorial (he asked for it on 16 October).
 - [ ] Agree the research angle and backbone on 23 October, then revise the research timeline (section 7).
-- [ ] Start the literature survey: about 30 checked references for the interim report.
+- [ ] Start the literature survey from `docs/research/reading-list.md`: about 30 checked references for the interim report.
+- [ ] Run TinyQV in simulation (`docs/research/getting-started.md`, steps 1–4), then measure the software baseline (step 5).
 - [ ] Confirm the interim-report, seminar and dissertation dates with the module coordinator.
 - [ ] Finish the remaining ASIC videos and review the risk assessment.
 

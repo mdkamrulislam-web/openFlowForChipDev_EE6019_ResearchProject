@@ -2,6 +2,8 @@
 
 *16 October 2026. Written after the supervisor meeting that day, for discussion on 23 October. Recommendation pending Prof. Popovici's agreement.*
 
+**Chosen on 18 October:** A then B (Kamrul), to be confirmed with Prof. Popovici on 23 October. Next steps: [getting-started.md](getting-started.md) and [reading-list.md](reading-list.md).
+
 ## 1. What was asked on 16 October
 
 - **Scope:** a larger design than the one-tile student projects, using several tiles, but still following the Tiny Tapeout flow from start to finish.
