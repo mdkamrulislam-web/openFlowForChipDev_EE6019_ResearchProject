@@ -31,6 +31,11 @@ The meeting was held at 11:00 as part of the group meeting. Only the parts about
 ## What this changes
 
 - The "A then B" plan of 18 October (an ML instruction extension inside TinyQV) **is not what he asked for**. The research becomes a RISC-V on an FPGA plus an accelerator chip made through Tiny Tapeout, with fabrication as the goal.
+- **Kamrul's reading (23 October, after the meeting):**
+  - Tiny Tapeout is used **only to fabricate the accelerator chip**.
+  - The RISC-V on the FPGA can come from anywhere, for example a well-known open-source core. It does not have to be a Tiny Tapeout design.
+  - Checking the RISC-V designs already on Tiny Tapeout, which he asked for first, is a quick check of what exists, not a constraint.
+  - To confirm in the summary email.
 - **Still useful:**
   - Running TinyQV taught the Tiny Tapeout simulation tools.
   - TinyQV's NPU is a worked example of a small ML accelerator.
@@ -49,8 +54,7 @@ These are still open:
 
 ## Actions
 
-- [ ] List the RISC-V designs already on Tiny Tapeout. For each: 32-bit or not, size, licence, whether it runs on an FPGA.
-- [ ] Choose a small 32-bit RISC-V for the FPGA (candidates to check: PicoRV32, SERV, VexRiscv, Ibex), and find out which FPGA board is available at UCC.
+- [ ] Compare small open-source 32-bit RISC-V cores for the FPGA host. Candidates: PicoRV32, SERV, VexRiscv, Ibex, plus a quick look at the RISC-V designs already on Tiny Tapeout. For each: size, speed, licence, and how easily an external accelerator connects. Choose one, and find out which FPGA board is available at UCC.
 - [ ] Literature survey on RISC-V accelerators and ML accelerators: what each speeds up, how much data it needs, and the speed-up it reports.
 - [ ] Shortlist two or three functions to accelerate (convolution, tanh/sigmoid and others). Estimate the work per byte sent over the pins, against the Tiny Tapeout I/O limits.
 - [ ] Choose between the supervisor's two options: an accelerator chip (his main suggestion) or a lower-power 32-bit RISC-V.
