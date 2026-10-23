@@ -10,6 +10,7 @@ Read this file first. It is the full handover for the EE6019 research project, w
 - **TinyQV:** "too small … not that useful".
   - First check which RISC-V designs already exist on Tiny Tapeout.
   - Otherwise use a "proper" 32-bit RISC-V that is not one of the largest.
+- **Kamrul's reading:** in the main option, Tiny Tapeout is used only for the accelerator chip, and the FPGA's RISC-V can be any suitable open-source core. In the alternative (a low-power RISC-V taped out), the core itself goes through the Tiny Tapeout flow. Any Verilog can, if it fits the tiles, the 24 pins and an open licence, so a small or serial core would be needed. To confirm by email.
 - **Alternative:** lower the power of that 32-bit RISC-V, then tape it out.
 - **What to accelerate:** research what runs much faster on a 130 nm chip than on a modern FPGA. His examples: convolution, tanh or sigmoid.
 - **His main aim:** fabricate the chip and show a large speed-up. The choice of accelerator is open.
@@ -322,8 +323,7 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 - [x] Run TinyQV in simulation (`docs/research/getting-started.md`, steps 1–2), 23 October: CPU 11/11, hello, NPU 2/2 pass (`logbook/week-04.md`). The toolchain and software-baseline steps are paused, because TinyQV is no longer the backbone.
 
 **From 23 October:**
-- [ ] List the RISC-V designs already on Tiny Tapeout: 32-bit or not, size, licence, FPGA-ready.
-- [ ] Choose a small 32-bit RISC-V for the FPGA (PicoRV32, SERV, VexRiscv, Ibex …); find which FPGA board UCC has.
+- [ ] Compare small open-source 32-bit RISC-V cores for the FPGA host (PicoRV32, SERV, VexRiscv, Ibex …, plus a quick look at those on Tiny Tapeout): size, speed, licence, ease of attaching an external accelerator. Choose one; find which FPGA board UCC has.
 - [ ] Literature survey: RISC-V accelerators and ML accelerators (what is accelerated, data needed, speed-up). Extend `docs/research/reading-list.md`; about 30 checked references for the interim report.
 - [ ] Shortlist two or three functions to accelerate and estimate the work per byte over the Tiny Tapeout I/O.
 - [ ] Kamrul chooses between the accelerator chip and the low-power RISC-V, then revise the timeline (section 7).
