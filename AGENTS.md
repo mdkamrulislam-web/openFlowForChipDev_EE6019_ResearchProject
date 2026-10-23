@@ -2,7 +2,20 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 18 October 2026 (research direction chosen; getting-started guide and reading list added).*
+*Last updated: 23 October 2026 (supervisor redirected the research: RISC-V on an FPGA plus an accelerator chip; TinyQV simulation run).*
+
+**Supervisor meeting, 23 October (11:00): the research direction changed.**
+- **His suggestion:** put a RISC-V on an **FPGA** and build an **accelerator as the Tiny Tapeout chip**. The two talk over the chip's digital I/O.
+- **The link:** model the link delay, so the result can say what an on-chip version would gain.
+- **TinyQV:** "too small … not that useful".
+  - First check which RISC-V designs already exist on Tiny Tapeout.
+  - Otherwise use a "proper" 32-bit RISC-V that is not one of the largest.
+- **Alternative:** lower the power of that 32-bit RISC-V, then tape it out.
+- **What to accelerate:** research what runs much faster on a 130 nm chip than on a modern FPGA. His examples: convolution, tanh or sigmoid.
+- **His main aim:** fabricate the chip and show a large speed-up. The choice of accelerator is open.
+- **Literature:** RISC-V accelerators and ML accelerators.
+- **Records:** notes in `logbook/week-04-meeting.md`. That day's TinyQV simulation (all tests pass; problems and fixes) is in `logbook/week-04.md`.
+- **Effect on the plan:** the 18 October "A then B" plan below (an instruction extension inside TinyQV) is **superseded**. Kamrul has yet to choose between the supervisor's two options; see section 10.
 
 **Supervisor meeting, 16 October (15:00):**
 - **Teaching:** the shift-register tutorial is "exactly what I need". About 70 third-year students will use it from January 2027, each taking a small design through the full flow to tape-out. Send him the tutorial.
@@ -44,7 +57,7 @@ EE6019 is the MEngSc (Electrical and Electronic Engineering) research project at
 - **30 Sep:** Prof. Popovici asked Kamrul to start exploring the flows and videos on **tinytapeout.com** (study path in section 6).
 - **2 Oct (weekly meeting, plus his answers to the follow-up email):** no new flow: use the Tiny Tapeout flow and document it step by step for undergraduates, as PowerPoint slides (any format and length), up to the submission step. For the research, a larger template with a RISC-V core (heard as "carousel"; probably Caravel, possibly Croc; asked by email) to explore neural-network accelerators, taken through the full flow. Technology: whichever is available at that point (SkyWater 130 nm or IHP 130 nm). The website he meant on 25 Sep is Tiny Tapeout. Report dates to follow. He plans a batch of student chips next year; students who learn the flow now may become demonstrators. Notes: `logbook/week-01-meeting-prep.md`.
 
-The thesis work (reliability-aware synthesis) is **out of scope** unless the supervisor asks for it; it is kept as an optional research extension. Analogue/mixed-signal, FPGA and PCB work are also out of scope. The supervisor's other students' projects (FPGA place and route, PCB, option pricing, smart glasses) are unrelated; ignore them.
+The thesis work (reliability-aware synthesis) is **out of scope** unless the supervisor asks for it; it is kept as an optional research extension. Analogue/mixed-signal and PCB work are also out of scope. FPGA work was out of scope too, until the 23 Oct meeting proposed an FPGA-hosted RISC-V driving the accelerator chip. The supervisor's other students' projects (FPGA place and route, PCB, option pricing, smart glasses) are unrelated; ignore them.
 
 ---
 
@@ -189,7 +202,7 @@ A comparison with this repository's local flow is optional background work; conf
 
 ## 7. Timeline
 
-**Needs re-planning.** A provisional plan to April 2027 is in `docs/research/riscv-research-angles.md` (section 4), pending agreement on 23 October. The tables below were written before the 2 Oct meeting changed the scope (section 1). Weeks 2 and 3 are updated; from week 4 on, re-plan around the research template once Prof. Popovici confirms which one he meant.
+**Needs re-planning.** The provisional plan in `docs/research/riscv-research-angles.md` (section 4) was superseded on 23 October (FPGA RISC-V plus an accelerator chip). Re-plan once Kamrul chooses the option and the accelerator. The tables below were written before the 2 Oct meeting changed the scope (section 1). Weeks 2 and 3 are updated; from week 4 on, re-plan around the research template once Prof. Popovici confirms which one he meant.
 
 Month-level milestones (pre-2 Oct):
 
@@ -278,9 +291,14 @@ Template:
 - **Research platform:** what Tiny Tapeout offers, on RISC-V, using several tiles.
 - **Angle:** to be chosen by Kamrul from the suggested list.
 
+**Answered on 23 Oct 2026 (meeting):**
+- **TinyQV as the backbone?** No, it is too small.
+- **What instead?** A RISC-V on an FPGA plus an accelerator chip (or, alternatively, a lower-power 32-bit RISC-V).
+- **Is fabrication wanted?** Yes, through Tiny Tapeout.
+
 **Still open:**
 
-1. Does he agree with the recommended angle and with TinyQV as the backbone? (Caravel, the likely "carousel", now sits outside the Tiny Tapeout flow.)
+1. Which accelerator? He left it to research (convolution, tanh/sigmoid were examples). Does stochastic computing (his group's ASAP 2019 work) fit?
 2. Which shuttle for the January class, and what tile budget for this design?
 3. The exact interim-report, seminar and dissertation dates. He referred these to the module coordinator.
 4. Should the summer research project (EE6008) continue this design?
@@ -289,7 +307,7 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 
 ---
 
-## 10. Next steps (16 October 2026)
+## 10. Next steps (updated 23 October 2026)
 
 - [x] Correct the local project root to match the short guide's Tiny Tapeout tree.
 - [x] Preserve the earlier standalone flow under `archive/legacy-flow` and check its original file bytes.
@@ -300,9 +318,16 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 - [x] Record the 16 October meeting (`logbook/week-03-meeting.md`) and draft the week 3 log (sent together with week 2).
 - [x] Compare research angles; recommendation in `docs/research/riscv-research-angles.md`.
 - [ ] Send Prof. Popovici the tutorial (he asked for it on 16 October).
-- [ ] Agree the research angle and backbone on 23 October, then revise the research timeline (section 7).
-- [ ] Start the literature survey from `docs/research/reading-list.md`: about 30 checked references for the interim report.
-- [ ] Run TinyQV in simulation (`docs/research/getting-started.md`, steps 1–4), then measure the software baseline (step 5).
+- [x] Discuss the research angle and backbone on 23 October. He redirected the research (top of this file).
+- [x] Run TinyQV in simulation (`docs/research/getting-started.md`, steps 1–2), 23 October: CPU 11/11, hello, NPU 2/2 pass (`logbook/week-04.md`). The toolchain and software-baseline steps are paused, because TinyQV is no longer the backbone.
+
+**From 23 October:**
+- [ ] List the RISC-V designs already on Tiny Tapeout: 32-bit or not, size, licence, FPGA-ready.
+- [ ] Choose a small 32-bit RISC-V for the FPGA (PicoRV32, SERV, VexRiscv, Ibex …); find which FPGA board UCC has.
+- [ ] Literature survey: RISC-V accelerators and ML accelerators (what is accelerated, data needed, speed-up). Extend `docs/research/reading-list.md`; about 30 checked references for the interim report.
+- [ ] Shortlist two or three functions to accelerate and estimate the work per byte over the Tiny Tapeout I/O.
+- [ ] Kamrul chooses between the accelerator chip and the low-power RISC-V, then revise the timeline (section 7).
+- [ ] Email Prof. Popovici a summary of the 23 October direction to confirm it was understood.
 - [ ] Confirm the interim-report, seminar and dissertation dates with the module coordinator.
 - [ ] Finish the remaining ASIC videos and review the risk assessment.
 

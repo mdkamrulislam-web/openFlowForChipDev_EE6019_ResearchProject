@@ -1,5 +1,7 @@
 # Research: getting started with TinyQV
 
+> **23 October 2026:** steps 1–2 were done and all tests passed (see [logbook/week-04.md](../../logbook/week-04.md)). Steps 3–5 are paused, because Prof. Popovici moved the research away from TinyQV the same day ([logbook/week-04-meeting.md](../../logbook/week-04-meeting.md)). The guide stays as a record and as a Tiny Tapeout simulation walkthrough.
+
 *Written 18 October 2026. The plan is "A then B": first an ML instruction extension for TinyQV, then a stochastic-computing version (see [riscv-research-angles.md](riscv-research-angles.md)). These steps get TinyQV running in simulation and give you a first measured result. Commands were checked against the repositories on 18 October 2026.*
 
 You need nothing installed on your own laptop. Everything runs in **GitHub Codespaces**, a Linux machine in the browser.
