@@ -4,6 +4,8 @@
 
 **Chosen on 18 October:** A then B (Kamrul), to be confirmed with Prof. Popovici on 23 October. Next steps: [getting-started.md](getting-started.md) and [reading-list.md](reading-list.md).
 
+**Superseded on 23 October.** Prof. Popovici considers TinyQV too small. He suggested a RISC-V on an FPGA driving an accelerator built as the Tiny Tapeout chip, or alternatively a lower-power 32-bit RISC-V. See [logbook/week-04-meeting.md](../../logbook/week-04-meeting.md). This note is kept as a record of the options considered.
+
 ## 1. What was asked on 16 October
 
 - **Scope:** a larger design than the one-tile student projects, using several tiles, but still following the Tiny Tapeout flow from start to finish.
