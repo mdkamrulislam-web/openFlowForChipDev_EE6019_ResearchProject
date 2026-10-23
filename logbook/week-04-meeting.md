@@ -35,6 +35,7 @@ The meeting was held at 11:00 as part of the group meeting. Only the parts about
   - Tiny Tapeout is used **only to fabricate the accelerator chip**.
   - The RISC-V on the FPGA can come from anywhere, for example a well-known open-source core. It does not have to be a Tiny Tapeout design.
   - Checking the RISC-V designs already on Tiny Tapeout, which he asked for first, is a quick check of what exists, not a constraint.
+  - This holds for the main option. In the alternative option (a lower-power RISC-V taped out), the core itself goes through the Tiny Tapeout flow. An outside core is allowed, but it must fit the tiles and the 24 pins, so a small or serial design would be needed. That is where the existing Tiny Tapeout RISC-V designs matter most.
   - To confirm in the summary email.
 - **Still useful:**
   - Running TinyQV taught the Tiny Tapeout simulation tools.

@@ -10,7 +10,7 @@ Read this file first. It is the full handover for the EE6019 research project, w
 - **TinyQV:** "too small … not that useful".
   - First check which RISC-V designs already exist on Tiny Tapeout.
   - Otherwise use a "proper" 32-bit RISC-V that is not one of the largest.
-- **Kamrul's reading:** Tiny Tapeout is used only to fabricate the accelerator. The FPGA's RISC-V can be any suitable open-source core, not necessarily a Tiny Tapeout design. To confirm by email.
+- **Kamrul's reading:** in the main option, Tiny Tapeout is used only for the accelerator chip, and the FPGA's RISC-V can be any suitable open-source core. In the alternative (a low-power RISC-V taped out), the core itself goes through the Tiny Tapeout flow. Any Verilog can, if it fits the tiles, the 24 pins and an open licence, so a small or serial core would be needed. To confirm by email.
 - **Alternative:** lower the power of that 32-bit RISC-V, then tape it out.
 - **What to accelerate:** research what runs much faster on a 130 nm chip than on a modern FPGA. His examples: convolution, tanh or sigmoid.
 - **His main aim:** fabricate the chip and show a large speed-up. The choice of accelerator is open.
