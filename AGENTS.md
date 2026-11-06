@@ -360,6 +360,7 @@ submission count, shuttle, budget or fabrication date.
 
 - **British English** in all writing (optimisation, analogue, behaviour, modelling).
 - Every flow change goes through a **pull request**; CI runs the reference design so a broken flow is caught at once.
+- **Documentation-only changes skip CI** (Kamrul, 6 Nov 2026): the `gds`, `test` and `docs` workflows ignore pushes that touch only Markdown files, `logbook/`, `docs/research/`, `docs/beginner-guide/`, `docs/shift-register-quickstart/` or `docs/slides/`. `docs/info.md` (the Tiny Tapeout datasheet) still triggers them. Run a workflow by hand from the Actions tab if needed.
 - The current Tiny Tapeout infrastructure baseline and action tags are recorded in the root README and workflows. Keep upstream template settings intact during this lesson. The archived standalone flow pins its own image in `archive/legacy-flow/env/tools.env`.
 - Each time a step works, write the **student-guide paragraph** for it that same week.
 - When showing Kamrul code changes, show only the relevant changes and say where they go.

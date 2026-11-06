@@ -39,8 +39,6 @@ Checked against all 102 Tiny Tapeout datasheets:
 - **The frequencies are layout-tool estimates, not measurements.** I report both the typical and slow corners and label them as estimates.
 - **Gate equivalents need the NAND2 area of each process.** I used 3.75 µm² (SKY130) and 7.26 µm² (IHP); the GF180 value is not yet verified, so GF180 entries have no GE.
 ## Evidence
-
-- [PR #14](https://github.com/mdkamrulislam-web/openFlowForChipDev_EE6019_ResearchProject/pull/14): characterisation, data, scripts and the 30 October meeting record.
 - FazyRV paper: doi:10.1145/3649153.3649195 (Tables 3, 4 and 5).
 
 ## Next Week
@@ -54,6 +52,6 @@ Checked against all 102 Tiny Tapeout datasheets:
 ## Questions for Prof. Popovici
 
 1. Which gap should I take forward: the width study, low power, or memory and speed?
-2. Accelerator idea dropped, or postponed?
+2. Will we be implementing accelerator idea later?
 3. Is the plan to fabricate through Tiny Tapeout, or elsewhere? A Tiny Tapeout GDS is one tile block inside their chip, not a complete chip.
 4. What size should I aim for (for example, at most about 6 to 8 tiles, to leave room for my addition)?
