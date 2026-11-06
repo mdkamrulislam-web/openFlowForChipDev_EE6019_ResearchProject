@@ -331,6 +331,11 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 - [ ] Confirm the interim-report, seminar and dissertation dates with the module coordinator.
 - [ ] Finish the remaining ASIC videos and review the risk assessment.
 
+**From 30 October** ([meeting record](logbook/week-05-meeting.md)): the task is to take a RISC-V through the full Tiny Tapeout ASIC flow, checking it on the FPGA first; power optimisation likely over the summer. Whether the 23 October accelerator idea is dropped or postponed: ask on 6 November.
+- [x] Characterise the RISC-V designs on Tiny Tapeout and find the gap (`docs/research/tt-riscv-characterisation.md`, data and scripts included), 5 November.
+- [ ] Collect the lab FPGA board; record its part number. Put a RISC-V on it and record LUTs, flip-flops and Fmax.
+- [ ] After the 6 November decision: run the chosen core through the Tiny Tapeout flow (suggested: FazyRV at 1, 2, 4 and 8 bits).
+
 The 12 October email confirms a full simple-design flow as the immediate task
 and an aim for submissions near the end of the master's; it sets no exact
 submission count, shuttle, budget or fabrication date.
