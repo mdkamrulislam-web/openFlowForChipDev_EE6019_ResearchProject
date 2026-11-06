@@ -37,7 +37,7 @@ SKY130 entries unless marked IHP. Where a core was taped out several times, the 
 | UART-programmable RV32I (E. Nieman) | TT06 | RV32I (no FENCE/ECALL, word loads only) | 32-bit | 64-byte on-chip program | 4×2 (0.154) | 24.4 | 1,785 | n/a | n/a | none |
 | FemtoRV (UNAL) | TTSKY25b | FemtoRV (variant not stated) | not stated | SPI flash + SPI RAM | 4×2 (0.154) | 24.9 | 1,512 | 47 (34) | 6.6 | none |
 | 5-stage RV32I (D. Macy) | TT07 | RV32I subset | 5-stage pipeline | 64 B program, 32 B data on chip | 8×2 (0.311) | 27.6 | 1,844 | n/a | n/a | none |
-| KianV uLinux, register-file edition | TTSKY26c | RV32IMA | 32-bit | SPI flash + 2 PSRAM | 3×4 (0.260) | 29.3 | n/r | 51 (27) | 5.8 | none |
+| KianV uLinux, register-file edition | TTSKY26c | RV32IMA | 32-bit | SPI flash + 2 PSRAM | 3×4 (0.260) | 29.3 + register-file macro | n/r | 51 (27) | 5.8 | none |
 | Goldcrest (JKU Linz), IHP | TTIHP0p2 | RV32 via microcode on a subleq machine | microcoded | SPI ROM + SPI RAM | 6×2 (0.404) | 30.5 | 2,503 | n/r | n/r | none |
 | SotaSoC (SotaTek), IHP | TTIHP26a | RV32IC + Zicsr, FreeRTOS | not stated | QSPI flash + PSRAM | 6×2 (0.404) | 32.3 | 2,537 | 120 | 18.8 | none |
 | RISC-V WG "swc1", IHP | TTIHP26a | RV32I | state machine | QSPI PSRAM/flash | 8×2 (0.541) | 36.2 | 2,644 | 69 | 11.4 | none |
@@ -59,7 +59,7 @@ SKY130 entries unless marked IHP. Where a core was taped out several times, the 
 
 ## What the table shows
 
-1. **Size is set by bits per clock and by the register file.** From one bit per clock (SERV, 5.6 kGE; nanoV, 3.9 kGE) to four bits (TinyQV, 17.6 kGE) to full 32-bit cores (PicoRV32, 37 kGE; KianV, 43 kGE). Flip-flops take 30–57% of the area in almost every design. Thirty-two 32-bit registers alone need 1,024 flip-flops, so most designs use RV32E (16 registers) or a custom latch-based register file. KianV's register-file edition is about a third smaller than the standard KianV (29.3 vs 43.0 kGE); the reason still needs checking in its source.
+1. **Size is set by bits per clock and by the register file.** From one bit per clock (SERV, 5.6 kGE; nanoV, 3.9 kGE) to four bits (TinyQV, 17.6 kGE) to full 32-bit cores (PicoRV32, 37 kGE; KianV, 43 kGE). Flip-flops take 30–57% of the area in almost every design. Thirty-two 32-bit registers alone need 1,024 flip-flops, so most designs use RV32E (16 registers) or a custom latch-based register file. KianV's register-file edition moves its 32×32 register file into a separately hardened macro (`rf_top`, 132.6 × 118.7 µm, about one tile; see its `src/config.json`). Its flip-flops fall from 2,724 to 1,636 (the 1,024 register bits), and it needs 12 tiles (6×2 on TTSKY25b, 3×4 on TTSKY26c) instead of 16 (8×2). Its 29.3 kGE does not include the macro, so it is not a like-for-like logic reduction; the real saving is four tiles. PicoRV32 "Foxworks" switches off every optional feature but keeps all 32 registers and builds its 128-byte SRAM from a plain Verilog array, so about 2,000 of its flip-flops are storage; RV32E or a macro register file would probably let it fit in fewer tiles (not yet tested).
 2. **Every 32-bit design that can run real programs fetches code from an external SPI or QSPI chip** (the rest hold only 64 bytes of program, or a fixed demo) through Tiny Tapeout's few pins. Speed is therefore limited by memory, not by the core. Only a few datasheets mention a cache (KianV Sv32 has I- and D-caches).
 3. **The flow suggests 50–120 MHz at the typical corner** for most cores, but 25–60 MHz at the slow corner. Measured on-chip speeds are not in the records.
 
