@@ -2,6 +2,16 @@ name: gds
 
 on:
   push:
+    # Documentation-only changes skip this workflow (Kamrul, 6 Nov 2026).
+    paths:
+      - '**'
+      - '!**.md'
+      - '!logbook/**'
+      - '!docs/research/**'
+      - '!docs/beginner-guide/**'
+      - '!docs/shift-register-quickstart/**'
+      - '!docs/slides/**'
+      - 'docs/info.md'
   workflow_dispatch:
 
 jobs:

@@ -2,9 +2,17 @@
 
 Read this file first. It is the full handover for the EE6019 research project, written so that any tool (Claude, ChatGPT, Gemini, Copilot, Cursor, Codex and so on) can carry on without access to earlier chats. Links to claude.ai documents are kept as references, but they only open for the owner's account, so everything you need is copied in here.
 
-*Last updated: 23 October 2026 (supervisor redirected the research: RISC-V on an FPGA plus an accelerator chip; TinyQV simulation run).*
+*Last updated: 6 November 2026 (supervisor set the direction: one small RISC-V, made low power, through the Tiny Tapeout flow).*
 
-**Supervisor meeting, 23 October (11:00): the research direction changed.**
+**Supervisor meeting, 6 November (11:00): the current direction.** Full record: `logbook/week-06-meeting.md`.
+- **The task:** "Take one architecture, just one, and concentrate on very low power", using published low-power microprocessor techniques, then implement it through the Tiny Tapeout flow.
+- **Core:** a 4-bit or 8-bit RISC-V datapath. FazyRV at 4 or 8 bits fits; the 1/2/4/8 width sweep is not the research question.
+- **Clock gating:** he doubts it helps on a core this small. His other idea: a RISC-V whose power is constant whatever operation it performs, a power-analysis countermeasure.
+- **Fabrication:** probably a real chip through Tiny Tapeout. About €1,000 for 16 tiles is acceptable. Tiles are not a concern for now ("8 or 16 should be fine"; to confirm whether he meant tiles or bits).
+- **FPGA (PYNQ-Z2):** a functional check only; it may also be Kamrul's EE6043 lab project. Constant power cannot be shown on an FPGA.
+- **Still open:** the 23 October accelerator idea, a new time for the 13 November meeting, the interim report.
+
+**Supervisor meeting, 23 October (11:00): the research direction changed** (superseded on 30 October and 6 November).
 - **His suggestion:** put a RISC-V on an **FPGA** and build an **accelerator as the Tiny Tapeout chip**. The two talk over the chip's digital I/O.
 - **The link:** model the link delay, so the result can say what an on-chip version would gain.
 - **TinyQV:** "too small … not that useful".
@@ -297,9 +305,15 @@ Template:
 - **What instead?** A RISC-V on an FPGA plus an accelerator chip (or, alternatively, a lower-power 32-bit RISC-V).
 - **Is fabrication wanted?** Yes, through Tiny Tapeout.
 
+**Answered on 6 Nov 2026 (meeting):**
+- **Research focus?** One small (4- or 8-bit datapath) RISC-V, made low power; constant power is the alternative.
+- **Fabrication?** Probably a real chip through Tiny Tapeout; about €1,000 for 16 tiles is acceptable.
+- **Tile budget?** Not a concern for now ("8 or 16 should be fine"; tiles or bits to confirm).
+- **FPGA as the EE6043 lab project?** Yes.
+
 **Still open:**
 
-1. Which accelerator? He left it to research (convolution, tanh/sigmoid were examples). Does stochastic computing (his group's ASAP 2019 work) fit?
+1. Is the 23 October accelerator dropped? If not: which accelerator? He left it to research (convolution, tanh/sigmoid were examples). Does stochastic computing (his group's ASAP 2019 work) fit?
 2. Which shuttle for the January class, and what tile budget for this design?
 3. The exact interim-report, seminar and dissertation dates. He referred these to the module coordinator.
 4. Should the summer research project (EE6008) continue this design?
@@ -333,8 +347,15 @@ Also open: whether the open-tool survey (section 4) is still wanted as a report 
 
 **From 30 October** ([meeting record](logbook/week-05-meeting.md)): the task is to take a RISC-V through the full Tiny Tapeout ASIC flow, checking it on the FPGA first; power optimisation likely over the summer. Whether the 23 October accelerator idea is dropped or postponed: ask on 6 November.
 - [x] Characterise the RISC-V designs on Tiny Tapeout and find the gap (`docs/research/tt-riscv-characterisation.md`, data and scripts included), 5 November.
-- [ ] Collect the lab FPGA board; record its part number. Put a RISC-V on it and record LUTs, flip-flops and Fmax.
-- [ ] After the 6 November decision: run the chosen core through the Tiny Tapeout flow (suggested: FazyRV at 1, 2, 4 and 8 bits).
+- [x] Collect the lab FPGA board: TUL PYNQ-Z2 (Zynq-7020, xc7z020).
+- [x] Week 6 log (`logbook/week-06.md`); 6 November meeting recorded (`logbook/week-06-meeting.md`).
+
+**From 6 November** ([meeting record](logbook/week-06-meeting.md)): one small RISC-V, made low power, through the Tiny Tapeout flow.
+- [ ] Read one survey on low-power microprocessor design and one on power-analysis countermeasures (constant power); Kamrul chooses the direction.
+- [ ] Choose the core and width (FazyRV, 4 or 8 bits).
+- [ ] Put it on the PYNQ-Z2 (functional check; LUTs, flip-flops, Fmax).
+- [ ] Run the plain core through the Tiny Tapeout flow as the baseline: area, tiles and the flow's power estimate.
+- [ ] Email to confirm "8 or 16" (tiles or bits), the accelerator, and the 13 November meeting time.
 
 The 12 October email confirms a full simple-design flow as the immediate task
 and an aim for submissions near the end of the master's; it sets no exact
@@ -360,6 +381,7 @@ submission count, shuttle, budget or fabrication date.
 
 - **British English** in all writing (optimisation, analogue, behaviour, modelling).
 - Every flow change goes through a **pull request**; CI runs the reference design so a broken flow is caught at once.
+- **Documentation-only changes skip CI** (Kamrul, 6 Nov 2026): the `gds`, `test` and `docs` workflows ignore pushes that touch only Markdown files, `logbook/`, `docs/research/`, `docs/beginner-guide/`, `docs/shift-register-quickstart/` or `docs/slides/`. `docs/info.md` (the Tiny Tapeout datasheet) still triggers them. Run a workflow by hand from the Actions tab if needed.
 - The current Tiny Tapeout infrastructure baseline and action tags are recorded in the root README and workflows. Keep upstream template settings intact during this lesson. The archived standalone flow pins its own image in `archive/legacy-flow/env/tools.env`.
 - Each time a step works, write the **student-guide paragraph** for it that same week.
 - When showing Kamrul code changes, show only the relevant changes and say where they go.
